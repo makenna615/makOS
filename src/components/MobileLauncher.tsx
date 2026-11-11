@@ -3,6 +3,7 @@ import { APPS, DESKTOP_APPS, LINKS, type AppId } from '../data/apps';
 import { APP_COMPONENTS } from '../apps/registry';
 import { Clock } from './Clock';
 import { Icon } from './Icons';
+import { WeatherWidget } from './Weather';
 
 /**
  * Small screens get a phone-style launcher instead of draggable windows:
@@ -46,7 +47,11 @@ export function MobileLauncher() {
         <span className="mobile-brand">
           <Icon name="logo" size={20} /> makOS
         </span>
-        <Clock />
+        <span className="mobile-status-right">
+          <WeatherWidget />
+          <span className="tray-divider" aria-hidden="true" />
+          <Clock />
+        </span>
       </header>
       <main className="mobile-home">
         <div className="mobile-intro">

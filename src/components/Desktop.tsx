@@ -1,5 +1,5 @@
-import { useRef, useState } from 'react';
-import type { KeyboardEvent } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import type { FocusEvent, KeyboardEvent } from 'react';
 import { APPS, DESKTOP_APPS, type AppId } from '../data/apps';
 import { openApp } from '../store/actions';
 import { Icon } from './Icons';
@@ -7,14 +7,40 @@ import { Icon } from './Icons';
 /**
  * Desktop icons use a roving tabindex: one Tab stop for the whole group,
  * arrow keys move between icons, Enter or double-click opens.
+ *
+ * `selected` is the roving tab stop and persists so Tab returns to the last icon used.
+ * The blue highlight only shows while the icons are in use (`active`), and clears when
+ * the user clicks elsewhere or tabs away, like a real desktop.
  */
 export function Desktop() {
   const [selected, setSelected] = useState<AppId>(DESKTOP_APPS[0]!);
+  const [active, setActive] = useState(false);
+  const listRef = useRef<HTMLUListElement>(null);
   const refs = useRef(new Map<AppId, HTMLButtonElement>());
+
+  // Pointer clicks anywhere outside the icons deselect them. Listening for pointerdown
+  // (not blur) also covers Safari, which doesn't focus buttons on click.
+  useEffect(() => {
+    const onPointerDown = (event: PointerEvent) => {
+      if (!listRef.current?.contains(event.target as Node)) setActive(false);
+    };
+    document.addEventListener('pointerdown', onPointerDown);
+    return () => document.removeEventListener('pointerdown', onPointerDown);
+  }, []);
+
+  const select = (id: AppId) => {
+    setSelected(id);
+    setActive(true);
+  };
+
+  // Keyboard focus leaving the icon group (Tab, or a window opening) also deselects.
+  const onBlur = (event: FocusEvent<HTMLUListElement>) => {
+    if (!event.currentTarget.contains(event.relatedTarget)) setActive(false);
+  };
 
   const moveTo = (index: number) => {
     const id = DESKTOP_APPS[(index + DESKTOP_APPS.length) % DESKTOP_APPS.length]!;
-    setSelected(id);
+    select(id);
     refs.current.get(id)?.focus();
   };
 
@@ -47,7 +73,7 @@ export function Desktop() {
   };
 
   return (
-    <ul className="desktop-icons" aria-label="Desktop">
+    <ul ref={listRef} className="desktop-icons" aria-label="Desktop" onBlur={onBlur}>
       {DESKTOP_APPS.map((id, index) => {
         const app = APPS[id];
         return (
@@ -58,12 +84,12 @@ export function Desktop() {
                 if (el) refs.current.set(id, el);
                 else refs.current.delete(id);
               }}
-              className={`desktop-icon${selected === id ? ' is-selected' : ''}`}
+              className={`desktop-icon${active && selected === id ? ' is-selected' : ''}`}
               tabIndex={selected === id ? 0 : -1}
               aria-describedby={`desc-${id}`}
-              onClick={() => setSelected(id)}
+              onClick={() => select(id)}
               onDoubleClick={(e) => openApp(id, e.currentTarget)}
-              onFocus={() => setSelected(id)}
+              onFocus={() => select(id)}
               onKeyDown={(e) => onKeyDown(e, index, id)}
             >
               <Icon name={app.icon} size={44} />

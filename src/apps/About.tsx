@@ -9,7 +9,7 @@ export function About({ onOpenApp }: AppProps) {
           MP
         </div>
         <div>
-          <p className="about-hello">Hi, I&apos;m Makenna (Mak) 👋</p>
+          <p className="about-hello">Hi, I&apos;m Makenna 👋</p>
           <p className="about-role">Full-stack software engineer · Ruby on Rails, React, TypeScript</p>
           <p className="about-location">Fargo, ND · open to remote roles</p>
         </div>

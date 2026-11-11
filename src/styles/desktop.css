@@ -10,7 +10,7 @@
   position: relative;
   flex: 1;
   overflow: hidden;
-  background: var(--sky-600) url('/wallpaper.svg') center / cover no-repeat;
+  background: var(--sky-600) url('/wallpaper.jpg') center / cover no-repeat;
 }
 
 /* ---- Desktop icons ---- */
@@ -52,9 +52,8 @@
   font-size: 12px;
   line-height: 1.25;
   text-align: center;
-  text-shadow:
-    1px 1px 2px rgba(0, 0, 0, 0.85),
-    0 0 4px rgba(0, 0, 0, 0.5);
+  /* Soft dark halo keeps white labels readable over bright clouds in the photo wallpaper. */
+  text-shadow: var(--label-halo);
   border-radius: 2px;
 }
 .desktop-icon.is-selected .desktop-icon-label {
@@ -166,16 +165,66 @@
   border-left: 1px solid #0d5fb8;
   box-shadow: inset 1px 0 0 #4fb0ff;
 }
-.tray-link {
-  color: #fff;
-  font-size: 12px;
+/* Etched vertical groove between tray groups (dark line + light line), like classic taskbars. */
+.tray-divider {
+  flex-shrink: 0;
+  width: 0;
+  height: 22px;
+  border-left: 1px solid rgba(0, 0, 0, 0.28);
+  border-right: 1px solid rgba(255, 255, 255, 0.35);
 }
-.tray-link:focus-visible {
+/* Small clickable tray icons (24px+ touch target), centred like the text beside them. */
+.tray-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 3px;
+}
+.tray-icon .icon {
+  display: block;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.35));
+}
+.tray-icon:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+.tray-icon:focus-visible {
   outline-color: #fff;
+  outline-offset: 0;
 }
 .clock {
   font-size: 12px;
   white-space: nowrap;
+}
+
+/* ---- Weather (tray and phone status bar) ---- */
+.weather {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  white-space: nowrap;
+  cursor: default;
+}
+.weather-icon {
+  display: block;
+  flex-shrink: 0;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.35));
+}
+.weather-temp {
+  font-weight: bold;
+}
+/* Keep the place name for screen readers but drop it visually where the taskbar gets tight. */
+@media (max-width: 900px) {
+  .tray .weather-place {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
 }
 
 /* ---- Start menu ---- */

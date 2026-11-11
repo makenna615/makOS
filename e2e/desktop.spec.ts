@@ -8,6 +8,10 @@ async function settled(locator: Locator) {
 }
 
 test.beforeEach(async ({ page }) => {
+  // Serve canned weather so tests never depend on the real Open-Meteo service.
+  await page.route('https://api.open-meteo.com/**', (route) =>
+    route.fulfill({ json: { current: { temperature_2m: 41.6, weather_code: 2, is_day: 1 } } }),
+  );
   await page.goto('/');
   await page.keyboard.press('Space'); // skip the boot screen
 });
@@ -59,9 +63,25 @@ test.describe('desktop', () => {
     await expect(icon).toBeFocused();
   });
 
+  test('shows Fargo weather in the taskbar tray', async ({ page }) => {
+    const weather = page.getByRole('navigation', { name: 'Taskbar' }).locator('.weather');
+    await expect(weather).toContainText('Fargo, ND');
+    await expect(weather).toContainText('42°F');
+    await expect(weather).toHaveAttribute('title', /Partly cloudy, 42°F in Fargo, ND/);
+  });
+
+  test('a phone turned sideways gets the phone launcher, not the desktop', async ({ page }) => {
+    await page.setViewportSize({ width: 844, height: 390 });
+    await expect(page.getByRole('list', { name: 'Apps' })).toBeVisible();
+    await expect(page.getByRole('navigation', { name: 'Taskbar' })).toHaveCount(0);
+  });
+
   test('has no detectable accessibility violations', async ({ page }) => {
+    await expect(page.locator('.weather-temp')).toHaveText('42°F'); // check the widget in its loaded state
     await page.getByRole('list', { name: 'Desktop' }).getByRole('button', { name: 'Resume' }).dblclick();
     await page.getByRole('button', { name: 'makOS' }).click();
+    // The start menu fades in from opacity 0; checking contrast mid-fade gives false color-contrast failures.
+    await settled(page.getByRole('menu', { name: 'makOS start menu' }));
     const results = await new AxeBuilder({ page }).analyze();
     expect(results.violations).toEqual([]);
   });
@@ -72,6 +92,7 @@ test.describe('mobile', () => {
 
   test('shows the launcher and opens apps as sheets', async ({ page }) => {
     await expect(page.getByRole('heading', { name: 'Makenna Peters' })).toBeVisible();
+    await expect(page.locator('.mobile-status .weather')).toContainText('42°F');
     await page.getByRole('button', { name: 'About Me' }).click();
     await expect(page.getByRole('heading', { name: 'About Me' })).toBeFocused();
     await page.getByRole('button', { name: 'Back' }).click();

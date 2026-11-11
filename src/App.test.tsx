@@ -1,6 +1,6 @@
 import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { beforeEach, describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { App } from './App';
 
 describe('makOS desktop', () => {
@@ -41,6 +41,21 @@ describe('makOS desktop', () => {
     expect(second).toHaveFocus();
   });
 
+  it('highlights a clicked desktop icon and clears it when clicking elsewhere', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+    const desktop = screen.getByRole('list', { name: 'Desktop' });
+    const resumeIcon = within(desktop).getByRole('button', { name: 'Resume' });
+    expect(desktop.querySelector('.is-selected')).toBeNull(); // nothing highlighted on load
+
+    await user.click(resumeIcon);
+    expect(resumeIcon).toHaveClass('is-selected');
+
+    await user.click(screen.getByRole('main', { name: 'makOS desktop' }));
+    expect(resumeIcon).not.toHaveClass('is-selected');
+    expect(resumeIcon).toHaveAttribute('tabindex', '0'); // still the roving tab stop
+  });
+
   it('shows a taskbar button for each open window and minimizes from it', async () => {
     const user = userEvent.setup();
     render(<App />);
@@ -70,8 +85,30 @@ describe('makOS desktop', () => {
     expect(start).toHaveFocus();
   });
 
-  it('always shows a plain-text resume link', () => {
+  it('shows Fargo weather in the taskbar tray', async () => {
+    vi.mocked(fetch).mockResolvedValue(
+      new Response(JSON.stringify({ current: { temperature_2m: 41.6, weather_code: 71, is_day: 1 } })),
+    );
     render(<App />);
-    expect(screen.getByRole('link', { name: 'Plain-text resume' })).toHaveAttribute('href', '/resume.txt');
+    const taskbar = screen.getByRole('navigation', { name: 'Taskbar' });
+    expect(await within(taskbar).findByText('42°F')).toBeInTheDocument();
+    expect(within(taskbar).getByText('Fargo, ND')).toBeInTheDocument();
+    expect(within(taskbar).getByText('Snow,')).toBeInTheDocument(); // screen-reader description
+  });
+
+  it('still shows the place name when the weather service is unavailable', async () => {
+    render(<App />); // fetch rejects by default in tests
+    const taskbar = screen.getByRole('navigation', { name: 'Taskbar' });
+    expect(within(taskbar).getByText('Fargo, ND')).toBeInTheDocument();
+    await waitFor(() => expect(fetch).toHaveBeenCalled());
+    expect(within(taskbar).queryByText(/°F/)).not.toBeInTheDocument();
+  });
+
+  it('always shows a resume shortcut in the taskbar tray', () => {
+    render(<App />);
+    const taskbar = screen.getByRole('navigation', { name: 'Taskbar' });
+    const link = within(taskbar).getByRole('link', { name: 'Resume (PDF)' });
+    expect(link).toHaveAttribute('href', '/resume.pdf');
+    expect(link).toHaveAttribute('title', 'Resume (PDF)');
   });
 });

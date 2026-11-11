@@ -5,6 +5,7 @@ import { getFocusedId, useWindowStore } from '../store/windows';
 import { Clock } from './Clock';
 import { Icon } from './Icons';
 import { StartMenu } from './StartMenu';
+import { WeatherWidget } from './Weather';
 
 interface TaskbarProps {
   onRestart: () => void;
@@ -66,9 +67,20 @@ export function Taskbar({ onRestart }: TaskbarProps) {
       </ul>
 
       <div className="tray">
-        <a className="tray-link" href={LINKS.resumeTxt} target="_blank" rel="noreferrer">
-          Plain-text resume
+        {/* Always-visible resume shortcut, as a tray icon. The plain-text version stays in the start menu. */}
+        <a
+          className="tray-icon"
+          href={LINKS.resumePdf}
+          target="_blank"
+          rel="noreferrer"
+          title="Resume (PDF)"
+          aria-label="Resume (PDF)"
+        >
+          <Icon name="resume" size={18} />
         </a>
+        <span className="tray-divider" aria-hidden="true" />
+        <WeatherWidget />
+        <span className="tray-divider" aria-hidden="true" />
         <Clock />
       </div>
     </nav>

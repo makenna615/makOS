@@ -14,8 +14,9 @@
 - **State in one Zustand store** (`src/store/windows.ts`), with pure, unit-tested geometry: cascading new windows, clamping so a title bar can never be lost off-screen, and re-clamping when the browser resizes.
 - **Taskbar** with a start menu, a button for each open window (click to focus, click again to minimize) and a clock.
 - **Short, skippable boot screen** that only plays once per browser session.
-- **Mobile layout:** below 700px the desktop becomes a phone-style launcher where apps open as full-screen sheets.
-- **Original look:** inspired by early-2000s desktops, but every style, icon and the wallpaper is hand-made. No third-party OS assets.
+- **Mobile layout:** below 700px wide (or 500px tall, like a phone in landscape) the desktop becomes a phone-style launcher where apps open as full-screen sheets.
+- **Live Fargo, ND weather** in the taskbar tray (and the phone status bar), from [Open-Meteo](https://open-meteo.com/) (no API key), refreshed every 15 minutes.
+- **Original look:** inspired by early-2000s desktops. Every style and icon is hand-made, the wallpaper was generated with Canva's AI image tool, and there are no third-party OS assets.
 
 ### Accessibility
 
@@ -29,7 +30,7 @@
 ### Recruiter-friendly
 
 - The About window opens on load.
-- A plain-text resume link is always visible in the taskbar, plus `resume.txt`, a PDF and an `llms.txt` for AI agents.
+- A resume (PDF) shortcut is always visible in the taskbar tray, plus a plain-text `resume.txt` (in the start menu) and an `llms.txt` for AI agents.
 - Open Graph and meta tags for nice link previews.
 
 ## Tech stack
@@ -55,7 +56,7 @@ src/
   store/        windows.ts (Zustand store), actions.ts (focus management)
   styles/       theme, desktop, window, apps, mobile
 e2e/            Playwright specs with axe checks
-public/         wallpaper, favicon, resume.pdf, resume.txt, llms.txt, og-image.png
+public/         wallpaper.jpg (+ mobile size), favicon, resume.pdf, resume.txt, llms.txt, og-image.png
 ```
 
 ### Adding an app
@@ -82,4 +83,4 @@ Import the repo in Vercel. It detects Vite automatically (build: `npm run build`
 
 ## License
 
-Code is MIT. The wallpaper, icons and resume content are © Makenna Peters.
+Code is MIT. Icons and resume content are © Makenna Peters. The wallpaper was generated with Canva.

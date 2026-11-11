@@ -13,5 +13,9 @@ export function useMediaQuery(query: string): boolean {
   );
 }
 
-export const MOBILE_QUERY = '(max-width: 700px)';
+/**
+ * Phone layout: narrow screens, plus short ones (a phone turned sideways), where draggable
+ * windows would cover the desktop icons and the 442px start menu wouldn't fit.
+ */
+export const MOBILE_QUERY = '(max-width: 700px), (max-height: 500px)';
 export const REDUCED_MOTION_QUERY = '(prefers-reduced-motion: reduce)';

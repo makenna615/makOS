@@ -4,7 +4,9 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  background: var(--sky-600) url('/wallpaper.svg') 70% center / cover no-repeat;
+  /* Small file for 1x screens; nearly all phones are 2x+ and get the full-size image so it isn't blurry. */
+  background: var(--sky-600) url('/wallpaper-mobile.jpg') 75% center / cover no-repeat;
+  background-image: image-set(url('/wallpaper-mobile.jpg') 1x, url('/wallpaper.jpg') 2x);
 }
 .mobile-status {
   display: flex;
@@ -13,6 +15,21 @@
   padding: 8px 14px;
   color: #fff;
   background: var(--taskbar-bg);
+}
+.mobile-status-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+@media (max-width: 359px) {
+  .mobile-status .weather-place {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
 }
 .mobile-brand {
   display: flex;
@@ -51,6 +68,12 @@
   grid-template-columns: repeat(3, 1fr);
   gap: 14px 8px;
 }
+/* Wider phone/tablet screens (including phones in landscape): one row of six. */
+@media (min-width: 600px) {
+  .mobile-apps {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
 .mobile-app {
   width: 100%;
   display: flex;
@@ -62,7 +85,7 @@
   font-size: 12px;
   color: #fff;
   text-align: center;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.85);
+  text-shadow: var(--label-halo);
   background: none;
   border: none;
   border-radius: 8px;

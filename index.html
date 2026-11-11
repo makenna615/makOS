@@ -22,6 +22,15 @@
     <meta name="twitter:card" content="summary_large_image" />
 
     <link rel="alternate" type="text/plain" href="/resume.txt" title="Plain-text resume" />
+
+    <!-- Start downloading the wallpaper right away (it loads during the boot screen). Media queries match the CSS layouts. -->
+    <link rel="preload" as="image" href="/wallpaper.jpg" media="(min-width: 701px) and (min-height: 501px)" />
+    <link
+      rel="preload"
+      as="image"
+      imagesrcset="/wallpaper-mobile.jpg 1x, /wallpaper.jpg 2x"
+      media="(max-width: 700px), (max-height: 500px)"
+    />
   </head>
   <body>
     <noscript>

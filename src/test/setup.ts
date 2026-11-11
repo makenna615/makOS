@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom/vitest';
-import { afterEach, vi } from 'vitest';
+import { afterEach, beforeEach, vi } from 'vitest';
 import { cleanup } from '@testing-library/react';
 import { useWindowStore } from '../store/windows';
 
@@ -18,7 +18,14 @@ Object.defineProperty(window, 'matchMedia', {
   })),
 });
 
+// No real network in unit tests: the weather widget falls back to just "Fargo, ND".
+// Tests that need weather data stub fetch themselves.
+beforeEach(() => {
+  vi.stubGlobal('fetch', vi.fn(() => Promise.reject(new Error('Network is disabled in unit tests'))));
+});
+
 afterEach(() => {
+  vi.unstubAllGlobals();
   cleanup();
   useWindowStore.setState({ windows: {}, order: [], viewport: { width: 1280, height: 760 } });
   sessionStorage.clear();
