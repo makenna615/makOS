@@ -1,0 +1,184 @@
+/* makOS theme: "Classic blue sky". Every color and size the chrome uses lives here. */
+:root {
+  --font-ui: Tahoma, Verdana, 'Segoe UI', system-ui, sans-serif;
+  --font-size: 13px;
+
+  --sky-900: #0b3a8c;
+  --sky-800: #1450b8;
+  --sky-700: #2059c9;
+  --sky-600: #2f6fd6;
+  --sky-500: #4a8de6;
+  --sky-300: #8fbaf3;
+  --sky-100: #dbe9ff;
+
+  --grass-700: #2a7a35;
+  --grass-600: #34913d;
+  --grass-500: #47ad4c;
+  --grass-300: #7fd27a;
+
+  --surface: #f3f1ea;
+  --surface-raised: #fbfaf6;
+  --surface-sunken: #ffffff;
+  --border: #9db4d6;
+  --border-strong: #6d86ad;
+  --text: #1c2433;
+  --text-muted: #556275;
+  --link: #0b4fc4;
+  --danger: #d9433b;
+  --danger-dark: #a12720;
+  --focus: #ffb000;
+
+  --titlebar-active: linear-gradient(180deg, #4b93f3 0%, #2b6be0 8%, #1f5bd2 40%, #1c56cb 88%, #1648b0 100%);
+  --titlebar-inactive: linear-gradient(180deg, #a7c3ec 0%, #8eaee2 10%, #7e9fd8 90%, #7393cb 100%);
+  --taskbar-bg: linear-gradient(180deg, #3e83ea 0%, #2a68d6 10%, #2560cf 50%, #2259c4 90%, #1a4aa9 100%);
+  --tray-bg: linear-gradient(180deg, #1e8ff0 0%, #1584e4 50%, #0f72cf 100%);
+  --start-bg: linear-gradient(180deg, #5cc45a 0%, #3ea53e 45%, #2f8e33 100%);
+
+  --radius-window: 8px;
+  --shadow-window: 0 10px 30px rgba(10, 30, 70, 0.35), 0 2px 6px rgba(10, 30, 70, 0.25);
+  --taskbar-height: 40px;
+
+  color-scheme: light;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: var(--font-ui);
+  font-size: var(--font-size);
+  color: var(--text);
+  background: var(--sky-600);
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+body.is-dragging {
+  user-select: none;
+}
+body.cursor-move,
+body.cursor-move * {
+  cursor: move !important;
+}
+body.cursor-n *,
+body.cursor-s * {
+  cursor: ns-resize !important;
+}
+body.cursor-e *,
+body.cursor-w * {
+  cursor: ew-resize !important;
+}
+body.cursor-ne *,
+body.cursor-sw * {
+  cursor: nesw-resize !important;
+}
+body.cursor-nw *,
+body.cursor-se * {
+  cursor: nwse-resize !important;
+}
+
+a {
+  color: var(--link);
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  left: 8px;
+  top: -40px;
+  z-index: 10000;
+  padding: 6px 10px;
+  background: #fff;
+  border: 1px solid var(--border-strong);
+  border-radius: 4px;
+}
+.skip-link:focus {
+  top: 8px;
+}
+
+/* ---- Buttons ---- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 26px;
+  padding: 3px 14px;
+  font: inherit;
+  color: var(--text);
+  text-decoration: none;
+  background: linear-gradient(180deg, #ffffff 0%, #f4f3ee 60%, #e3e1d6 100%);
+  border: 1px solid #5b6f91;
+  border-radius: 4px;
+  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.06);
+  cursor: pointer;
+}
+.btn:hover {
+  border-color: #e9a23b;
+  box-shadow: inset 0 0 0 1px #f8c36b;
+}
+.btn:active {
+  background: linear-gradient(180deg, #e3e1d6 0%, #f1efe7 100%);
+}
+.btn-primary {
+  border-color: var(--sky-800);
+  box-shadow: inset 0 0 0 1px var(--sky-300);
+  font-weight: bold;
+}
+.btn-small {
+  min-height: 22px;
+  padding: 1px 8px;
+}
+.btn.is-disabled {
+  color: #8a8f99;
+  border-color: #b4b8c0;
+  background: #eeede8;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+kbd {
+  display: inline-block;
+  padding: 1px 5px;
+  font: 11px/1.4 var(--font-ui);
+  background: #fff;
+  border: 1px solid #a9b3c3;
+  border-bottom-width: 2px;
+  border-radius: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

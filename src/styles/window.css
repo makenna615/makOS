@@ -1,0 +1,224 @@
+.window {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background: var(--surface);
+  border: 3px solid #7d9ad3;
+  border-top: none;
+  border-radius: var(--radius-window) var(--radius-window) 0 0;
+  box-shadow: var(--shadow-window);
+  outline: none;
+  animation: window-open 140ms ease-out;
+}
+.window[hidden] {
+  display: none;
+}
+.window.is-focused {
+  border-color: var(--sky-700);
+}
+.window.is-maximized {
+  inset: 0;
+  width: auto;
+  height: auto;
+  border-radius: 0;
+}
+/* The window itself takes focus when it opens; show that on the title bar, not as a ring around the frame. */
+.window:focus-visible .titlebar {
+  box-shadow: inset 0 0 0 2px var(--focus);
+}
+@keyframes window-open {
+  from {
+    opacity: 0;
+    scale: 0.97;
+  }
+}
+
+/* ---- Title bar ---- */
+.titlebar {
+  flex: 0 0 30px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 -3px;
+  padding: 0 4px 0 8px;
+  color: #fff;
+  background: var(--titlebar-inactive);
+  border-radius: var(--radius-window) var(--radius-window) 0 0;
+  touch-action: none;
+  user-select: none;
+}
+.window.is-focused .titlebar {
+  background: var(--titlebar-active);
+}
+.window.is-maximized .titlebar {
+  border-radius: 0;
+}
+.titlebar-title {
+  flex: 1;
+  margin: 0;
+  overflow: hidden;
+  font-size: 13px;
+  font-weight: bold;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.45);
+}
+.window:not(.is-focused) .titlebar-title {
+  color: #eef3fb;
+}
+
+.titlebar-controls {
+  display: flex;
+  gap: 2px;
+}
+.tb-btn {
+  position: relative;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  background: linear-gradient(160deg, #6aa8ff 0%, #3a7cf0 45%, #2563d8 100%);
+  border: 1px solid #fff;
+  border-radius: 4px;
+  box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+}
+.tb-btn:hover {
+  filter: brightness(1.15);
+}
+.tb-btn:active {
+  filter: brightness(0.9);
+}
+.tb-btn:focus-visible {
+  outline-offset: 1px;
+}
+.window:not(.is-focused) .tb-btn {
+  opacity: 0.75;
+}
+.tb-close {
+  background: linear-gradient(160deg, #f08a76 0%, #e2533f 45%, #c63a28 100%);
+}
+.tb-btn span {
+  position: absolute;
+  inset: 0;
+}
+/* Glyphs drawn with CSS so they scale crisply and stay original. */
+.tb-min span::before {
+  content: '';
+  position: absolute;
+  left: 5px;
+  bottom: 5px;
+  width: 8px;
+  height: 3px;
+  background: #fff;
+}
+.tb-max span::before {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border: 2px solid #fff;
+  border-top-width: 3px;
+}
+.tb-restore span::before,
+.tb-restore span::after {
+  content: '';
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border: 1.5px solid #fff;
+  border-top-width: 2.5px;
+}
+.tb-restore span::before {
+  top: 4px;
+  right: 4px;
+}
+.tb-restore span::after {
+  bottom: 4px;
+  left: 4px;
+  background: #3a7cf0;
+}
+.tb-close span::before,
+.tb-close span::after {
+  content: '';
+  position: absolute;
+  top: 9px;
+  left: 4px;
+  width: 12px;
+  height: 2.5px;
+  background: #fff;
+  border-radius: 1px;
+  transform: rotate(45deg);
+}
+.tb-close span::after {
+  transform: rotate(-45deg);
+}
+
+/* ---- Body ---- */
+.window-body {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  background: var(--surface);
+}
+
+/* ---- Resize handles ---- */
+.resize-handle {
+  position: absolute;
+  z-index: 2;
+  touch-action: none;
+}
+.resize-n,
+.resize-s {
+  left: 8px;
+  right: 8px;
+  height: 7px;
+  cursor: ns-resize;
+}
+.resize-n {
+  top: -3px;
+}
+.resize-s {
+  bottom: -5px;
+}
+.resize-e,
+.resize-w {
+  top: 8px;
+  bottom: 8px;
+  width: 7px;
+  cursor: ew-resize;
+}
+.resize-e {
+  right: -5px;
+}
+.resize-w {
+  left: -5px;
+}
+.resize-ne,
+.resize-nw,
+.resize-se,
+.resize-sw {
+  width: 14px;
+  height: 14px;
+}
+.resize-ne {
+  top: -4px;
+  right: -5px;
+  cursor: nesw-resize;
+}
+.resize-sw {
+  bottom: -5px;
+  left: -5px;
+  cursor: nesw-resize;
+}
+.resize-nw {
+  top: -4px;
+  left: -5px;
+  cursor: nwse-resize;
+}
+.resize-se {
+  bottom: -5px;
+  right: -5px;
+  cursor: nwse-resize;
+}

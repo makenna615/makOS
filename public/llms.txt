@@ -1,0 +1,14 @@
+# makOS: Makenna Peters' portfolio
+
+> Makenna Peters is a full-stack software engineer (Ruby on Rails, React, TypeScript,
+> PostgreSQL) with 5+ years of experience, most recently at Finalsite building a CMS
+> used by thousands of K-12 schools. She is looking for remote full-stack / Rails roles,
+> including EdTech.
+
+The site is a single-page app styled as a desktop OS. Everything important is also
+available as plain text:
+
+- [Resume (plain text)](/resume.txt): experience, education, projects, skills
+- [GitHub](https://github.com/makenna615): source for makOS, Fourth Down and Perfume Studio
+- [LinkedIn](https://www.linkedin.com/in/makenna-peters-6535b7196)
+- Contact: makennaipeters@gmail.com

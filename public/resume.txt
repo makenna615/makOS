@@ -1,0 +1,59 @@
+MAKENNA PETERS
+Full-Stack Software Engineer · Fargo, ND (remote)
+Email: makennaipeters@gmail.com
+LinkedIn: https://www.linkedin.com/in/makenna-peters-6535b7196
+GitHub: https://github.com/makenna615
+
+SUMMARY
+Full-stack software engineer with 5+ years of experience building and maintaining
+scalable SaaS web applications using Ruby on Rails, React, JavaScript, and
+PostgreSQL, with additional experience in Python/Django. Experienced in developing
+CMS platforms and internal tools, working in Agile environments, collaborating
+across cross-functional teams, and supporting production applications used by
+thousands of users.
+
+EXPERIENCE
+Software Engineer II, Finalsite (remote)          March 2024 – May 2026
+Software Engineer I, Finalsite (remote)           March 2022 – March 2024
+- Developed full-stack features for Composer, Finalsite's CMS platform used by
+  thousands of K-12 schools, across modern Ruby on Rails services and legacy
+  ColdFusion applications
+- Implemented frontend features using React, JavaScript, Backbone/Marionette and
+  jQuery, improving CMS usability and administrative workflows
+- Built and enhanced backend functionality and RESTful APIs using Ruby on Rails
+  and PostgreSQL for content publishing, permissions and admin workflows
+- Led end-to-end development of key initiatives, including a reCAPTCHA
+  integration for form security and a self-service tool for migrating legacy
+  calendar workflows
+- Created and maintained unit and integration tests with RSpec and Jasmine,
+  supporting CI/CD workflows
+- Participated in Agile/Scrum: backlog refinement, estimation, sprint planning
+- Monitored and resolved production issues with GCP, New Relic and DataDog
+
+Computer Science Intern, PS Industries, Grand Forks, ND   May 2020 – June 2021
+- Developed full-stack web applications with Python, Django, JavaScript,
+  HTML/CSS and jQuery for internal business operations
+- Independently built internal tools, including an employee time-tracking
+  system and an HR workflow app for job position requests
+
+EDUCATION
+B.S. Computer Science, University of North Dakota   2017 – 2021
+GPA 4.0/4.0 · Minor in Mathematics
+
+PROJECTS
+Fourth Down: full-stack fantasy football lineup and waiver optimizer
+  (Next.js 15, React 19, TypeScript, PostgreSQL/Neon, Prisma, Zod, Vitest)
+  https://github.com/makenna615/fantasy-football-app
+Perfume Studio: AI-powered perfume discovery and formula builder
+  (Next.js 16, React 19, TypeScript, Tailwind CSS, OpenAI SDK)
+  https://github.com/makenna615/perfume-app
+makOS: this portfolio, a desktop OS in React, TypeScript and Zustand
+  https://github.com/makenna615/makOS
+
+SKILLS
+Languages: Ruby, JavaScript, TypeScript, Python, HTML, CSS, SQL, ColdFusion
+Frameworks: Ruby on Rails, React, Django, Backbone.js, Marionette.js, jQuery
+Testing: RSpec, Jasmine, Vitest, Playwright
+Databases: PostgreSQL, MongoDB
+Tools: Git, GitLab, Jira, Docker/Kubernetes, GCP, DataDog, New Relic
+AI tools: Claude Code, GitHub Copilot, Cursor
