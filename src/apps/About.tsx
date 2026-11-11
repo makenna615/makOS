@@ -16,9 +16,10 @@ export function About({ onOpenApp }: AppProps) {
       </header>
 
       <p>
-        I&apos;ve spent 5+ years building SaaS products, most recently at <strong>Finalsite</strong>, where I worked on
-        Composer, the CMS used by thousands of K-12 schools. I build across the stack: Rails services and REST APIs on
-        PostgreSQL, React front ends, and the tests and monitoring that keep them healthy in production.
+        I&apos;ve spent 4+ years building SaaS products, most recently at <strong>Finalsite</strong>, where I worked on
+        Composer, the CMS used by thousands of K–12 schools worldwide. I build across the stack: Rails services and REST
+        APIs on PostgreSQL, React front ends, and the tests and monitoring that keep them healthy in production. I often
+        own projects from planning through production.
       </p>
       <p>
         I&apos;m looking for a <strong>remote full-stack or Rails role</strong>, and I&apos;m especially interested in
@@ -40,10 +41,10 @@ export function About({ onOpenApp }: AppProps) {
       <fieldset className="groupbox">
         <legend>Highlights</legend>
         <ul className="checklist">
-          <li>Led a reCAPTCHA integration for school website forms, end to end</li>
-          <li>Built a self-service tool for migrating legacy calendar workflows</li>
-          <li>Shipped features across modern Rails services and a legacy ColdFusion codebase</li>
-          <li>Wrote RSpec and Jasmine tests and resolved production issues with GCP, New Relic and DataDog</li>
+          <li>Built a self-service Calendar migration tool that cut customer migrations from years to months</li>
+          <li>Led the move to reCAPTCHA v3 and invisible reCAPTCHA, eliminating charges from spam submissions</li>
+          <li>Automated an accessibility setup from several hours per school district to a few minutes</li>
+          <li>Shipped features across modern Rails services and a legacy ColdFusion app</li>
           <li>B.S. in Computer Science, University of North Dakota, 4.0 GPA</li>
         </ul>
       </fieldset>

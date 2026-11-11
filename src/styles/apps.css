@@ -210,12 +210,9 @@
   display: flex;
   justify-content: space-between;
   gap: 12px;
-  font-style: italic;
 }
 .job-dates {
   white-space: nowrap;
-  font-style: normal;
-  color: var(--text-muted);
 }
 .skills {
   margin: 0;
@@ -226,7 +223,7 @@
   margin: 3px 0;
 }
 .skills dt {
-  flex: 0 0 96px;
+  flex: 0 0 130px;
   font-weight: bold;
 }
 .skills dd {

@@ -1,49 +1,67 @@
-/** Resume content, kept in sync with public/resume.txt. No phone number on the public site. */
+/**
+ * Resume content. Must match public/resume.pdf and public/resume.txt word for word
+ * (all three come from "Makenna Peters Resume 2026"). No phone number on the public site.
+ */
 export const RESUME = {
   name: 'Makenna Peters',
-  headline: 'Full-Stack Software Engineer · Fargo, ND (remote)',
+  location: 'Fargo, ND',
   summary:
-    'Full-stack software engineer with 5+ years of experience building and maintaining scalable SaaS web applications using Ruby on Rails, React, JavaScript and PostgreSQL, with additional experience in Python/Django. Experienced in developing CMS platforms and internal tools, working in Agile environments, collaborating across cross-functional teams, and supporting production applications used by thousands of users. A fast learner who adapts quickly to new technologies, frameworks and environments.',
+    'Full-stack software engineer with 4+ years of professional experience building SaaS web applications with Ruby on Rails, React, JavaScript, and PostgreSQL, plus earlier work in Python/Django. Most recently built and supported features for a CMS used by thousands of K–12 schools worldwide, often owning projects from planning through production.',
   experience: [
     {
       company: 'Finalsite',
-      location: 'remote from Fargo, ND',
+      location: 'Remote from Fargo, ND',
       roles: [
-        { title: 'Software Engineer II', dates: 'Mar 2024 – May 2026' },
-        { title: 'Software Engineer I', dates: 'Mar 2022 – Mar 2024' },
+        { title: 'Software Engineer II', dates: 'March 2024 – May 2026' },
+        { title: 'Software Engineer I', dates: 'March 2022 – March 2024' },
       ],
       bullets: [
-        "Developed full-stack features for Composer, Finalsite's CMS platform used by thousands of K-12 schools, across modern Ruby on Rails services and legacy ColdFusion applications",
-        'Implemented frontend features using React, JavaScript, Backbone/Marionette and jQuery, improving CMS usability and administrative workflows',
-        'Built and enhanced backend functionality and RESTful APIs using Ruby on Rails and PostgreSQL to support content publishing, permissions management and administrative workflows',
-        'Led end-to-end development of key platform initiatives, including a reCAPTCHA integration for form security and a self-service tool for migrating legacy calendar workflows',
-        'Created and maintained unit and integration tests using RSpec and Jasmine, improving reliability and supporting CI/CD workflows',
-        'Participated in Agile/Scrum: backlog refinement, story estimation, sprint planning and cross-functional collaboration',
-        'Monitored and resolved production issues using Google Cloud Platform, New Relic and DataDog, improving stability and performance',
+        'Built a self-service tool to move schools from the legacy ColdFusion Calendar module to the new Rails/React Calendar module. Sole developer for most of the project; cut customer migration timelines from years to months and reduced the need for Support involvement.',
+        'Led the move from reCAPTCHA v2 to v3 across the Forms module and implemented invisible reCAPTCHA, stopping BlueSnap payment fields from loading on spam submissions and eliminating the unnecessary charges they caused.',
+        'Automated the AudioEye accessibility setup, replacing a manual process of several steps per domain with a single self-service workflow. Reduced the process from several hours per school district to a few minutes.',
+        'Developed full-stack features for Composer, Finalsite’s CMS, across Rails services and a legacy ColdFusion app, using React, JavaScript, and Backbone/Marionette on the frontend.',
+        'Built REST APIs and backend features in Rails and PostgreSQL for content publishing, permissions, and admin workflows.',
+        'Wrote RSpec and Jasmine tests for CI/CD and tracked down production issues using GCP, New Relic, and Datadog.',
+        'Used Claude Code and GitHub Copilot day-to-day for planning work from Jira tickets, implementation, and merge request review.',
       ],
     },
     {
       company: 'PS Industries',
       location: 'Grand Forks, ND',
-      roles: [{ title: 'Computer Science Intern', dates: 'May 2020 – Jun 2021' }],
+      roles: [{ title: 'Computer Science Intern', dates: 'May 2020 – June 2021' }],
       bullets: [
-        'Developed full-stack web applications using Python, Django, JavaScript, HTML/CSS and jQuery to support internal business operations',
-        'Independently built internal tools, including an employee time-tracking system and an HR workflow application for job position requests',
+        'Built full-stack web apps with Python, Django, JavaScript, HTML/CSS, and jQuery for internal business operations.',
+        'Independently built an employee time-tracking system and an HR app for managing job position requests.',
+      ],
+    },
+  ],
+  projects: [
+    {
+      name: 'AI Perfumery App',
+      note: 'personal',
+      stack: 'Next.js, React, TypeScript, OpenAI API',
+      url: 'https://github.com/makenna615/perfume-app',
+      urlLabel: 'github.com/makenna615/perfume-app',
+      bullets: [
+        'Finds similar fragrances, researches ingredients, and generates custom formulas tuned for balance, longevity, or projection. Used regularly for personal perfume making.',
+        'Built mainly with Codex: planned features, broke work into tasks, and reviewed and tested the output, catching cases where it made wrong assumptions about APIs and data structures.',
       ],
     },
   ],
   education: {
-    degree: 'B.S. Computer Science',
-    school: 'University of North Dakota',
-    dates: '2017 – 2021',
-    notes: 'GPA 4.0/4.0 · Minor in Mathematics',
+    degree: 'B.S. Computer Science, Minor in Mathematics',
+    school: 'University of North Dakota, Grand Forks, ND',
+    dates: 'August 2017 – May 2021',
+    notes: 'GPA: 4.0/4.0',
   },
   skills: [
-    { label: 'Languages', items: 'Ruby, JavaScript, TypeScript, Python, HTML, CSS, SQL, ColdFusion' },
-    { label: 'Frameworks', items: 'Ruby on Rails, React, Django, Backbone.js, Marionette.js, jQuery' },
-    { label: 'Testing', items: 'RSpec, Jasmine, Vitest, Playwright' },
+    { label: 'Languages', items: 'Ruby, JavaScript, TypeScript, Python, SQL, HTML, CSS, ColdFusion' },
+    {
+      label: 'Frameworks',
+      items: 'Ruby on Rails, React, Django, Backbone.js, Marionette.js, Next.js, jQuery, RSpec, Jasmine',
+    },
     { label: 'Databases', items: 'PostgreSQL, MongoDB' },
-    { label: 'Tools', items: 'Git, GitLab, Jira, Docker/Kubernetes, GCP, DataDog, New Relic' },
-    { label: 'AI tools', items: 'Claude Code, GitHub Copilot, Cursor' },
+    { label: 'Tools & Platforms', items: 'Git, GitLab, Jira, Docker, Kubernetes, GCP, Datadog, New Relic' },
+    { label: 'AI Tools', items: 'Claude Code, GitHub Copilot, Codex' },
   ],
 };

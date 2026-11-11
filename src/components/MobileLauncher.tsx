@@ -51,7 +51,7 @@ export function MobileLauncher() {
       <main className="mobile-home">
         <div className="mobile-intro">
           <h1>Makenna Peters</h1>
-          <p>Full-stack software engineer: Ruby on Rails, React and TypeScript, 5+ years in K-12 EdTech.</p>
+          <p>Full-stack software engineer: Ruby on Rails, React and TypeScript, 4+ years in K-12 EdTech.</p>
           <a className="btn" href={LINKS.resumeTxt}>
             Plain-text resume
           </a>

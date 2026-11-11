@@ -1,7 +1,7 @@
 # makOS: Makenna Peters' portfolio
 
 > Makenna Peters is a full-stack software engineer (Ruby on Rails, React, TypeScript,
-> PostgreSQL) with 5+ years of experience, most recently at Finalsite building a CMS
+> PostgreSQL) with 4+ years of professional experience, most recently at Finalsite building a CMS
 > used by thousands of K-12 schools. She is looking for remote full-stack / Rails roles,
 > including EdTech.
 

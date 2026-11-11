@@ -1,59 +1,63 @@
 MAKENNA PETERS
-Full-Stack Software Engineer · Fargo, ND (remote)
-Email: makennaipeters@gmail.com
-LinkedIn: https://www.linkedin.com/in/makenna-peters-6535b7196
-GitHub: https://github.com/makenna615
+Fargo, ND | makennaipeters@gmail.com
+linkedin.com/in/makenna-peters-6535b7196 | github.com/makenna615
 
 SUMMARY
-Full-stack software engineer with 5+ years of experience building and maintaining
-scalable SaaS web applications using Ruby on Rails, React, JavaScript, and
-PostgreSQL, with additional experience in Python/Django. Experienced in developing
-CMS platforms and internal tools, working in Agile environments, collaborating
-across cross-functional teams, and supporting production applications used by
-thousands of users.
+Full-stack software engineer with 4+ years of professional experience building SaaS
+web applications with Ruby on Rails, React, JavaScript, and PostgreSQL, plus earlier
+work in Python/Django. Most recently built and supported features for a CMS used by
+thousands of K–12 schools worldwide, often owning projects from planning through
+production.
 
 EXPERIENCE
-Software Engineer II, Finalsite (remote)          March 2024 – May 2026
-Software Engineer I, Finalsite (remote)           March 2022 – March 2024
-- Developed full-stack features for Composer, Finalsite's CMS platform used by
-  thousands of K-12 schools, across modern Ruby on Rails services and legacy
-  ColdFusion applications
-- Implemented frontend features using React, JavaScript, Backbone/Marionette and
-  jQuery, improving CMS usability and administrative workflows
-- Built and enhanced backend functionality and RESTful APIs using Ruby on Rails
-  and PostgreSQL for content publishing, permissions and admin workflows
-- Led end-to-end development of key initiatives, including a reCAPTCHA
-  integration for form security and a self-service tool for migrating legacy
-  calendar workflows
-- Created and maintained unit and integration tests with RSpec and Jasmine,
-  supporting CI/CD workflows
-- Participated in Agile/Scrum: backlog refinement, estimation, sprint planning
-- Monitored and resolved production issues with GCP, New Relic and DataDog
+Software Engineer II                                   March 2024 – May 2026
+Software Engineer I                                    March 2022 – March 2024
+Finalsite, Remote from Fargo, ND
+- Built a self-service tool to move schools from the legacy ColdFusion Calendar
+  module to the new Rails/React Calendar module. Sole developer for most of the
+  project; cut customer migration timelines from years to months and reduced the
+  need for Support involvement.
+- Led the move from reCAPTCHA v2 to v3 across the Forms module and implemented
+  invisible reCAPTCHA, stopping BlueSnap payment fields from loading on spam
+  submissions and eliminating the unnecessary charges they caused.
+- Automated the AudioEye accessibility setup, replacing a manual process of several
+  steps per domain with a single self-service workflow. Reduced the process from
+  several hours per school district to a few minutes.
+- Developed full-stack features for Composer, Finalsite’s CMS, across Rails services
+  and a legacy ColdFusion app, using React, JavaScript, and Backbone/Marionette on
+  the frontend.
+- Built REST APIs and backend features in Rails and PostgreSQL for content
+  publishing, permissions, and admin workflows.
+- Wrote RSpec and Jasmine tests for CI/CD and tracked down production issues using
+  GCP, New Relic, and Datadog.
+- Used Claude Code and GitHub Copilot day-to-day for planning work from Jira
+  tickets, implementation, and merge request review.
 
-Computer Science Intern, PS Industries, Grand Forks, ND   May 2020 – June 2021
-- Developed full-stack web applications with Python, Django, JavaScript,
-  HTML/CSS and jQuery for internal business operations
-- Independently built internal tools, including an employee time-tracking
-  system and an HR workflow app for job position requests
-
-EDUCATION
-B.S. Computer Science, University of North Dakota   2017 – 2021
-GPA 4.0/4.0 · Minor in Mathematics
+Computer Science Intern                                May 2020 – June 2021
+PS Industries, Grand Forks, ND
+- Built full-stack web apps with Python, Django, JavaScript, HTML/CSS, and jQuery
+  for internal business operations.
+- Independently built an employee time-tracking system and an HR app for managing
+  job position requests.
 
 PROJECTS
-Fourth Down: full-stack fantasy football lineup and waiver optimizer
-  (Next.js 15, React 19, TypeScript, PostgreSQL/Neon, Prisma, Zod, Vitest)
-  https://github.com/makenna615/fantasy-football-app
-Perfume Studio: AI-powered perfume discovery and formula builder
-  (Next.js 16, React 19, TypeScript, Tailwind CSS, OpenAI SDK)
-  https://github.com/makenna615/perfume-app
-makOS: this portfolio, a desktop OS in React, TypeScript and Zustand
-  https://github.com/makenna615/makOS
+AI Perfumery App (personal) | Next.js, React, TypeScript, OpenAI API |
+github.com/makenna615/perfume-app
+- Finds similar fragrances, researches ingredients, and generates custom formulas
+  tuned for balance, longevity, or projection. Used regularly for personal perfume
+  making.
+- Built mainly with Codex: planned features, broke work into tasks, and reviewed and
+  tested the output, catching cases where it made wrong assumptions about APIs and
+  data structures.
 
-SKILLS
-Languages: Ruby, JavaScript, TypeScript, Python, HTML, CSS, SQL, ColdFusion
-Frameworks: Ruby on Rails, React, Django, Backbone.js, Marionette.js, jQuery
-Testing: RSpec, Jasmine, Vitest, Playwright
+EDUCATION
+B.S. Computer Science, Minor in Mathematics            August 2017 – May 2021
+University of North Dakota, Grand Forks, ND            GPA: 4.0/4.0
+
+TECHNICAL SKILLS
+Languages: Ruby, JavaScript, TypeScript, Python, SQL, HTML, CSS, ColdFusion
+Frameworks: Ruby on Rails, React, Django, Backbone.js, Marionette.js, Next.js, jQuery,
+  RSpec, Jasmine
 Databases: PostgreSQL, MongoDB
-Tools: Git, GitLab, Jira, Docker/Kubernetes, GCP, DataDog, New Relic
-AI tools: Claude Code, GitHub Copilot, Cursor
+Tools & Platforms: Git, GitLab, Jira, Docker, Kubernetes, GCP, Datadog, New Relic
+AI Tools: Claude Code, GitHub Copilot, Codex

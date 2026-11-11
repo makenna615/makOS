@@ -19,16 +19,18 @@ export function Resume() {
       <article className="paper" aria-label="Resume">
         <header className="paper-header">
           <h3>{RESUME.name}</h3>
-          <p>{RESUME.headline}</p>
           <p className="paper-contact">
+            {RESUME.location}
+            <span aria-hidden="true"> | </span>
             <a href={`mailto:${LINKS.email}`}>{LINKS.email}</a>
-            <span aria-hidden="true"> · </span>
+          </p>
+          <p className="paper-contact">
             <a href={LINKS.linkedin} target="_blank" rel="noreferrer">
-              LinkedIn
+              linkedin.com/in/makenna-peters-6535b7196
             </a>
-            <span aria-hidden="true"> · </span>
+            <span aria-hidden="true"> | </span>
             <a href={LINKS.github} target="_blank" rel="noreferrer">
-              GitHub
+              github.com/makenna615
             </a>
           </p>
         </header>
@@ -42,19 +44,36 @@ export function Resume() {
           <h4 id="resume-experience">Experience</h4>
           {RESUME.experience.map((job) => (
             <div className="job" key={job.company}>
-              <div className="job-head">
-                <p className="job-company">
-                  <strong>{job.company}</strong>, {job.location}
-                </p>
-              </div>
               {job.roles.map((role) => (
                 <div className="job-role" key={role.title}>
-                  <span>{role.title}</span>
-                  <span className="job-dates">{role.dates}</span>
+                  <strong>{role.title}</strong>
+                  <strong className="job-dates">{role.dates}</strong>
                 </div>
               ))}
+              <p className="job-company">
+                <em>{job.company}</em>, {job.location}
+              </p>
               <ul>
                 {job.bullets.map((b) => (
+                  <li key={b}>{b}</li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </section>
+
+        <section aria-labelledby="resume-projects">
+          <h4 id="resume-projects">Projects</h4>
+          {RESUME.projects.map((proj) => (
+            <div className="job" key={proj.name}>
+              <p className="job-company">
+                <strong>{proj.name}</strong> ({proj.note}) | {proj.stack} |{' '}
+                <a href={proj.url} target="_blank" rel="noreferrer">
+                  {proj.urlLabel}
+                </a>
+              </p>
+              <ul>
+                {proj.bullets.map((b) => (
                   <li key={b}>{b}</li>
                 ))}
               </ul>
@@ -65,12 +84,13 @@ export function Resume() {
         <section aria-labelledby="resume-education">
           <h4 id="resume-education">Education</h4>
           <div className="job-role">
-            <span>
-              <strong>{RESUME.education.degree}</strong>, {RESUME.education.school}
-            </span>
-            <span className="job-dates">{RESUME.education.dates}</span>
+            <strong>{RESUME.education.degree}</strong>
+            <strong className="job-dates">{RESUME.education.dates}</strong>
           </div>
-          <p>{RESUME.education.notes}</p>
+          <div className="job-role">
+            <em>{RESUME.education.school}</em>
+            <span>{RESUME.education.notes}</span>
+          </div>
         </section>
 
         <section aria-labelledby="resume-skills">
