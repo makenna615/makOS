@@ -64,8 +64,8 @@ test.describe('desktop', () => {
   });
 
   test('project windows have a screenshot gallery with working images', async ({ page }) => {
-    await page.getByRole('list', { name: 'Desktop' }).getByRole('button', { name: 'Memories Into Perfumes' }).dblclick();
-    const win = page.getByRole('dialog', { name: 'Memories Into Perfumes' });
+    await page.getByRole('list', { name: 'Desktop' }).getByRole('button', { name: 'Memories into Perfumes' }).dblclick();
+    const win = page.getByRole('dialog', { name: 'Memories into Perfumes' });
     await win.getByRole('tab', { name: 'Screenshots' }).click();
     const panel = win.getByRole('tabpanel', { name: 'Screenshots' });
     const links = panel.getByRole('link');

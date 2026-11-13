@@ -59,8 +59,8 @@ export const APPS: Record<AppId, AppMeta> = {
   },
   perfumes: {
     id: 'perfumes',
-    title: 'Memories Into Perfumes',
-    label: 'Memories Into Perfumes',
+    title: 'Memories into Perfumes',
+    label: 'Memories into Perfumes',
     icon: 'perfume',
     description: 'AI perfume discovery and formula builder',
     defaultSize: { width: 680, height: 560 },

@@ -170,19 +170,19 @@ export const PROJECTS: Record<Project['id'], Project> = {
   },
   perfumes: {
     id: 'perfumes',
-    name: 'Memories Into Perfumes',
+    name: 'Memories into Perfumes',
     tagline:
       'An AI-powered fragrance studio: find perfumes that truly smell alike, look up accurate note pyramids, and turn a memory into a formula you can actually mix.',
     status: 'Personal project · live on Vercel · public collection page, full app by invitation',
     hero: {
       src: '/projects/perfumes/home.jpg',
-      alt: 'Memories Into Perfumes home page: "Every memory has a scent." with a chart of how top, heart and base notes fade over eight hours.',
+      alt: 'Memories into Perfumes home page: "Every memory has a scent." with a chart of how top, heart and base notes fade over eight hours.',
       width: 1280,
       height: 680,
     },
     overview: [
       'I collect perfume (over 100 bottles) and recently started making my own. Good information on how to actually make perfume is surprisingly hard to find, so researching a formula meant piecing together forum threads, supplier pages and note lists.',
-      'Memories Into Perfumes is the tool I wished I had: explore the perfumes I love, understand what’s in them, and turn an idea into a formula I can mix with the materials I have.',
+      'Memories into Perfumes is the tool I wished I had: explore the perfumes I love, understand what’s in them, and turn an idea into a formula I can mix with the materials I have.',
       'The hard part was trust. General-purpose AI is confidently wrong about perfume: it invents shared notes, treats marketing terms like “white musk” as ingredients you can buy, and suggests dosages that would ruin a formula. Much of the engineering is about making AI reliable in a specialist domain through prompt design, output validation, real data sources and an honest UI.',
     ],
     features: [
