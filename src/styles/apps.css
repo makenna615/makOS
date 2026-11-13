@@ -394,6 +394,21 @@
 .tablist [role='tab']:focus-visible {
   outline-offset: -4px;
 }
+/* Narrow windows and phones: tighter tabs, wrapping onto a second row (like classic multi-row tab controls)
+   rather than running off the edge. */
+@media (max-width: 700px), (max-height: 500px) {
+  .tablist {
+    flex-wrap: wrap;
+    row-gap: 3px;
+  }
+  .tablist [role='tab'] {
+    padding: 5px 9px;
+  }
+}
+.window:not(.is-maximized) .tablist {
+  flex-wrap: wrap;
+  row-gap: 3px;
+}
 .tabpanel {
   padding: 12px 14px;
   background: #fcfcfe;
@@ -471,6 +486,69 @@
   width: 34%;
   color: var(--text-muted);
 }
+/* ---- Project screenshots ---- */
+.project-hero {
+  display: block;
+  width: 100%;
+  max-width: 640px;
+  height: auto;
+  margin: 0 0 12px;
+  border: 1px solid #91a7c9;
+  border-radius: 3px;
+  box-shadow: 0 2px 6px rgba(10, 30, 70, 0.15);
+}
+.highlight-title {
+  margin: 12px 0 4px;
+  font-size: 13px;
+  color: var(--sky-800);
+}
+.gallery-hint {
+  margin: 0 0 10px;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+.gallery {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 14px 12px;
+}
+.gallery-item {
+  margin: 0;
+}
+.gallery-link {
+  display: block;
+  padding: 3px;
+  background: #fff;
+  border: 1px solid #91a7c9;
+  border-radius: 3px;
+  box-shadow: 0 1px 3px rgba(10, 30, 70, 0.15);
+}
+.gallery-link:hover {
+  border-color: var(--sky-600);
+  box-shadow: 0 0 0 2px #bcd4fb;
+}
+.gallery-link img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  object-position: top;
+}
+/* Phone screenshots: show the whole phone screen, centred in the same frame size. */
+.gallery-item.is-mobile .gallery-link img {
+  object-fit: contain;
+  background: #e6ecf5;
+}
+.gallery-item figcaption {
+  margin-top: 5px;
+  font-size: 12px;
+  line-height: 1.35;
+}
+
 .link-list {
   list-style: none;
   margin: 0;

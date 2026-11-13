@@ -4,6 +4,8 @@
   "version": "1.0.0",
   "type": "module",
   "description": "makOS: Makenna Peters' portfolio, built as a retro desktop OS in React + TypeScript.",
+  "license": "MIT",
+  "repository": "github:makenna615/makOS",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",

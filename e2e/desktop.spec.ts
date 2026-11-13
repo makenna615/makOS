@@ -63,6 +63,22 @@ test.describe('desktop', () => {
     await expect(icon).toBeFocused();
   });
 
+  test('project windows have a screenshot gallery with working images', async ({ page }) => {
+    await page.getByRole('list', { name: 'Desktop' }).getByRole('button', { name: 'Memories Into Perfumes' }).dblclick();
+    const win = page.getByRole('dialog', { name: 'Memories Into Perfumes' });
+    await win.getByRole('tab', { name: 'Screenshots' }).click();
+    const panel = win.getByRole('tabpanel', { name: 'Screenshots' });
+    const links = panel.getByRole('link');
+    await expect(links).toHaveCount(5);
+    await expect(links.first()).toHaveAttribute('href', '/projects/perfumes/collection.jpg');
+    // Every thumbnail actually loads (no broken images).
+    await expect
+      .poll(() => panel.locator('img').evaluateAll((imgs) => imgs.every((i) => (i as HTMLImageElement).naturalWidth > 0)))
+      .toBe(true);
+    const results = await new AxeBuilder({ page }).include('#window-perfumes').analyze();
+    expect(results.violations).toEqual([]);
+  });
+
   test('shows Fargo weather in the taskbar tray', async ({ page }) => {
     const weather = page.getByRole('navigation', { name: 'Taskbar' }).locator('.weather');
     await expect(weather).toContainText('Fargo, ND');

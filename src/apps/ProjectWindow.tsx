@@ -20,6 +20,14 @@ export function ProjectWindow({ projectId }: { projectId: Project['id'] }) {
             label: 'Overview',
             content: (
               <>
+                <img
+                  className="project-hero"
+                  src={p.hero.src}
+                  alt={p.hero.alt}
+                  width={p.hero.width}
+                  height={p.hero.height}
+                  decoding="async"
+                />
                 {p.overview.map((para) => (
                   <p key={para}>{para}</p>
                 ))}
@@ -55,16 +63,51 @@ export function ProjectWindow({ projectId }: { projectId: Project['id'] }) {
             ),
           },
           {
+            id: 'screenshots',
+            label: 'Screenshots',
+            content: (
+              <>
+                <p className="gallery-hint">Select a screenshot to open it full size.</p>
+                <ul className="gallery">
+                  {p.screenshots.map((s) => (
+                    <li key={s.src}>
+                      <figure className={s.mobile ? 'gallery-item is-mobile' : 'gallery-item'}>
+                        <a className="gallery-link" href={s.src} target="_blank" rel="noreferrer">
+                          {/* Lazy: thumbnails only download once this tab is shown. */}
+                          <img
+                            src={s.thumb}
+                            alt={s.alt}
+                            width={s.mobile ? 360 : 640}
+                            height={s.mobile ? 640 : 400}
+                            loading="lazy"
+                            decoding="async"
+                          />
+                          <span className="visually-hidden"> (opens full size in a new tab)</span>
+                        </a>
+                        <figcaption>{s.caption}</figcaption>
+                      </figure>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            ),
+          },
+          {
             id: 'engineering',
             label: 'Engineering',
             content: (
               <>
                 <h4>Decisions I&apos;m proud of</h4>
-                <ul className="bullets">
-                  {p.highlights.map((h) => (
-                    <li key={h}>{h}</li>
-                  ))}
-                </ul>
+                {p.highlights.map((group, i) => (
+                  <section key={group.title ?? i} aria-label={group.title}>
+                    {group.title && <h5 className="highlight-title">{group.title}</h5>}
+                    <ul className="bullets">
+                      {group.items.map((h) => (
+                        <li key={h}>{h}</li>
+                      ))}
+                    </ul>
+                  </section>
+                ))}
                 <h4>Tech stack</h4>
                 <table className="stack-table">
                   <tbody>

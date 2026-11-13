@@ -9,6 +9,7 @@ The site is a single-page app styled as a desktop OS. Everything important is al
 available as plain text:
 
 - [Resume (plain text)](/resume.txt): experience, education, projects, skills
-- [GitHub](https://github.com/makenna615): source for makOS, Fourth Down and Perfume Studio
+- [GitHub](https://github.com/makenna615): source for makOS, Fourth Down and Memories Into Perfumes
+- [Memories Into Perfumes, live collection](https://perfume-app-ruby.vercel.app/collection): AI fragrance studio (Next.js, Postgres, OpenAI)
 - [LinkedIn](https://www.linkedin.com/in/makenna-peters-6535b7196)
 - Contact: makennaipeters@gmail.com
