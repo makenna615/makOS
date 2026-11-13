@@ -1,6 +1,6 @@
 MAKENNA PETERS
 Fargo, ND | makennaipeters@gmail.com
-linkedin.com/in/makenna-peters-6535b7196 | github.com/makenna615
+linkedin.com/in/makenna-peters-6535b7196 | github.com/makenna615 | mak-os-portfolio.vercel.app
 
 SUMMARY
 Full-stack software engineer with 4+ years of professional experience building SaaS
@@ -41,8 +41,17 @@ PS Industries, Grand Forks, ND
   job position requests.
 
 PROJECTS
-AI Perfumery App (personal) | Next.js, React, TypeScript, OpenAI API |
-github.com/makenna615/perfume-app
+makOS Portfolio | React, TypeScript, Zustand, Vitest, Playwright |
+mak-os-portfolio.vercel.app
+- Built a desktop-style portfolio site with a custom window manager (drag, resize,
+  focus order, minimize and maximize) using plain pointer events and a Zustand
+  store, with no window library.
+- Fully keyboard accessible; tested with Vitest and Playwright, with axe
+  accessibility checks in CI.
+- Built mainly with Claude Code. Source at github.com/makenna615/makOS.
+
+Memories Into Perfumes (AI perfumery app) | Next.js, TypeScript, OpenAI API |
+memories-into-perfumes.vercel.app
 - Finds similar fragrances, researches ingredients, and generates custom formulas
   tuned for balance, longevity, or projection. Used regularly for personal perfume
   making.

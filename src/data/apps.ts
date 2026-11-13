@@ -75,6 +75,7 @@ export const LINKS = {
   linkedin: 'https://www.linkedin.com/in/makenna-peters-6535b7196',
   github: 'https://github.com/makenna615',
   repo: 'https://github.com/makenna615/makOS',
+  site: 'https://mak-os-portfolio.vercel.app',
   resumePdf: '/resume.pdf',
   resumeTxt: '/resume.txt',
 } as const;

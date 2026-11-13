@@ -32,6 +32,8 @@ export function Resume() {
             <a href={LINKS.github} target="_blank" rel="noreferrer">
               github.com/makenna615
             </a>
+            <span aria-hidden="true"> | </span>
+            <a href={LINKS.site}>mak-os-portfolio.vercel.app</a>
           </p>
         </header>
 
@@ -67,7 +69,8 @@ export function Resume() {
           {RESUME.projects.map((proj) => (
             <div className="job" key={proj.name}>
               <p className="job-company">
-                <strong>{proj.name}</strong> ({proj.note}) | {proj.stack} |{' '}
+                <strong>{proj.name}</strong>
+                {proj.note && ` (${proj.note})`} | {proj.stack} |{' '}
                 <a href={proj.url} target="_blank" rel="noreferrer">
                   {proj.urlLabel}
                 </a>

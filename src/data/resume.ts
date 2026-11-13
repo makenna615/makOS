@@ -37,11 +37,23 @@ export const RESUME = {
   ],
   projects: [
     {
-      name: 'AI Perfumery App',
-      note: 'personal',
-      stack: 'Next.js, React, TypeScript, OpenAI API',
-      url: 'https://github.com/makenna615/perfume-app',
-      urlLabel: 'github.com/makenna615/perfume-app',
+      name: 'makOS Portfolio',
+      note: undefined as string | undefined,
+      stack: 'React, TypeScript, Zustand, Vitest, Playwright',
+      url: 'https://mak-os-portfolio.vercel.app',
+      urlLabel: 'mak-os-portfolio.vercel.app',
+      bullets: [
+        'Built a desktop-style portfolio site with a custom window manager (drag, resize, focus order, minimize and maximize) using plain pointer events and a Zustand store, with no window library.',
+        'Fully keyboard accessible; tested with Vitest and Playwright, with axe accessibility checks in CI.',
+        'Built mainly with Claude Code. Source at github.com/makenna615/makOS.',
+      ],
+    },
+    {
+      name: 'Memories Into Perfumes',
+      note: 'AI perfumery app',
+      stack: 'Next.js, TypeScript, OpenAI API',
+      url: 'https://memories-into-perfumes.vercel.app',
+      urlLabel: 'memories-into-perfumes.vercel.app',
       bullets: [
         'Finds similar fragrances, researches ingredients, and generates custom formulas tuned for balance, longevity, or projection. Used regularly for personal perfume making.',
         'Built mainly with Codex: planned features, broke work into tasks, and reviewed and tested the output, catching cases where it made wrong assumptions about APIs and data structures.',
