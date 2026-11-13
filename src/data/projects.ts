@@ -289,7 +289,7 @@ export const PROJECTS: Record<Project['id'], Project> = {
       ),
     ],
     links: [
-      { label: 'See my collection (live)', href: 'https://perfume-app-ruby.vercel.app/collection' },
+      { label: 'See my collection (live)', href: 'https://memories-into-perfumes.vercel.app/collection' },
       { label: 'Source on GitHub', href: 'https://github.com/makenna615/perfume-app' },
       { label: 'Full app', note: 'Password-protected, access by invitation' },
     ],
