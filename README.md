@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/makenna615/makOS/actions/workflows/ci.yml/badge.svg)](https://github.com/makenna615/makOS/actions/workflows/ci.yml)
 
-**Makenna Peters' portfolio, built as a retro desktop OS.** Each project opens as an app in its own window, and you can drag, resize, minimize and maximize them, or use the whole thing from the keyboard.
+**My portfolio, built as a retro desktop OS.** Each project opens as an app in its own window, and you can drag, resize, minimize and maximize them, or use the whole thing from the keyboard. Built using Claude Code.
 
 **Live:** [mak-os-portfolio.vercel.app](https://mak-os-portfolio.vercel.app) · **Resume:** [PDF](public/resume.pdf) · [plain text](public/resume.txt)
 
@@ -74,21 +74,6 @@ docs/           README screenshot
 
 1. Add an id and metadata to `APPS` in `src/data/apps.ts` (and to `DESKTOP_APPS` to show an icon).
 2. Create the component in `src/apps/` and register it in `src/apps/registry.tsx`.
-
-## Running locally
-
-```bash
-npm install
-npm run dev          # http://localhost:5173
-npm test             # unit tests
-npx playwright install chromium
-npm run test:e2e     # end-to-end + accessibility
-npm run check        # lint + typecheck + tests + build (what CI runs)
-```
-
-## Deploying
-
-Import the repo in Vercel. It detects Vite automatically (build: `npm run build`, output: `dist`), and `vercel.json` adds the security and caching headers.
 
 ## License
 
