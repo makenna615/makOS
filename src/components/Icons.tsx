@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import { useId, type ReactNode } from 'react';
 import type { IconName } from '../data/apps';
 
 interface IconProps {
@@ -17,19 +17,85 @@ export function Icon({ name, size = 32 }: IconProps) {
       focusable="false"
       className="icon"
     >
-      {PATHS[name]}
+      {name === 'logo' ? <Logo compact={size < 32} /> : PATHS[name]}
     </svg>
   );
 }
 
-const PATHS: Record<IconProps['name'], ReactNode> = {
-  logo: (
+/*
+ * The makOS logo: a white hand-lettered M (bold Segoe Print, converted to a
+ * shape) in a red, yellow, green and blue ring with a see-through blue center.
+ * Neighboring ring colors blend over 20° on each side of the join.
+ * public/favicon.svg is the compact version of the same drawing.
+ */
+const RED = '#e8412c';
+const YELLOW = '#f6c018';
+const GREEN = '#5bb33c';
+const BLUE = '#2a7de1';
+const RING = [
+  { color: RED, arc: 'M24 4A20 20 0 0 1 44 24' },
+  { color: YELLOW, arc: 'M44 24A20 20 0 0 1 24 44' },
+  { color: GREEN, arc: 'M24 44A20 20 0 0 1 4 24' },
+  { color: BLUE, arc: 'M4 24A20 20 0 0 1 24 4' },
+];
+/** Arcs over each join, fading from one ring color into the next (gradient runs from x1,y1 to x2,y2). */
+const BLENDS = [
+  { arc: 'M42.79 17.16A20 20 0 0 1 42.79 30.84', x1: 42.79, y1: 17.16, x2: 42.79, y2: 30.84, from: RED, to: YELLOW },
+  { arc: 'M30.84 42.79A20 20 0 0 1 17.16 42.79', x1: 30.84, y1: 42.79, x2: 17.16, y2: 42.79, from: YELLOW, to: GREEN },
+  { arc: 'M5.21 30.84A20 20 0 0 1 5.21 17.16', x1: 5.21, y1: 30.84, x2: 5.21, y2: 17.16, from: GREEN, to: BLUE },
+  { arc: 'M17.16 5.21A20 20 0 0 1 30.84 5.21', x1: 17.16, y1: 5.21, x2: 30.84, y2: 5.21, from: BLUE, to: RED },
+];
+/** The M, centered on (24, 24) with clear space inside the ring. */
+const LOGO_M =
+  'M31.75 18.86L27.44 24.68Q24.45 28.86 22.84 28.86Q22.08 28.86 21.5 28Q20.92 27.14 20.31 25.38Q19.7 23.62 19.46 22.71Q18.9 20.62 18.71 20.33L18.05 23.7Q17.74 25.33 17.41 26.69Q17.09 28.06 16.71 29.97Q16.33 31.89 16.24 32.86Q16.21 33.18 15.62 33.56Q15.03 33.93 14.72 33.93Q14.1 33.93 13.56 33.36Q13.03 32.78 13.03 32.25Q13.03 31.01 13.54 29.09Q15.68 21.25 15.98 19.22Q16.29 17.19 16.29 15.84Q16.29 15.14 16.9 14.77Q17.5 14.39 18.49 14.39Q19.02 14.39 19.55 15.09Q20.08 15.79 20.25 16.38L22.03 21.39Q23.11 24.41 23.47 25.22Q24.87 23.71 27.61 19.96Q30.35 16.22 31.36 15.14Q32.37 14.07 32.79 14.07Q33.42 14.07 34.2 14.6Q34.97 15.13 34.97 15.5Q34.97 15.79 34.47 19.4Q34.12 21.95 33.83 25.11Q33.55 28.26 33.55 28.83Q33.55 29.53 33.73 30.27Q33.86 30.84 33.86 31.34Q33.86 32.62 33.41 33.09Q32.97 33.56 32.04 33.56Q30.34 33.56 30.34 31.01Q30.34 28.6 30.78 25.13Q31.22 21.65 31.58 19.79Q31.71 19.12 31.75 18.86Z';
+/** A smaller M for icons under 32px, where the outline would otherwise run into the ring. */
+const LOGO_M_COMPACT =
+  'M30.81 19.48L27.02 24.6Q24.4 28.27 22.98 28.27Q22.32 28.27 21.81 27.51Q21.29 26.76 20.76 25.21Q20.23 23.66 20.01 22.87Q19.52 21.03 19.35 20.78L18.77 23.73Q18.5 25.17 18.21 26.36Q17.93 27.56 17.6 29.25Q17.26 30.93 17.18 31.78Q17.16 32.06 16.64 32.39Q16.12 32.72 15.85 32.72Q15.3 32.72 14.83 32.22Q14.36 31.71 14.36 31.25Q14.36 30.15 14.82 28.47Q16.69 21.58 16.96 19.8Q17.23 18.02 17.23 16.83Q17.23 16.22 17.76 15.89Q18.29 15.56 19.16 15.56Q19.62 15.56 20.09 16.17Q20.56 16.79 20.7 17.31L22.27 21.71Q23.22 24.36 23.53 25.07Q24.76 23.74 27.17 20.45Q29.58 17.16 30.47 16.22Q31.35 15.28 31.72 15.28Q32.27 15.28 32.96 15.74Q33.64 16.21 33.64 16.54Q33.64 16.79 33.2 19.96Q32.89 22.2 32.64 24.97Q32.39 27.75 32.39 28.25Q32.39 28.86 32.55 29.51Q32.66 30.01 32.66 30.45Q32.66 31.58 32.27 31.98Q31.88 32.39 31.06 32.39Q29.57 32.39 29.57 30.15Q29.57 28.04 29.96 24.99Q30.34 21.94 30.66 20.3Q30.77 19.71 30.81 19.48Z';
+
+function Logo({ compact }: { compact: boolean }) {
+  // Gradient ids must be unique per instance: the logo appears more than once on a page.
+  const id = useId();
+  return (
     <>
-      <circle cx="24" cy="24" r="21" fill="#fff" opacity=".25" />
-      <path d="M11 34V15l7 10 6-9 6 9 7-10v19" fill="none" stroke="#fff" strokeWidth="5" strokeLinejoin="round" strokeLinecap="round" />
-      <circle cx="37" cy="10" r="4.5" fill="#ffd34d" />
+      <defs>
+        {BLENDS.map((b, i) => (
+          <linearGradient
+            key={i}
+            id={`${id}-blend${i}`}
+            gradientUnits="userSpaceOnUse"
+            x1={b.x1}
+            y1={b.y1}
+            x2={b.x2}
+            y2={b.y2}
+          >
+            <stop offset="0" stopColor={b.from} />
+            <stop offset="1" stopColor={b.to} />
+          </linearGradient>
+        ))}
+      </defs>
+      <circle cx="24" cy="24" r="17.5" fill="#1450b8" fillOpacity=".55" />
+      <g fill="none" strokeWidth="5">
+        {RING.map((r) => (
+          <path key={r.color} d={r.arc} stroke={r.color} />
+        ))}
+        {BLENDS.map((b, i) => (
+          <path key={i} d={b.arc} stroke={`url(#${id}-blend${i})`} />
+        ))}
+      </g>
+      <path
+        d={compact ? LOGO_M_COMPACT : LOGO_M}
+        fill="#fff"
+        stroke="#000"
+        strokeOpacity=".4"
+        strokeWidth="2.2"
+        strokeLinejoin="round"
+        paintOrder="stroke"
+      />
     </>
-  ),
+  );
+}
+
+const PATHS: Record<Exclude<IconProps['name'], 'logo'>, ReactNode> = {
   about: (
     <>
       <rect x="4" y="8" width="40" height="32" rx="4" fill="#e9f1ff" stroke="#2759b0" strokeWidth="2" />

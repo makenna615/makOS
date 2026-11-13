@@ -348,7 +348,8 @@
   place-items: center;
   width: 84px;
   height: 84px;
-  background: linear-gradient(160deg, var(--sky-500), var(--sky-800));
+  /* Darker than the theme blues so the blue part of the logo ring stands out (matches .logo-badge). */
+  background: linear-gradient(160deg, #1d4fa8, #0b2a6b);
   border-radius: 20px;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }

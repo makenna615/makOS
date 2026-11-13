@@ -2,11 +2,6 @@ import { APPS, LINKS } from '../data/apps';
 import { Icon } from '../components/Icons';
 import type { AppProps } from './registry';
 
-const COMING_SOON = [
-  { name: 'AI Job Tracker', note: 'Rails 8 + Hotwire. AI parses job postings and scores fit.' },
-  { name: 'A11y Checker', note: 'axe-core audits with AI fix suggestions, in a mini browser window.' },
-];
-
 export function Projects({ onOpenApp }: AppProps) {
   return (
     <div className="app projects">
@@ -35,18 +30,9 @@ export function Projects({ onOpenApp }: AppProps) {
         </li>
       </ul>
 
-      <h3 className="section-label">Coming soon</h3>
-      <ul className="coming-soon">
-        {COMING_SOON.map((p) => (
-          <li key={p.name}>
-            <strong>{p.name}</strong>: {p.note}
-          </li>
-        ))}
-      </ul>
+      <p className="coming-soon">More projects coming soon.</p>
 
-      <p className="statusbar">
-        3 items · {COMING_SOON.length} in progress
-      </p>
+      <p className="statusbar">3 items</p>
     </div>
   );
 }
