@@ -50,7 +50,7 @@ mak-os-portfolio.vercel.app
   accessibility checks in CI.
 - Built mainly with Claude Code. Source at github.com/makenna615/makOS.
 
-Memories Into Perfumes (AI perfumery app) | Next.js, TypeScript, OpenAI API |
+Memories into Perfumes (AI perfumery app) | Next.js, TypeScript, OpenAI API |
 memories-into-perfumes.vercel.app
 - Finds similar fragrances, researches ingredients, and generates custom formulas
   tuned for balance, longevity, or projection. Used regularly for personal perfume

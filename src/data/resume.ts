@@ -49,7 +49,7 @@ export const RESUME = {
       ],
     },
     {
-      name: 'Memories Into Perfumes',
+      name: 'Memories into Perfumes',
       note: 'AI perfumery app',
       stack: 'Next.js, TypeScript, OpenAI API',
       url: 'https://memories-into-perfumes.vercel.app',
