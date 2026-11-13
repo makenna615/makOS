@@ -18,12 +18,16 @@
       property="og:description"
       content="Rails + React engineer with 4+ years in K-12 EdTech. A portfolio you can click around like a desktop."
     />
-    <!-- TODO after the first Vercel deploy: make these absolute (https://<your-domain>/og-image.jpg); LinkedIn ignores relative URLs. -->
-    <meta property="og:image" content="/og-image.jpg" />
+    <!-- Absolute URLs: LinkedIn and most link previewers ignore relative ones. Update if a custom domain is added. -->
+    <link rel="canonical" href="https://mak-os-portfolio.vercel.app/" />
+    <meta property="og:url" content="https://mak-os-portfolio.vercel.app/" />
+    <meta property="og:site_name" content="makOS" />
+    <meta property="og:image" content="https://mak-os-portfolio.vercel.app/og-image.jpg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="The makOS desktop with Makenna Peters' About Me window open" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://mak-os-portfolio.vercel.app/og-image.jpg" />
 
     <link rel="alternate" type="text/plain" href="/resume.txt" title="Plain-text resume" />
 

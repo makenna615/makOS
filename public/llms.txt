@@ -5,7 +5,7 @@
 > used by thousands of K-12 schools. She is looking for remote full-stack / Rails roles,
 > including EdTech.
 
-The site is a single-page app styled as a desktop OS. Everything important is also
+Live at https://mak-os-portfolio.vercel.app. The site is a single-page app styled as a desktop OS. Everything important is also
 available as plain text:
 
 - [Resume (plain text)](/resume.txt): experience, education, projects, skills

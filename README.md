@@ -4,7 +4,7 @@
 
 **Makenna Peters' portfolio, built as a retro desktop OS.** Each project opens as an app in its own window, and you can drag, resize, minimize and maximize them, or use the whole thing from the keyboard.
 
-**Live:** _coming soon on Vercel_ · **Resume:** [PDF](public/resume.pdf) · [plain text](public/resume.txt)
+**Live:** [mak-os-portfolio.vercel.app](https://mak-os-portfolio.vercel.app) · **Resume:** [PDF](public/resume.pdf) · [plain text](public/resume.txt)
 
 ![makOS desktop with the About Me window in front of a project window showing its screenshot gallery](docs/screenshot.jpg)
 
