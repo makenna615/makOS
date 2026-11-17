@@ -6,7 +6,7 @@ SUMMARY
 Full-stack software engineer with 4+ years of professional experience building SaaS
 web applications with Ruby on Rails, React, JavaScript, and PostgreSQL, plus earlier
 work in Python/Django. Most recently built and supported features for a CMS used by
-thousands of K–12 schools worldwide, often owning projects from planning through
+thousands of K-12 schools worldwide, often owning projects from planning through
 production.
 
 EXPERIENCE
@@ -17,9 +17,10 @@ Finalsite, Remote from Fargo, ND
   module to the new Rails/React Calendar module. Sole developer for most of the
   project; cut customer migration timelines from years to months and reduced the
   need for Support involvement.
-- Led the move from reCAPTCHA v2 to v3 across the Forms module and implemented
-  invisible reCAPTCHA, stopping BlueSnap payment fields from loading on spam
-  submissions and eliminating the unnecessary charges they caused.
+- Led the move from reCAPTCHA Classic to reCAPTCHA Enterprise across the Forms
+  module and implemented invisible reCAPTCHA, stopping BlueSnap payment fields
+  from loading on spam submissions and eliminating the unnecessary charges they
+  caused.
 - Automated the AudioEye accessibility setup, replacing a manual process of several
   steps per domain with a single self-service workflow. Reduced the process from
   several hours per school district to a few minutes.
@@ -41,8 +42,8 @@ PS Industries, Grand Forks, ND
   job position requests.
 
 PROJECTS
-makOS Portfolio | React, TypeScript, Zustand, Vitest, Playwright |
-mak-os-portfolio.vercel.app
+makOS Portfolio (personal portfolio app) | React, TypeScript, Zustand, Vitest,
+Playwright | mak-os-portfolio.vercel.app
 - Built a desktop-style portfolio site with a custom window manager (drag, resize,
   focus order, minimize and maximize) using plain pointer events and a Zustand
   store, with no window library.

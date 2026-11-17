@@ -6,7 +6,7 @@ export const RESUME = {
   name: 'Makenna Peters',
   location: 'Fargo, ND',
   summary:
-    'Full-stack software engineer with 4+ years of professional experience building SaaS web applications with Ruby on Rails, React, JavaScript, and PostgreSQL, plus earlier work in Python/Django. Most recently built and supported features for a CMS used by thousands of K–12 schools worldwide, often owning projects from planning through production.',
+    'Full-stack software engineer with 4+ years of professional experience building SaaS web applications with Ruby on Rails, React, JavaScript, and PostgreSQL, plus earlier work in Python/Django. Most recently built and supported features for a CMS used by thousands of K-12 schools worldwide, often owning projects from planning through production.',
   experience: [
     {
       company: 'Finalsite',
@@ -17,7 +17,7 @@ export const RESUME = {
       ],
       bullets: [
         'Built a self-service tool to move schools from the legacy ColdFusion Calendar module to the new Rails/React Calendar module. Sole developer for most of the project; cut customer migration timelines from years to months and reduced the need for Support involvement.',
-        'Led the move from reCAPTCHA v2 to v3 across the Forms module and implemented invisible reCAPTCHA, stopping BlueSnap payment fields from loading on spam submissions and eliminating the unnecessary charges they caused.',
+        'Led the move from reCAPTCHA Classic to reCAPTCHA Enterprise across the Forms module and implemented invisible reCAPTCHA, stopping BlueSnap payment fields from loading on spam submissions and eliminating the unnecessary charges they caused.',
         'Automated the AudioEye accessibility setup, replacing a manual process of several steps per domain with a single self-service workflow. Reduced the process from several hours per school district to a few minutes.',
         'Developed full-stack features for Composer, Finalsite’s CMS, across Rails services and a legacy ColdFusion app, using React, JavaScript, and Backbone/Marionette on the frontend.',
         'Built REST APIs and backend features in Rails and PostgreSQL for content publishing, permissions, and admin workflows.',
@@ -38,7 +38,7 @@ export const RESUME = {
   projects: [
     {
       name: 'makOS Portfolio',
-      note: undefined as string | undefined,
+      note: 'personal portfolio app',
       stack: 'React, TypeScript, Zustand, Vitest, Playwright',
       url: 'https://mak-os-portfolio.vercel.app',
       urlLabel: 'mak-os-portfolio.vercel.app',

@@ -42,7 +42,7 @@ export function About({ onOpenApp }: AppProps) {
         <legend>Highlights</legend>
         <ul className="checklist">
           <li>Built a self-service Calendar migration tool that cut customer migrations from years to months</li>
-          <li>Led the move to reCAPTCHA v3 and invisible reCAPTCHA, eliminating charges from spam submissions</li>
+          <li>Led the move to reCAPTCHA Enterprise and invisible reCAPTCHA, eliminating charges from spam submissions</li>
           <li>Automated an accessibility setup from several hours per school district to a few minutes</li>
           <li>Shipped features across modern Rails services and a legacy ColdFusion app</li>
           <li>B.S. in Computer Science, University of North Dakota, 4.0 GPA</li>
