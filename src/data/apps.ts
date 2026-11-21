@@ -2,9 +2,19 @@
  * App metadata only (no components) so the window store can import it
  * without creating an import cycle. Components live in src/apps/registry.tsx.
  */
-export type AppId = 'about' | 'resume' | 'projects' | 'contact' | 'fourth-down' | 'perfumes';
+export type AppId =
+  | 'about'
+  | 'resume'
+  | 'projects'
+  | 'contact'
+  | 'fourth-down'
+  | 'perfumes'
+  | 'games'
+  | 'bug-sweeper'
+  | 'stackdle'
+  | 'terminal';
 
-export type IconName = 'about' | 'resume' | 'projects' | 'contact' | 'football' | 'perfume';
+export type IconName = 'about' | 'resume' | 'projects' | 'contact' | 'football' | 'perfume' | 'games' | 'bug' | 'puzzle' | 'terminal';
 
 export interface AppMeta {
   id: AppId;
@@ -65,10 +75,45 @@ export const APPS: Record<AppId, AppMeta> = {
     description: 'AI perfume discovery and formula builder',
     defaultSize: { width: 680, height: 560 },
   },
+  games: {
+    id: 'games',
+    title: 'Games',
+    label: 'Games',
+    icon: 'games',
+    description: 'Bug Sweeper and Stackdle',
+    defaultSize: { width: 520, height: 340 },
+  },
+  'bug-sweeper': {
+    id: 'bug-sweeper',
+    title: 'Bug Sweeper',
+    label: 'Bug Sweeper',
+    icon: 'bug',
+    description: 'Find the bugs hidden in the codebase',
+    defaultSize: { width: 520, height: 560 },
+  },
+  terminal: {
+    id: 'terminal',
+    title: 'Terminal',
+    label: 'Terminal',
+    icon: 'terminal',
+    description: 'Ask makOS about me from the command line',
+    defaultSize: { width: 640, height: 420 },
+  },
+  stackdle: {
+    id: 'stackdle',
+    title: 'Stackdle',
+    label: 'Stackdle',
+    icon: 'puzzle',
+    description: 'Guess the daily 5-letter tech word',
+    defaultSize: { width: 420, height: 660 },
+  },
 };
 
 /** Order of icons on the desktop and in the start menu. */
-export const DESKTOP_APPS: AppId[] = ['about', 'resume', 'projects', 'contact', 'fourth-down', 'perfumes'];
+export const DESKTOP_APPS: AppId[] = ['about', 'resume', 'projects', 'contact', 'fourth-down', 'perfumes', 'games', 'terminal'];
+
+/** Apps inside the Games folder. */
+export const GAME_APPS: AppId[] = ['bug-sweeper', 'stackdle'];
 
 export const LINKS = {
   email: 'makennaipeters@gmail.com',

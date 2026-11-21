@@ -246,7 +246,7 @@ void main() {
   gl_FragColor = vec4(mix(texture2D(uSrc, uv).rgb, soft, 0.92), 1.0);
 }`;
 
-export const retroSky: Wallpaper = async (canvas, { reducedMotion }) => {
+export const retroSky: Wallpaper = async (canvas, { reducedMotion, ignorePause }) => {
   const gl = getWebGL(canvas);
   if (!gl) return null;
   let data: SkyAnalysis;
@@ -325,7 +325,7 @@ export const retroSky: Wallpaper = async (canvas, { reducedMotion }) => {
   const stopLoop = runLoop((elapsed) => {
     time = elapsed / 1000;
     draw();
-  }, reducedMotion, 30); // the clouds move slowly; 30fps looks the same and halves the GPU work
+  }, reducedMotion, 30, ignorePause); // the clouds move slowly; 30fps looks the same and halves the GPU work
   canvas.classList.add('is-ready');
 
   return () => {

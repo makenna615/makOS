@@ -32,6 +32,10 @@ Each theme has its own transition (a CRT squeeze, a white fade, a scanline flash
 - **Short, skippable boot screen** that only plays once per browser session.
 - **Mobile layout:** below 700px wide (or 500px tall, like a phone in landscape) the desktop becomes a phone-style launcher where apps open as full-screen sheets.
 - **Three themes** with animated wallpapers (see above).
+- **Games folder** with two original games: **Bug Sweeper**, a developer-themed mine-sweeping puzzle (find the bugs hidden in a codebase, set breakpoints, `git push` when you win), and **Stackdle**, a daily 5-letter tech-word game where each wrong guess unlocks a clue, some of them taken from my resume. Both work with a keyboard, a mouse or touch, and save progress in the browser.
+- **Terminal app.** A small shell that answers from my resume data (`whoami`, `skills`, `experience`, `projects`, `contact`, `neofetch`), opens apps and switches themes (`open stackdle`, `theme future`), with history, Tab completion and tap-friendly quick commands on phones. Styled to match each theme. There are a few hidden commands too.
+- **Screensaver.** After two idle minutes on desktop, the current theme's wallpaper fills the screen with a bouncing makOS badge. Any input wakes it without clicking through, and it's skipped with reduced motion.
+- **A hidden easter egg.** I'll leave that one for you to find.
 - **Original look:** inspired by early-2000s desktops. Every style and icon is hand-made, the wallpaper was generated with Canva's AI image tool, and there are no third-party OS assets.
 
 ## Engineering decisions
@@ -78,15 +82,18 @@ Each theme has its own transition (a CRT squeeze, a white fade, a scanline flash
 
 ```text
 src/
-  apps/         window contents (About, Resume, Contact, Projects, ProjectWindow)
+  apps/         window contents (About, Resume, Contact, Projects, ProjectWindow, Games, BugSweeper, Stackdle,
+                Terminal and its commands)
   components/   desktop shell (Window, Desktop, Taskbar, StartMenu, BootScreen, MobileLauncher, Tabs, Icons, Weather,
-                ThemeSwitch, Wallpaper)
+                ThemeSwitch, Wallpaper, Screensaver, BlueScreen)
   data/         app registry, resume and project content, weather codes
   hooks/        useDragResize (pointer drag/resize), useMediaQuery, useWeather
   store/        windows.ts (Zustand store), actions.ts (focus management)
   theme/        theme.ts (current theme and saved choice)
+  games/        game logic for Bug Sweeper and Stackdle (pure functions, unit-tested) and the Stackdle word list
   wallpaper/    animated wallpapers (retroSky, liquidBlobs, particleName) and shared WebGL/canvas helpers
-  styles/       theme, desktop, window, apps, mobile, themes (Modern and Future chrome), themes-apps (window contents)
+  styles/       theme, desktop, window, apps, mobile, themes (Modern and Future chrome), themes-apps (window contents),
+                games (games, terminal, screensaver, easter egg)
 e2e/            Playwright specs with axe checks
 public/         wallpaper, project screenshots, resume (PDF + text), llms.txt, og-image, favicon
 docs/           README screenshots (desktop and one per theme)
@@ -96,6 +103,7 @@ docs/           README screenshots (desktop and one per theme)
 
 1. Add an id and metadata to `APPS` in `src/data/apps.ts` (and to `DESKTOP_APPS` to show an icon).
 2. Create the component in `src/apps/` and register it in `src/apps/registry.tsx`.
+3. For a game, add it to `GAME_APPS` instead so it shows up in the Games folder.
 
 ## License
 

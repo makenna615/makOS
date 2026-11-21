@@ -137,6 +137,42 @@ test.describe('themes', () => {
   });
 });
 
+test.describe('games', () => {
+  test('Games folder opens Bug Sweeper and Stackdle, with no accessibility violations', async ({ page, isMobile }) => {
+    if (isMobile) await page.getByRole('button', { name: 'Games', exact: true }).click();
+    else await page.getByRole('list', { name: 'Desktop' }).getByRole('button', { name: 'Games', exact: true }).dblclick();
+
+    await page.getByRole('button', { name: /Bug Sweeper/ }).click();
+    const cells = page.getByRole('group', { name: /Codebase/ }).getByRole('button');
+    await expect(cells).toHaveCount(81);
+    await cells.nth(40).click();
+    await expect(page.getByText(/FATAL/)).toHaveCount(0); // the first click is always safe
+    expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
+
+    if (isMobile) await page.getByRole('button', { name: 'Back' }).click();
+    else await page.getByRole('button', { name: 'Close Bug Sweeper' }).click(); // it sits on top of the Games folder
+    await page.getByRole('button', { name: /Stackdle/ }).click();
+    const keys = page.getByRole('group', { name: 'On-screen keyboard' });
+    for (const ch of 'ZZZZZ') await keys.getByRole('button', { name: ch, exact: true }).click();
+    await keys.getByRole('button', { name: 'Enter' }).click();
+    await expect(page.getByRole('list', { name: 'Clues' })).toContainText('Category');
+    expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
+  });
+});
+
+test.describe('terminal', () => {
+  test('answers commands and has no accessibility violations', async ({ page, isMobile }) => {
+    if (isMobile) await page.getByRole('button', { name: 'Terminal', exact: true }).click();
+    else await page.getByRole('list', { name: 'Desktop' }).getByRole('button', { name: 'Terminal', exact: true }).dblclick();
+    await page.getByRole('group', { name: 'Quick commands' }).getByRole('button', { name: 'whoami' }).click();
+    await expect(page.getByRole('log', { name: 'Terminal output' })).toContainText('Makenna Peters');
+    await page.getByLabel(/Type a command/).fill('theme modern');
+    await page.getByLabel(/Type a command/).press('Enter');
+    await expect(page.locator('html')).toHaveAttribute('data-theme', 'modern');
+    expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
+  });
+});
+
 test.describe('mobile', () => {
   test.skip(({ isMobile }) => !isMobile, 'mobile-only');
 

@@ -9,6 +9,7 @@ import './styles/apps.css';
 import './styles/mobile.css';
 import './styles/themes.css';
 import './styles/themes-apps.css';
+import './styles/games.css';
 
 // Set the saved theme before the first paint so there's no flash of the default one.
 applyThemeToDocument(useThemeStore.getState().theme);

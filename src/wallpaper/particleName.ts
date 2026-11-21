@@ -81,7 +81,7 @@ function layoutTargets(cssW: number, cssH: number) {
   return { points, step };
 }
 
-export const particleName: Wallpaper = async (canvas, { reducedMotion }) => {
+export const particleName: Wallpaper = async (canvas, { reducedMotion, ignorePause }) => {
   const ctx = canvas.getContext('2d');
   if (!ctx) return null;
 
@@ -192,7 +192,7 @@ export const particleName: Wallpaper = async (canvas, { reducedMotion }) => {
       ctx.fillRect(p.x, p.y, dot, dot);
     }
     ctx.globalCompositeOperation = 'source-over';
-  }, reducedMotion);
+  }, reducedMotion, 60, ignorePause);
   canvas.classList.add('is-ready');
 
   return () => {

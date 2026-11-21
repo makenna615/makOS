@@ -11,8 +11,12 @@ import { WeatherWidget } from './Weather';
  * Small screens get a phone-style launcher instead of draggable windows:
  * a list of apps, each opening as a full-screen sheet with a Back button.
  */
-export function MobileLauncher() {
-  const [openId, setOpenId] = useState<AppId | null>(null);
+export function MobileLauncher({ onRestart }: { onRestart: () => void }) {
+  // Sheets opened from inside other sheets (Games → Bug Sweeper) stack up, so Back returns one level.
+  const [stack, setStack] = useState<AppId[]>([]);
+  const openId = stack.at(-1) ?? null;
+  const openFromSheet = (id: AppId) =>
+    setStack((s) => (s.includes(id) ? s.slice(0, s.indexOf(id) + 1) : [...s, id]));
   const lastId = useRef<AppId | null>(null);
   const sheetHeading = useRef<HTMLHeadingElement>(null);
 
@@ -28,7 +32,7 @@ export function MobileLauncher() {
       <div className="mobile">
         <section className="mobile-sheet" aria-labelledby="mobile-sheet-title">
           <header className="mobile-sheet-bar">
-            <button type="button" className="mobile-back" onClick={() => setOpenId(null)}>
+            <button type="button" className="mobile-back" onClick={() => setStack((s) => s.slice(0, -1))}>
               <span aria-hidden="true">‹</span> Back
             </button>
             <h2 id="mobile-sheet-title" ref={sheetHeading} tabIndex={-1}>
@@ -36,7 +40,7 @@ export function MobileLauncher() {
             </h2>
           </header>
           <div className="mobile-sheet-body window-body">
-            <Content onOpenApp={(id) => setOpenId(id)} />
+            <Content key={openId} onOpenApp={openFromSheet} />
           </div>
         </section>
       </div>
@@ -76,7 +80,7 @@ export function MobileLauncher() {
                 data-app={id}
                 onClick={() => {
                   lastId.current = id;
-                  setOpenId(id);
+                  setStack([id]);
                 }}
               >
                 <span className="desktop-icon-art">
@@ -87,6 +91,9 @@ export function MobileLauncher() {
             </li>
           ))}
         </ul>
+        <button type="button" className="btn mobile-restart" onClick={onRestart}>
+          <Icon name="power" size={16} /> Restart makOS
+        </button>
       </main>
     </div>
   );

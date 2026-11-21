@@ -150,6 +150,49 @@ const PATHS: Record<Exclude<IconProps['name'], 'logo'>, ReactNode> = {
       <path d="M17 35c3-3 6 3 9 0s6 3 9 0" fill="none" stroke="#efe4ff" strokeWidth="1.5" opacity=".8" />
     </>
   ),
+  games: (
+    <>
+      <rect x="4" y="14" width="40" height="22" rx="11" fill="#5b4bd6" stroke="#3a2c9e" strokeWidth="2" />
+      <path d="M13 21v8M9 25h8" stroke="#fff" strokeWidth="3" strokeLinecap="round" />
+      <circle cx="32" cy="22" r="2.6" fill="#f6c018" />
+      <circle cx="37" cy="27" r="2.6" fill="#e8412c" />
+      <circle cx="27" cy="27" r="2.6" fill="#5bb33c" />
+      <circle cx="32" cy="32" r="2.6" fill="#2a7de1" />
+    </>
+  ),
+  bug: (
+    <>
+      <rect x="3" y="5" width="42" height="38" rx="5" fill="#1e1e2e" />
+      <path d="M17 17l-4-4M31 17l4-4M14 26H9M34 26h5M15 33l-4 4M33 33l4 4" stroke="#f38ba8" strokeWidth="2.2" strokeLinecap="round" />
+      <ellipse cx="24" cy="27" rx="9" ry="11" fill="#f38ba8" />
+      <circle cx="24" cy="15" r="5" fill="#eba0ac" />
+      <path d="M24 17v20" stroke="#1e1e2e" strokeWidth="1.8" />
+      <circle cx="20" cy="25" r="1.6" fill="#1e1e2e" />
+      <circle cx="28" cy="31" r="1.6" fill="#1e1e2e" />
+    </>
+  ),
+  puzzle: (
+    <>
+      <rect x="4" y="4" width="19" height="19" rx="3" fill="#2a7de1" />
+      <rect x="25" y="4" width="19" height="19" rx="3" fill="#f6c018" />
+      <rect x="4" y="25" width="19" height="19" rx="3" fill="#8a93a6" />
+      <rect x="25" y="25" width="19" height="19" rx="3" fill="#2a7de1" />
+      <path d="M10 19V9h5a3 3 0 0 1 0 6h-5" fill="none" stroke="#fff" strokeWidth="2.4" strokeLinejoin="round" />
+      <path d="M30 9l4 10 4-10" fill="none" stroke="#1c2433" strokeWidth="2.4" strokeLinejoin="round" />
+      <path d="M31 30h6l-6 9h6" fill="none" stroke="#fff" strokeWidth="2.4" strokeLinejoin="round" />
+    </>
+  ),
+  terminal: (
+    <>
+      <rect x="3" y="7" width="42" height="34" rx="4" fill="#1b1f2b" stroke="#4a5470" strokeWidth="2" />
+      <rect x="3" y="7" width="42" height="7" rx="3" fill="#4a5470" />
+      <circle cx="8" cy="10.5" r="1.4" fill="#e8412c" />
+      <circle cx="12.5" cy="10.5" r="1.4" fill="#f6c018" />
+      <circle cx="17" cy="10.5" r="1.4" fill="#5bb33c" />
+      <path d="M10 21l6 5-6 5" fill="none" stroke="#5bff9c" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M20 32h12" stroke="#e6edf3" strokeWidth="2.8" strokeLinecap="round" />
+    </>
+  ),
   power: (
     <>
       <circle cx="24" cy="24" r="20" fill="#e5484d" />

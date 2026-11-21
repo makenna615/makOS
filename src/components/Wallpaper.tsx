@@ -22,7 +22,7 @@ const RENDERERS: Record<ThemeId, WallpaperRenderer> = {
  * between WebGL and 2D, and a finished run releases its GPU context, which must never be one a
  * newer run is still drawing with.
  */
-export function Wallpaper() {
+export function Wallpaper({ screensaver = false }: { screensaver?: boolean }) {
   const theme = useThemeStore((s) => s.theme);
   const reducedMotion = useMediaQuery(REDUCED_MOTION_QUERY);
   const hostRef = useRef<HTMLDivElement>(null);
@@ -30,9 +30,10 @@ export function Wallpaper() {
   const covered = useWindowStore((s) => Object.values(s.windows).some((w) => w && w.maximized && !w.minimized));
 
   useEffect(() => {
+    if (screensaver) return; // the screensaver copy draws on top of everything and never pauses
     setWallpaperPaused(covered);
     return () => setWallpaperPaused(false);
-  }, [covered]);
+  }, [covered, screensaver]);
 
   useEffect(() => {
     const host = hostRef.current;
@@ -42,7 +43,7 @@ export function Wallpaper() {
     host.appendChild(canvas);
     let cancelled = false;
     let stop: (() => void) | null = null;
-    RENDERERS[theme](canvas, { reducedMotion })
+    RENDERERS[theme](canvas, { reducedMotion, ignorePause: screensaver })
       .then((cleanup) => {
         if (cancelled) cleanup?.();
         else if (cleanup) stop = cleanup;
@@ -54,7 +55,7 @@ export function Wallpaper() {
       stop?.();
       canvas.remove();
     };
-  }, [theme, reducedMotion]);
+  }, [theme, reducedMotion, screensaver]);
 
   return <div ref={hostRef} className="wallpaper-host" aria-hidden="true" />;
 }

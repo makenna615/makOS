@@ -3,6 +3,8 @@
 export interface WallpaperOptions {
   /** Draw one still frame and never animate. */
   reducedMotion: boolean;
+  /** Keep animating while the desktop wallpaper is paused (the screensaver draws over everything). */
+  ignorePause?: boolean;
 }
 
 /** Starts a wallpaper on a canvas. Resolves to a cleanup function, or null if it can't run here (no WebGL…). */
@@ -22,7 +24,12 @@ export function setWallpaperPaused(paused: boolean) {
  * hidden or the wallpaper is covered, and the clock doesn't advance then. With reduced motion it draws
  * once. maxFps throttles slow-moving scenes to save battery.
  */
-export function runLoop(draw: (elapsed: number, dt: number) => void, reducedMotion: boolean, maxFps = 60): () => void {
+export function runLoop(
+  draw: (elapsed: number, dt: number) => void,
+  reducedMotion: boolean,
+  maxFps = 60,
+  ignorePause = false,
+): () => void {
   if (reducedMotion) {
     draw(0, 16);
     return () => {};
@@ -45,7 +52,7 @@ export function runLoop(draw: (elapsed: number, dt: number) => void, reducedMoti
   const sync = () => {
     cancelAnimationFrame(raf);
     raf = 0;
-    if (!document.hidden && !wallpaperPaused) {
+    if (!document.hidden && (ignorePause || !wallpaperPaused)) {
       last = 0;
       raf = requestAnimationFrame(frame);
     }

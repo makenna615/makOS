@@ -1,0 +1,697 @@
+/* ================= Games: Bug Sweeper, Stackdle, and the blue-screen easter egg ================= */
+.game {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ---- Bug Sweeper: a dark code editor in every theme ---- */
+.bug-sweeper {
+  --bs-cell: 28px;
+}
+.bs-levels {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+.bs-levels .btn[aria-pressed='true'] {
+  color: #fff;
+  background: var(--sky-800);
+  border-color: var(--sky-800);
+}
+[data-theme='future'] .bs-levels .btn[aria-pressed='true'] {
+  color: #02040e;
+  background: #6fe3ff;
+}
+.bs-best {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+.bs-bar,
+.bs-grid {
+  width: 100%;
+  max-width: calc(var(--bs-cols, 16) * (var(--bs-cell) + 2px) + 12px);
+}
+.bs-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 6px;
+  padding: 6px 10px;
+  font: 13px var(--font-mono, Consolas, monospace);
+  color: #cdd6f4;
+  background: #1e1e2e;
+  border-radius: 4px;
+}
+.bs-left {
+  color: #f38ba8;
+}
+.bs-time {
+  color: #a6e3a1;
+}
+.bs-reset {
+  padding: 2px 10px;
+  font: inherit;
+  color: #f9e2af;
+  background: #313244;
+  border: 1px solid #45475a;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.bs-reset:hover {
+  background: #45475a;
+}
+.bs-grid {
+  display: grid;
+  gap: 2px;
+  justify-content: center;
+  padding: 6px;
+  background: #181825;
+  border-radius: 4px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+.bs-cell {
+  width: 100%;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  font: bold clamp(10px, 3.4vw, 14px) var(--font-mono, Consolas, monospace);
+  color: transparent;
+  background: #45475a;
+  border: 0;
+  border-radius: 3px;
+  box-shadow:
+    inset 0 -2px 0 rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  cursor: pointer;
+  -webkit-touch-callout: none;
+}
+.bs-cell:hover {
+  background: #585b70;
+}
+.bs-cell:focus-visible {
+  outline: 2px solid #f9e2af;
+  outline-offset: 0;
+}
+.bs-cell.is-open {
+  background: #1e1e2e;
+  box-shadow: none;
+  cursor: default;
+}
+.bs-cell.is-flag {
+  color: #f9e2af;
+}
+.bs-cell.n1 {
+  color: #89b4fa;
+}
+.bs-cell.n2 {
+  color: #a6e3a1;
+}
+.bs-cell.n3 {
+  color: #f38ba8;
+}
+.bs-cell.n4 {
+  color: #cba6f7;
+}
+.bs-cell.n5 {
+  color: #fab387;
+}
+.bs-cell.n6 {
+  color: #94e2d5;
+}
+.bs-cell.n7,
+.bs-cell.n8 {
+  color: #f9e2af;
+}
+.bs-cell.is-bug {
+  color: #1e1e2e;
+  background: #f38ba8;
+}
+.bs-cell.is-hit {
+  background: #ff4f6d;
+  box-shadow: inset 0 0 0 2px #fff;
+}
+.bs-msg {
+  min-height: 1.5em;
+  margin: 8px 0 0 !important;
+  font: 13px var(--font-mono, Consolas, monospace);
+  text-align: center;
+}
+
+/* ---- Stackdle ---- */
+.stackdle {
+  --sd-hit: #1f63c4; /* logo blue, darkened for white-text contrast */
+  --sd-near: #f6c018; /* logo yellow */
+  --sd-miss: #6b7385;
+  --sd-tile-bg: var(--surface-sunken);
+  --sd-tile-border: #c9d2e3;
+  --sd-key-bg: #dfe5f0;
+  max-width: 400px;
+  margin: 0 auto;
+}
+[data-theme='future'] .stackdle {
+  --sd-tile-border: rgba(111, 227, 255, 0.35);
+  --sd-key-bg: #0d1c36;
+}
+.sd-head {
+  width: 100%;
+  margin-bottom: 8px;
+  text-align: center;
+}
+.sd-head h3 {
+  margin: 0;
+  font-size: 18px;
+}
+.sd-head span {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+.sd-board {
+  position: relative;
+  width: 100%;
+  max-width: 300px;
+}
+.sd-board:focus-within .sd-grid {
+  outline: 2px solid var(--focus);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+/* The real text box sits under the tiles: it takes the typing, the tiles show it. */
+.sd-input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  opacity: 0;
+  pointer-events: none;
+}
+.sd-grid {
+  display: grid;
+  gap: 5px;
+  cursor: text;
+}
+.sd-row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 5px;
+}
+.sd-tile {
+  position: relative;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  font: bold clamp(18px, 6vw, 24px) var(--font-mono, Consolas, monospace);
+  color: var(--text);
+  background: var(--sd-tile-bg);
+  border: 2px solid var(--sd-tile-border);
+  border-radius: 6px;
+}
+.sd-tile.is-filled {
+  border-color: var(--text-muted);
+}
+.sd-tile.is-hit,
+.sd-tile.is-near,
+.sd-tile.is-miss {
+  animation: sd-flip 350ms ease both;
+}
+.sd-tile.is-hit {
+  color: #fff;
+  background: var(--sd-hit);
+  border-color: var(--sd-hit);
+}
+.sd-tile.is-near {
+  color: #1c2433;
+  background: var(--sd-near);
+  border-color: var(--sd-near);
+}
+.sd-tile.is-miss {
+  color: #fff;
+  background: var(--sd-miss);
+  border-color: var(--sd-miss);
+}
+/* Shapes as well as colors, so the result doesn't depend on seeing color. */
+.sd-tile.is-hit::after,
+.sd-tile.is-near::after,
+.sd-tile.is-miss::after {
+  position: absolute;
+  right: 3px;
+  bottom: 1px;
+  font-size: 10px;
+}
+.sd-tile.is-hit::after {
+  content: '●';
+}
+.sd-tile.is-near::after {
+  content: '◐';
+}
+.sd-tile.is-miss::after {
+  content: '○';
+}
+@keyframes sd-flip {
+  50% {
+    transform: rotateX(90deg);
+  }
+}
+.sd-legend {
+  margin: 8px 0 !important;
+  font-size: 12px;
+  text-align: center;
+}
+.sd-key-hit {
+  color: var(--sd-hit);
+}
+.sd-key-near {
+  color: #8a6500;
+}
+.sd-key-miss {
+  color: var(--text-muted);
+}
+[data-theme='future'] .sd-key-hit {
+  color: #6fe3ff;
+}
+[data-theme='future'] .sd-key-near {
+  color: #f6c018;
+}
+.sd-clues {
+  width: 100%;
+  margin: 0 0 6px;
+  padding: 8px 10px;
+  list-style: none;
+  font-size: 13px;
+  background: var(--sky-100);
+  border: 1px solid var(--border, #d3dceb);
+  border-radius: 6px;
+}
+[data-theme='future'] .sd-clues {
+  border-color: var(--line);
+}
+.sd-clues li {
+  margin: 3px 0;
+}
+.sd-clues li::before {
+  content: '💡 ';
+}
+.sd-clues li.sd-clue-empty::before {
+  content: '';
+}
+.sd-clue-empty {
+  color: var(--text-muted);
+}
+.sd-clues li.is-resume {
+  padding: 6px 8px;
+  background: var(--surface-sunken);
+  border-left: 3px solid var(--sd-near);
+  border-radius: 4px;
+}
+.sd-clues li.is-resume::before {
+  content: '📄 ';
+}
+.sd-clue-tag {
+  display: block;
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.sd-clues li.is-resume .btn {
+  margin-top: 6px;
+  display: flex;
+}
+.sd-status {
+  min-height: 1.4em;
+  margin: 0 0 6px !important;
+  font-size: 12px;
+  color: var(--text-muted);
+  text-align: center;
+}
+.sd-keys {
+  display: grid;
+  gap: 6px;
+  width: 100%;
+}
+.sd-keys div {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+}
+.sd-keys button {
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: 34px;
+  height: 44px; /* comfortable touch target */
+  padding: 0;
+  font: bold 14px var(--font-ui);
+  color: var(--text);
+  background: var(--sd-key-bg);
+  border: 0;
+  border-radius: 5px;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.sd-keys button.sd-wide {
+  flex: 1.6 1 0;
+  max-width: 58px;
+  font-size: 12px;
+}
+.sd-keys button.is-hit {
+  color: #fff;
+  background: var(--sd-hit);
+}
+.sd-keys button.is-near {
+  color: #1c2433;
+  background: var(--sd-near);
+}
+.sd-keys button.is-miss {
+  color: #fff;
+  background: var(--sd-miss);
+}
+.sd-done {
+  text-align: center;
+}
+.sd-result {
+  margin: 4px 0 !important;
+  font-weight: bold;
+}
+.sd-share {
+  margin: 6px 0;
+  font: 14px/1.2 var(--font-mono, Consolas, monospace);
+}
+.sd-stats,
+.sd-next {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* ---- Blue screen easter egg ---- */
+.blue-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 9500;
+  overflow: auto;
+  padding: clamp(24px, 8vh, 90px) clamp(18px, 8vw, 110px);
+  color: #fff;
+  background: #1e3fae;
+  font: clamp(13px, 1.6vw, 18px) / 1.6 'Lucida Console', Consolas, 'Courier New', monospace;
+  cursor: default;
+  animation: blue-screen-on 250ms ease-out;
+}
+@keyframes blue-screen-on {
+  from {
+    transform: scaleY(0.02);
+    filter: brightness(3);
+  }
+}
+.blue-screen-inner {
+  max-width: 900px;
+}
+.blue-screen p {
+  margin: 0 0 1.2em;
+}
+.blue-screen-badge {
+  display: inline-block;
+  margin: 0 0 1.4em;
+  padding: 0 0.5em;
+  font: inherit;
+  font-weight: bold;
+  color: #1e3fae;
+  background: #c9d4ff;
+}
+.blue-screen-code {
+  color: #c9d4ff;
+  overflow-wrap: anywhere;
+}
+.blue-screen-cursor {
+  animation: blue-screen-blink 1s steps(1) infinite;
+}
+@keyframes blue-screen-blink {
+  50% {
+    opacity: 0;
+  }
+}
+.blue-screen-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.blue-screen-actions button,
+.blue-screen-actions a {
+  min-height: 40px;
+  padding: 6px 16px;
+  font: inherit;
+  color: #1e3fae;
+  text-decoration: none;
+  background: #fff;
+  border: 0;
+  cursor: pointer;
+}
+.blue-screen-actions :focus-visible {
+  outline: 3px solid #ffd34d;
+  outline-offset: 3px;
+}
+
+/* ---- Phone home screen: Restart button ---- */
+.mobile-restart {
+  display: flex;
+  margin: 22px auto 0;
+}
+
+/* ================= Screensaver ================= */
+.screensaver {
+  --ss-w: 230px;
+  --ss-h: 84px;
+  position: fixed;
+  inset: 0;
+  z-index: 9800;
+  overflow: hidden;
+  cursor: none;
+  animation: screensaver-in 800ms ease both;
+}
+@keyframes screensaver-in {
+  from {
+    opacity: 0;
+  }
+}
+.screensaver.is-retro {
+  background: #2f6fd6 url('/wallpaper.jpg') center / cover;
+}
+.screensaver.is-modern {
+  background: linear-gradient(135deg, #eef2ff, #f8eefb);
+}
+.screensaver.is-future {
+  background: #02040e;
+}
+/* The classic bouncing logo: two independent linear back-and-forth moves (x and y, different speeds). */
+.screensaver-x {
+  position: absolute;
+  inset: 0 auto auto 0;
+  animation: ss-x 11s linear infinite alternate;
+}
+.screensaver-y {
+  animation: ss-y 7.3s linear infinite alternate;
+}
+@keyframes ss-x {
+  to {
+    transform: translateX(calc(100vw - var(--ss-w)));
+  }
+}
+@keyframes ss-y {
+  to {
+    transform: translateY(calc(100vh - var(--ss-h)));
+  }
+}
+.screensaver-badge {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: var(--ss-w);
+  height: var(--ss-h);
+  padding: 0 18px;
+  font: bold 34px/1 var(--font-ui);
+  letter-spacing: -1px;
+}
+.is-retro .screensaver-badge {
+  color: #fff;
+  background: linear-gradient(160deg, #1d4fa8, #0b2a6b);
+  border-radius: 18px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+.is-retro .screensaver-badge b {
+  color: #ff9d2e;
+  font-style: italic;
+}
+.is-modern .screensaver-badge {
+  color: #1b1f27;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  border-radius: 22px;
+  box-shadow: 0 14px 40px rgba(40, 60, 140, 0.2);
+  font-weight: 600;
+}
+.screensaver-hint {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 18px;
+  margin: 0;
+  font-size: 12px;
+  text-align: center;
+  color: #fff;
+  text-shadow: var(--label-halo);
+  opacity: 0.8;
+}
+.is-modern .screensaver-hint {
+  color: #3c4454;
+  text-shadow: none;
+}
+.is-future .screensaver-hint {
+  font-family: var(--font-mono);
+  letter-spacing: 0.12em;
+  color: #8fdfff;
+  text-shadow: none;
+}
+
+/* ================= Terminal ================= */
+.app.terminal {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 260px;
+  padding: 0;
+  line-height: 1.45;
+  --term-bg: #000;
+  --term-fg: #c0c0c0;
+  --term-prompt: #fff;
+  --term-link: #8ab4ff;
+  --term-font: 'Lucida Console', Consolas, 'Courier New', monospace;
+  color: var(--term-fg);
+  background: var(--term-bg);
+}
+.term-screen {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: 10px 12px;
+  font: 13px/1.5 var(--term-font);
+  cursor: text;
+}
+.term-line {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.term-prompt {
+  color: var(--term-prompt);
+  white-space: nowrap;
+}
+.term-line a {
+  color: var(--term-link);
+}
+.term-input-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6em;
+}
+.term-input {
+  flex: 1;
+  min-width: 0;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  background: transparent;
+  border: 0;
+  outline: none;
+  caret-color: var(--term-prompt);
+}
+/* The input has no border of its own, so show keyboard focus on its row. */
+.term-input-row:focus-within {
+  box-shadow: inset 2px 0 0 var(--focus);
+}
+.term-quick {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 8px 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+.term-quick button {
+  min-height: 30px;
+  padding: 3px 10px;
+  font: 12px var(--term-font);
+  color: var(--term-fg);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  cursor: pointer;
+}
+.term-quick button:hover {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+/* Retro: the classic black command prompt, with XP buttons along the bottom. */
+[data-theme='retro'] .term-quick {
+  background: #ece9d8;
+  border-top: 1px solid #a9b8d0;
+}
+[data-theme='retro'] .term-quick button {
+  font: 12px Tahoma, Verdana, sans-serif;
+  color: var(--text);
+  background: linear-gradient(180deg, #fff 0%, #f4f3ee 60%, #e3e1d6 100%);
+  border: 1px solid #5b6f91;
+  border-radius: 4px;
+}
+
+/* Modern: a sleek dark terminal with soft colors and pill buttons. */
+[data-theme='modern'] .app.terminal {
+  --term-bg: #1d1f29;
+  --term-fg: #e3e6ee;
+  --term-prompt: #8fb6ff;
+  --term-link: #9ec2ff;
+  --term-font: 'Cascadia Code', 'Cascadia Mono', Consolas, 'SF Mono', Menlo, monospace;
+}
+[data-theme='modern'] .term-screen {
+  padding: 14px 16px;
+}
+[data-theme='modern'] .term-quick {
+  background: #232633;
+  border-top-color: rgba(255, 255, 255, 0.06);
+}
+[data-theme='modern'] .term-quick button {
+  border-radius: 999px;
+  border-color: rgba(255, 255, 255, 0.14);
+}
+
+/* Future: neon on deep space. */
+[data-theme='future'] .app.terminal {
+  --term-bg: #02040e;
+  --term-fg: #bff1ff;
+  --term-prompt: #ff4fd8;
+  --term-link: #6fe3ff;
+  --term-font: var(--font-mono);
+}
+[data-theme='future'] .term-screen {
+  text-shadow: 0 0 6px rgba(111, 227, 255, 0.35);
+  background: repeating-linear-gradient(180deg, rgba(255, 255, 255, 0.02) 0 1px, transparent 1px 3px);
+}
+[data-theme='future'] .term-quick {
+  background: #050c1c;
+  border-top: 1px solid rgba(111, 227, 255, 0.28);
+}
+[data-theme='future'] .term-quick button {
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #6fe3ff;
+  border-color: rgba(111, 227, 255, 0.6);
+  background: rgba(111, 227, 255, 0.06);
+  clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px);
+}
+
+/* Phones: the sheet body scrolls, so let the terminal fill it. */
+.mobile .app.terminal {
+  min-height: 100%;
+}

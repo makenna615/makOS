@@ -62,7 +62,7 @@ interface Blob {
   color: [number, number, number];
 }
 
-export const liquidBlobs: Wallpaper = async (canvas, { reducedMotion }) => {
+export const liquidBlobs: Wallpaper = async (canvas, { reducedMotion, ignorePause }) => {
   const gl = getWebGL(canvas);
   if (!gl || !gl.getExtension('OES_standard_derivatives')) {
     if (gl) releaseWebGL(gl);
@@ -163,7 +163,7 @@ export const liquidBlobs: Wallpaper = async (canvas, { reducedMotion }) => {
       if ((b.y < 0 && b.vy < 0) || (b.y > cssH && b.vy > 0)) b.vy *= -1;
     }
     draw();
-  }, reducedMotion);
+  }, reducedMotion, 60, ignorePause);
   canvas.classList.add('is-ready');
 
   return () => {

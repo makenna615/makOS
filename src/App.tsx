@@ -1,12 +1,15 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { APP_COMPONENTS } from './apps/registry';
+import { BlueScreen, type BlueScreenCause } from './components/BlueScreen';
 import { BootScreen } from './components/BootScreen';
 import { Desktop } from './components/Desktop';
 import { MobileLauncher } from './components/MobileLauncher';
+import { Screensaver } from './components/Screensaver';
 import { Taskbar } from './components/Taskbar';
 import { ThemeSwitch } from './components/ThemeSwitch';
 import { Wallpaper } from './components/Wallpaper';
 import { Window } from './components/Window';
+import { BLUE_SCREEN_EVENT } from './apps/terminalCommands';
 import { MOBILE_QUERY, useMediaQuery } from './hooks/useMediaQuery';
 import { openApp } from './store/actions';
 import { useWindowStore } from './store/windows';
@@ -14,6 +17,9 @@ import { applyThemeToDocument, useThemeStore } from './theme/theme';
 
 const BOOT_KEY = 'makos:booted';
 const TASKBAR_HEIGHT = 40;
+/** Easter egg: this many restarts within RESTART_WINDOW_MS shows the joke blue screen. */
+export const RESTARTS_FOR_BLUE_SCREEN = 3;
+export const RESTART_WINDOW_MS = 5 * 60 * 1000;
 
 function hasBootedThisSession() {
   try {
@@ -39,14 +45,59 @@ export function App() {
     setBooting(false);
   }, []);
 
+  const [blueScreen, setBlueScreen] = useState<null | BlueScreenCause>(null);
+  const restarts = useRef<number[]>([]);
+
   const restart = useCallback(() => {
+    useWindowStore.getState().closeAll();
+    const now = Date.now();
+    restarts.current = [...restarts.current.filter((t) => now - t < RESTART_WINDOW_MS), now];
+    if (restarts.current.length >= RESTARTS_FOR_BLUE_SCREEN) {
+      restarts.current = [];
+      setBlueScreen('restart');
+    } else {
+      setBooting(true);
+    }
+  }, []);
+
+  // Easter egg shortcut: Ctrl+Alt+B (for bug). Uses the key's position, so it works on any keyboard layout.
+  useEffect(() => {
+    if (booting) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.ctrlKey && event.altKey && !event.metaKey && event.code === 'KeyB') {
+        event.preventDefault();
+        setBlueScreen('keys');
+      }
+    };
+    // The terminal's "rm -rf /" asks for it too.
+    const onRequest = () => setBlueScreen('terminal');
+    window.addEventListener('keydown', onKeyDown);
+    window.addEventListener(BLUE_SCREEN_EVENT, onRequest);
+    return () => {
+      window.removeEventListener('keydown', onKeyDown);
+      window.removeEventListener(BLUE_SCREEN_EVENT, onRequest);
+    };
+  }, [booting]);
+
+  const closeBlueScreen = useCallback(() => {
+    // After the restart version, the windows were already closed: land on About Me again, like a fresh start.
+    if (blueScreen === 'restart' && !isMobile) openApp('about', null);
+    setBlueScreen(null);
+  }, [blueScreen, isMobile]);
+
+  const restartFromBlueScreen = useCallback(() => {
+    setBlueScreen(null);
     useWindowStore.getState().closeAll();
     setBooting(true);
   }, []);
 
   if (booting) return <BootScreen onDone={finishBoot} />;
-  if (isMobile) return <MobileLauncher />;
-  return <DesktopShell onRestart={restart} />;
+  return (
+    <>
+      {isMobile ? <MobileLauncher onRestart={restart} /> : <DesktopShell onRestart={restart} />}
+      {blueScreen && <BlueScreen cause={blueScreen} onClose={closeBlueScreen} onRestart={restartFromBlueScreen} />}
+    </>
+  );
 }
 
 function DesktopShell({ onRestart }: { onRestart: () => void }) {
@@ -90,6 +141,7 @@ function DesktopShell({ onRestart }: { onRestart: () => void }) {
         })}
       </main>
       <Taskbar onRestart={onRestart} />
+      <Screensaver />
     </div>
   );
 }
