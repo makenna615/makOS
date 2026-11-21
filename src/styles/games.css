@@ -381,7 +381,11 @@
 }
 .sd-share {
   margin: 6px 0;
-  font: 14px/1.2 var(--font-mono, Consolas, monospace);
+  /* Emoji fonts first: code fonts (like the Future theme's) have their own plain ⬜ that
+     doesn't match the colored 🟦 and 🟨 squares. */
+  font: 16px/1.25 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', var(--font-ui);
+  font-variant-emoji: emoji;
+  letter-spacing: 1px;
 }
 .sd-stats,
 .sd-next {
