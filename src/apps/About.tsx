@@ -52,9 +52,14 @@ export function About({ onOpenApp }: AppProps) {
       <fieldset className="groupbox">
         <legend>About this site</legend>
         <p>
-          makOS is a desktop OS I built from scratch in React and TypeScript. The window manager (drag, resize, focus
+          makOS is a desktop OS I built in React and TypeScript using Claude Code. The window manager (drag, resize, focus
           order, minimize and maximize) uses plain pointer events and a Zustand store, with no window library. It is
           tested with Vitest and Playwright, checked with axe in CI, and every bit of it works from the keyboard.
+        </p>
+        <p>
+          Use the switch at the top of the screen to change themes: <strong>Retro</strong>, <strong>Modern</strong> or{' '}
+          <strong>Future</strong>. Each one restyles the whole desktop and has its own animated wallpaper, drawn with WebGL
+          or canvas. Your choice is remembered for next time.
         </p>
         <table className="shortcuts">
           <caption className="visually-hidden">Keyboard shortcuts</caption>

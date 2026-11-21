@@ -47,6 +47,8 @@ export const MIN_HEIGHT = 180;
 export const GRAB_MARGIN = 80;
 export const TITLE_BAR_HEIGHT = 30;
 const CASCADE_STEP = 28;
+/** New windows open below the theme switch at the top middle of the desktop (10px + ~38px tall, plus a gap). */
+export const OPEN_TOP = 64;
 
 const clamp = (value: number, min: number, max: number) => Math.min(Math.max(value, min), Math.max(min, max));
 
@@ -70,15 +72,18 @@ export function getFocusedId(state: Pick<WindowStore, 'windows' | 'order'>): App
 function initialRect(id: AppId, openCount: number, viewport: Viewport): Rect {
   const app = APPS[id];
   const width = Math.min(app.defaultSize.width, viewport.width - 24);
-  const height = Math.min(app.defaultSize.height, viewport.height - 24);
+  // Shrink to fit between the theme switch and the taskbar on short screens.
+  const height = Math.max(MIN_HEIGHT, Math.min(app.defaultSize.height, viewport.height - OPEN_TOP - 8));
   const step = (openCount % 6) * CASCADE_STEP;
   const centerX = Math.round((viewport.width - width) / 2);
   const centerY = Math.round((viewport.height - height) / 3);
+  // Top edge: never under the switch, unless the screen is too short for that to fit at all.
+  const top = Math.max(8, Math.min(OPEN_TOP, viewport.height - height - 8));
   return {
     width,
     height,
     x: clamp(centerX + step - CASCADE_STEP, 8, viewport.width - width - 8),
-    y: clamp(centerY + step - CASCADE_STEP, 8, viewport.height - height - 8),
+    y: clamp(centerY + step - CASCADE_STEP, top, viewport.height - height - 8),
   };
 }
 

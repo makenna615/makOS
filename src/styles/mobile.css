@@ -8,6 +8,16 @@
   background: var(--sky-600) url('/wallpaper-mobile.jpg') 75% center / cover no-repeat;
   background-image: image-set(url('/wallpaper-mobile.jpg') 1x, url('/wallpaper.jpg') 2x);
 }
+/* Everything sits above the animated wallpaper canvas. */
+.mobile > :not(.wallpaper-host) {
+  position: relative;
+  z-index: 1;
+}
+.mobile-theme {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 14px;
+}
 .mobile-status {
   display: flex;
   justify-content: space-between;

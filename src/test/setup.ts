@@ -2,6 +2,10 @@ import '@testing-library/jest-dom/vitest';
 import { afterEach, beforeEach, vi } from 'vitest';
 import { cleanup } from '@testing-library/react';
 import { useWindowStore } from '../store/windows';
+import { DEFAULT_THEME, useThemeStore } from '../theme/theme';
+
+// jsdom has no canvas. Returning null makes the animated wallpaper fall back to its still background.
+HTMLCanvasElement.prototype.getContext = (() => null) as typeof HTMLCanvasElement.prototype.getContext;
 
 // jsdom has no matchMedia; default to a desktop-sized, motion-friendly environment.
 Object.defineProperty(window, 'matchMedia', {
@@ -29,4 +33,6 @@ afterEach(() => {
   cleanup();
   useWindowStore.setState({ windows: {}, order: [], viewport: { width: 1280, height: 760 } });
   sessionStorage.clear();
+  localStorage.clear();
+  useThemeStore.setState({ theme: DEFAULT_THEME });
 });

@@ -3,6 +3,8 @@ import { APPS, DESKTOP_APPS, LINKS, type AppId } from '../data/apps';
 import { APP_COMPONENTS } from '../apps/registry';
 import { Clock } from './Clock';
 import { Icon } from './Icons';
+import { ThemeSwitch } from './ThemeSwitch';
+import { Wallpaper } from './Wallpaper';
 import { WeatherWidget } from './Weather';
 
 /**
@@ -43,6 +45,7 @@ export function MobileLauncher() {
 
   return (
     <div className="mobile">
+      <Wallpaper />
       <header className="mobile-status">
         <span className="mobile-brand">
           <Icon name="logo" size={20} /> makOS
@@ -54,6 +57,9 @@ export function MobileLauncher() {
         </span>
       </header>
       <main className="mobile-home">
+        <div className="mobile-theme">
+          <ThemeSwitch />
+        </div>
         <div className="mobile-intro">
           <h1>Makenna Peters</h1>
           <p>Full-stack software engineer: Ruby on Rails, React and TypeScript, 4+ years in K-12 EdTech.</p>
@@ -73,7 +79,9 @@ export function MobileLauncher() {
                   setOpenId(id);
                 }}
               >
-                <Icon name={APPS[id].icon} size={40} />
+                <span className="desktop-icon-art">
+                  <Icon name={APPS[id].icon} size={40} />
+                </span>
                 <span>{APPS[id].label}</span>
               </button>
             </li>

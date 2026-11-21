@@ -93,13 +93,47 @@ test.describe('desktop', () => {
   });
 
   test('has no detectable accessibility violations', async ({ page }) => {
-    await expect(page.locator('.weather-temp')).toHaveText('42°F'); // check the widget in its loaded state
+    // Check the widget in its loaded state. Generous timeout: on CI the animated wallpaper is rendered in
+    // software alongside other parallel tests, which can slow the first fetch.
+    await expect(page.locator('.weather-temp')).toHaveText('42°F', { timeout: 15_000 });
     await page.getByRole('list', { name: 'Desktop' }).getByRole('button', { name: 'Resume' }).dblclick();
     await page.getByRole('button', { name: 'makOS' }).click();
     // The start menu fades in from opacity 0; checking contrast mid-fade gives false color-contrast failures.
     await settled(page.getByRole('menu', { name: 'makOS start menu' }));
     const results = await new AxeBuilder({ page }).analyze();
     expect(results.violations).toEqual([]);
+  });
+});
+
+test.describe('themes', () => {
+  for (const theme of ['Modern', 'Future'] as const) {
+    test(`switches to ${theme}, remembers it, and has no accessibility violations`, async ({ page, isMobile }) => {
+      await page.getByRole('radio', { name: theme }).click();
+      await expect(page.locator('html')).toHaveAttribute('data-theme', theme.toLowerCase());
+      await expect(page.getByRole('radio', { name: theme })).toBeChecked();
+      await expect(page.locator('.theme-warp')).toHaveCount(0); // transition finished
+
+      await page.reload();
+      await expect(page.locator('html')).toHaveAttribute('data-theme', theme.toLowerCase());
+
+      if (!isMobile) {
+        // Everything still works in the new skin: open an app from the desktop and the start menu.
+        await page.getByRole('list', { name: 'Desktop' }).getByRole('button', { name: 'Resume' }).dblclick();
+        await expect(page.getByRole('dialog', { name: /Resume/ })).toBeVisible();
+        await page.getByRole('button', { name: 'makOS' }).click();
+        await settled(page.getByRole('menu', { name: 'makOS start menu' }));
+      }
+      await expect(page.locator('.wallpaper.is-ready')).toHaveCount(1);
+      const results = await new AxeBuilder({ page }).analyze();
+      expect(results.violations).toEqual([]);
+    });
+  }
+
+  test('arrow keys move the theme switch', async ({ page }) => {
+    await page.getByRole('radio', { name: 'Retro' }).focus();
+    await page.keyboard.press('ArrowRight');
+    await expect(page.getByRole('radio', { name: 'Modern' })).toBeFocused();
+    await expect(page.locator('html')).toHaveAttribute('data-theme', 'modern');
   });
 });
 

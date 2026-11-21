@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from 'vitest';
-import { GRAB_MARGIN, MIN_HEIGHT, MIN_WIDTH, getFocusedId, useWindowStore } from './windows';
+import { GRAB_MARGIN, MIN_HEIGHT, MIN_WIDTH, OPEN_TOP, getFocusedId, useWindowStore } from './windows';
 
 const store = () => useWindowStore.getState();
 
@@ -30,6 +30,18 @@ describe('window store', () => {
     const b = store().windows.perfumes!;
     expect(b.x).not.toBe(a.x);
     expect(b.y).not.toBe(a.y);
+  });
+
+  it('opens new windows below the theme switch, fitting short screens', () => {
+    store().open('about');
+    expect(store().windows.about!.y).toBeGreaterThanOrEqual(OPEN_TOP);
+
+    store().closeAll();
+    store().setViewport({ width: 1280, height: 560 });
+    store().open('resume');
+    const win = store().windows.resume!;
+    expect(win.y).toBeGreaterThanOrEqual(OPEN_TOP);
+    expect(win.y + win.height).toBeLessThanOrEqual(560);
   });
 
   it('closes a window and focus falls to the next one down', () => {

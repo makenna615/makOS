@@ -4,10 +4,13 @@ import { BootScreen } from './components/BootScreen';
 import { Desktop } from './components/Desktop';
 import { MobileLauncher } from './components/MobileLauncher';
 import { Taskbar } from './components/Taskbar';
+import { ThemeSwitch } from './components/ThemeSwitch';
+import { Wallpaper } from './components/Wallpaper';
 import { Window } from './components/Window';
 import { MOBILE_QUERY, useMediaQuery } from './hooks/useMediaQuery';
 import { openApp } from './store/actions';
 import { useWindowStore } from './store/windows';
+import { applyThemeToDocument, useThemeStore } from './theme/theme';
 
 const BOOT_KEY = 'makos:booted';
 const TASKBAR_HEIGHT = 40;
@@ -23,6 +26,9 @@ function hasBootedThisSession() {
 export function App() {
   const isMobile = useMediaQuery(MOBILE_QUERY);
   const [booting, setBooting] = useState(() => !hasBootedThisSession());
+  const theme = useThemeStore((s) => s.theme);
+
+  useEffect(() => applyThemeToDocument(theme), [theme]);
 
   const finishBoot = useCallback(() => {
     try {
@@ -70,7 +76,9 @@ function DesktopShell({ onRestart }: { onRestart: () => void }) {
         Skip to taskbar
       </a>
       <main className="desktop" aria-label="makOS desktop">
+        <Wallpaper />
         <h1 className="visually-hidden">makOS: Makenna Peters, full-stack software engineer</h1>
+        <ThemeSwitch />
         <Desktop />
         {ids.map((id) => {
           const Content = APP_COMPONENTS[id];

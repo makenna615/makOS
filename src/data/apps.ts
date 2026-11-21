@@ -23,7 +23,7 @@ export const APPS: Record<AppId, AppMeta> = {
     label: 'About Me',
     icon: 'about',
     description: 'Who I am and what I build',
-    defaultSize: { width: 640, height: 520 },
+    defaultSize: { width: 640, height: 480 },
   },
   resume: {
     id: 'resume',

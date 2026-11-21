@@ -92,7 +92,9 @@ export function Desktop() {
               onFocus={() => select(id)}
               onKeyDown={(e) => onKeyDown(e, index, id)}
             >
-              <Icon name={app.icon} size={44} />
+              <span className="desktop-icon-art">
+                <Icon name={app.icon} size={44} />
+              </span>
               <span className="desktop-icon-label">{app.label}</span>
             </button>
             <span id={`desc-${id}`} className="visually-hidden">

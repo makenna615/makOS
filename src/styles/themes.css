@@ -1,0 +1,1061 @@
+/*
+ * Themes: <html data-theme="retro | modern | future">.
+ * Retro is the original look, defined in the other stylesheets; it only gains the animated
+ * wallpaper and the theme switch. Everything else here is scoped to Modern or Future.
+ */
+
+/* ================= Theme switch (all themes) ================= */
+.theme-switch {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  z-index: 4000; /* above windows, below the taskbar and start menu */
+  display: flex;
+  align-items: stretch;
+  transform: translateX(-50%);
+}
+.mobile .theme-switch {
+  position: relative;
+  top: auto;
+  left: auto;
+  transform: none;
+}
+.theme-switch-option {
+  position: relative;
+  z-index: 1;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 250ms;
+}
+.theme-switch-thumb {
+  position: absolute;
+  z-index: 0;
+  left: 0;
+  width: 0;
+  transition:
+    left 350ms cubic-bezier(0.3, 0.7, 0.2, 1),
+    width 350ms cubic-bezier(0.3, 0.7, 0.2, 1);
+}
+
+/* Retro: glossy blue bar, the chosen era is a green pill like the Start button. */
+[data-theme='retro'] .theme-switch {
+  padding: 3px;
+  gap: 2px;
+  border: 1px solid #0a3aa8;
+  border-radius: 9px;
+  background: linear-gradient(180deg, #5ea0f5 0%, #2f72e3 12%, #2361d6 50%, #1e57c8 88%, #1747ad 100%);
+  box-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.45);
+}
+[data-theme='retro'] .theme-switch-option {
+  padding: 5px 16px;
+  font: bold 13px Tahoma, Verdana, sans-serif;
+  color: #fff;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.45);
+  border-radius: 6px;
+}
+[data-theme='retro'] .theme-switch-option:hover {
+  color: #fff6c8;
+}
+[data-theme='retro'] .theme-switch-option:focus-visible {
+  outline-color: #fff;
+  outline-offset: -3px;
+}
+[data-theme='retro'] .theme-switch-thumb {
+  top: 3px;
+  bottom: 3px;
+  border-radius: 6px;
+  background: linear-gradient(180deg, #4caf4a 0%, #2a8a2e 50%, #1f7424 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    inset 0 -2px 3px rgba(0, 0, 0, 0.2),
+    0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Modern: frosted-glass pill with a sliding white thumb. */
+[data-theme='modern'] .theme-switch {
+  padding: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(24px) saturate(1.6);
+  box-shadow: 0 8px 24px rgba(30, 40, 90, 0.18);
+}
+[data-theme='modern'] .theme-switch-option {
+  padding: 7px 18px;
+  font: 600 13px var(--font-ui);
+  color: #3c4454;
+  border-radius: 999px;
+}
+[data-theme='modern'] .theme-switch-option.is-on {
+  color: #11151c;
+}
+[data-theme='modern'] .theme-switch-thumb {
+  top: 4px;
+  bottom: 4px;
+  border-radius: 999px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(30, 40, 90, 0.18);
+}
+
+/* Future: dark angled HUD panel, the chosen era framed in neon. */
+[data-theme='future'] .theme-switch {
+  padding: 4px 6px;
+  border: 1px solid rgba(80, 220, 255, 0.55);
+  background: rgba(2, 8, 20, 0.78);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 18px rgba(0, 190, 255, 0.25);
+  clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+}
+[data-theme='future'] .theme-switch-option {
+  padding: 6px 16px;
+  font: 12px var(--font-mono);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #8fc6dc;
+}
+[data-theme='future'] .theme-switch-option.is-on {
+  color: #e9fbff;
+  text-shadow: 0 0 8px rgba(111, 227, 255, 0.9);
+}
+[data-theme='future'] .theme-switch-option:focus-visible {
+  outline-offset: -2px;
+}
+[data-theme='future'] .theme-switch-thumb {
+  top: 4px;
+  bottom: 4px;
+  border: 1px solid #6fe3ff;
+  background: rgba(111, 227, 255, 0.12);
+  box-shadow:
+    0 0 12px rgba(111, 227, 255, 0.45),
+    inset 0 0 10px rgba(255, 79, 216, 0.25);
+  clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+}
+
+/* ---- Transition into each era (skipped entirely with reduced motion) ---- */
+.theme-warp {
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  pointer-events: none;
+  opacity: 0;
+  animation: 700ms ease-in-out both;
+}
+.theme-warp.to-retro {
+  background: radial-gradient(ellipse, #fff 0%, #000 70%);
+  animation-name: warp-crt;
+}
+.theme-warp.to-modern {
+  background: #fff;
+  animation-name: warp-fade;
+}
+.theme-warp.to-future {
+  background: repeating-linear-gradient(180deg, #6fe3ff 0 2px, #01040d 2px 6px);
+  animation-name: warp-fade;
+}
+@keyframes warp-fade {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  45%,
+  55% {
+    opacity: 1;
+  }
+}
+@keyframes warp-crt {
+  0%,
+  100% {
+    opacity: 0;
+    transform: scaleY(1);
+  }
+  45%,
+  55% {
+    opacity: 1;
+    transform: scaleY(0.02);
+  }
+}
+
+:root {
+  --font-mono: 'Cascadia Code', Consolas, 'SF Mono', Menlo, ui-monospace, monospace;
+}
+
+/* ================= Modern ================= */
+[data-theme='modern'] {
+  --font-ui: 'Segoe UI Variable Text', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --focus: #2f5fe0;
+  --label-halo: 0 0 3px rgba(255, 255, 255, 0.95), 0 0 8px rgba(255, 255, 255, 0.8);
+  --accent: #2c58d6; /* 5.6:1 with white text */
+}
+[data-theme='modern'] .desktop,
+[data-theme='modern'] .mobile {
+  /* Still fallback, and what shows before the blobs fade in. */
+  background:
+    radial-gradient(circle at 25% 30%, #b9ccff 0, transparent 35%),
+    radial-gradient(circle at 75% 35%, #dcc8ff 0, transparent 35%),
+    radial-gradient(circle at 45% 80%, #bfeee2 0, transparent 35%),
+    linear-gradient(135deg, #eef2ff, #f8eefb);
+}
+
+/* Desktop icons: frosted rounded tiles, dark labels. */
+[data-theme='modern'] .desktop-icon {
+  color: #1b1f27;
+}
+[data-theme='modern'] .desktop-icon-art,
+[data-theme='modern'] .mobile-app .desktop-icon-art {
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 4px 14px rgba(30, 40, 80, 0.15);
+}
+[data-theme='modern'] .desktop-icon .icon,
+[data-theme='modern'] .desktop-icon.is-selected .icon {
+  width: 36px;
+  height: 36px;
+  filter: none;
+}
+[data-theme='modern'] .desktop-icon-label {
+  font-weight: 600;
+}
+[data-theme='modern'] .desktop-icon.is-selected .desktop-icon-label {
+  color: #fff;
+  background: var(--accent);
+}
+[data-theme='modern'] .desktop-icon.is-selected .desktop-icon-art {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(44, 88, 214, 0.35);
+}
+[data-theme='modern'] .desktop-icon:focus-visible {
+  border-color: var(--focus);
+}
+
+/* Taskbar: one frosted-glass bar. */
+[data-theme='modern'] .taskbar {
+  color: #1b1f27;
+  background: rgba(248, 249, 253, 0.78);
+  backdrop-filter: blur(28px) saturate(1.6);
+  border-top: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 -4px 20px rgba(20, 30, 70, 0.12);
+}
+[data-theme='modern'] .start-button {
+  margin: 4px 6px;
+  padding: 0 12px 0 8px;
+  font: 600 14px var(--font-ui);
+  color: #1b1f27;
+  text-shadow: none;
+  background: transparent;
+  border-radius: 10px;
+  box-shadow: none;
+}
+[data-theme='modern'] .start-button:hover,
+[data-theme='modern'] .start-button[aria-expanded='true'] {
+  filter: none;
+  background: rgba(0, 0, 0, 0.06);
+  box-shadow: none;
+}
+[data-theme='modern'] .start-button:focus-visible,
+[data-theme='modern'] .taskbar-window:focus-visible,
+[data-theme='modern'] .tray-icon:focus-visible {
+  outline-color: var(--focus);
+}
+[data-theme='modern'] .taskbar-window {
+  color: #1b1f27;
+  background: transparent;
+  border: 0;
+  border-radius: 8px;
+  box-shadow: none;
+}
+[data-theme='modern'] .taskbar-window:hover {
+  filter: none;
+  background: rgba(0, 0, 0, 0.05);
+}
+[data-theme='modern'] .taskbar-window.is-active {
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow:
+    0 1px 3px rgba(20, 30, 70, 0.12),
+    inset 0 -2px 0 var(--accent);
+}
+[data-theme='modern'] .tray {
+  color: #1b1f27;
+  background: transparent;
+  border-left: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: none;
+}
+[data-theme='modern'] .tray-divider {
+  border-left-color: rgba(0, 0, 0, 0.12);
+  border-right-color: transparent;
+}
+[data-theme='modern'] .tray-icon:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+[data-theme='modern'] .tray .icon,
+[data-theme='modern'] .weather-icon {
+  filter: none;
+}
+
+/* Start menu: rounded glass panel. */
+[data-theme='modern'] .start-menu {
+  bottom: calc(var(--taskbar-height) + 8px);
+  left: 8px;
+  background: rgba(250, 251, 255, 0.92);
+  backdrop-filter: blur(28px) saturate(1.6);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  border-radius: 14px;
+  box-shadow: 0 20px 50px rgba(20, 30, 70, 0.25);
+}
+[data-theme='modern'] .start-menu-header {
+  color: #1b1f27;
+  background: transparent;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+[data-theme='modern'] .start-name {
+  text-shadow: none;
+}
+[data-theme='modern'] .start-menu-list [role='menuitem'] {
+  border-radius: 8px;
+}
+[data-theme='modern'] .start-menu-list [role='menuitem']:hover,
+[data-theme='modern'] .start-menu-list [role='menuitem']:focus {
+  background: var(--accent);
+}
+[data-theme='modern'] .start-menu-list [role='menuitem']:hover .start-item-desc,
+[data-theme='modern'] .start-menu-list [role='menuitem']:focus .start-item-desc {
+  color: #fff;
+}
+
+/* Windows: rounded, light, flat controls. */
+[data-theme='modern'] .window {
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 12px;
+  box-shadow:
+    0 24px 60px rgba(20, 30, 70, 0.22),
+    0 2px 8px rgba(20, 30, 70, 0.1);
+}
+[data-theme='modern'] .window.is-focused {
+  border-color: rgba(0, 0, 0, 0.16);
+}
+[data-theme='modern'] .window.is-maximized,
+[data-theme='modern'] .window.is-maximized .titlebar {
+  border-radius: 0;
+}
+[data-theme='modern'] .titlebar,
+[data-theme='modern'] .window.is-focused .titlebar {
+  flex-basis: 34px;
+  margin: 0;
+  padding: 0 4px 0 12px;
+  color: #1b1f27;
+  background: #f3f5fa;
+  border-radius: 11px 11px 0 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+[data-theme='modern'] .window:not(.is-focused) .titlebar {
+  background: #eceef3;
+}
+[data-theme='modern'] .titlebar-title,
+[data-theme='modern'] .window:not(.is-focused) .titlebar-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: #1b1f27;
+  text-shadow: none;
+}
+[data-theme='modern'] .window:not(.is-focused) .titlebar-title {
+  color: #5d6575;
+}
+[data-theme='modern'] .tb-btn {
+  width: 32px;
+  height: 26px;
+  background: transparent;
+  border: 0;
+  border-radius: 6px;
+  box-shadow: none;
+}
+[data-theme='modern'] .window:not(.is-focused) .tb-btn {
+  opacity: 0.6;
+}
+[data-theme='modern'] .tb-btn:hover {
+  filter: none;
+  background: rgba(0, 0, 0, 0.07);
+}
+[data-theme='modern'] .tb-close:hover {
+  background: #e5484d;
+}
+[data-theme='modern'] .tb-min span::before {
+  left: 11px;
+  bottom: 12px;
+  width: 10px;
+  height: 1.5px;
+  background: #2a2f3a;
+}
+[data-theme='modern'] .tb-max span::before {
+  inset: 8px 11px;
+  border: 1.5px solid #2a2f3a;
+  border-radius: 2px;
+}
+[data-theme='modern'] .tb-restore span::before,
+[data-theme='modern'] .tb-restore span::after {
+  width: 8px;
+  height: 8px;
+  border: 1.5px solid #2a2f3a;
+  border-radius: 2px;
+}
+[data-theme='modern'] .tb-restore span::before {
+  top: 7px;
+  right: 10px;
+}
+[data-theme='modern'] .tb-restore span::after {
+  bottom: 7px;
+  left: 10px;
+  background: #f3f5fa;
+}
+[data-theme='modern'] .tb-close span::before,
+[data-theme='modern'] .tb-close span::after {
+  top: 12px;
+  left: 10px;
+  width: 12px;
+  height: 1.5px;
+  background: #2a2f3a;
+}
+[data-theme='modern'] .tb-close:hover span::before,
+[data-theme='modern'] .tb-close:hover span::after {
+  background: #fff;
+}
+[data-theme='modern'] .window-body {
+  border-radius: 0 0 11px 11px;
+}
+[data-theme='modern'] .window.is-maximized .window-body {
+  border-radius: 0;
+}
+
+/* Buttons inside apps. */
+[data-theme='modern'] .btn {
+  min-height: 30px;
+  padding: 4px 14px;
+  font-weight: 600;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.14);
+  border-radius: 8px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+[data-theme='modern'] .btn:hover {
+  border-color: rgba(0, 0, 0, 0.24);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+[data-theme='modern'] .btn-primary {
+  color: #fff;
+  background: #2f5fe0;
+  border-color: #2f5fe0;
+  box-shadow: none;
+}
+[data-theme='modern'] .btn-primary:hover {
+  background: #2552c9;
+}
+
+/* Phone layout. */
+[data-theme='modern'] .mobile-status {
+  color: #1b1f27;
+  background: rgba(248, 249, 253, 0.8);
+  backdrop-filter: blur(20px);
+}
+[data-theme='modern'] .mobile-app {
+  color: #1b1f27;
+  font-weight: 600;
+}
+[data-theme='modern'] .mobile-app:focus-visible {
+  outline-color: var(--focus);
+}
+[data-theme='modern'] .mobile-intro {
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(20, 30, 70, 0.15);
+}
+[data-theme='modern'] .mobile-sheet-bar {
+  color: #1b1f27;
+  background: #f3f5fa;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+[data-theme='modern'] .mobile-sheet-bar h2 {
+  text-shadow: none;
+}
+[data-theme='modern'] .mobile-back {
+  color: #1b1f27;
+  background: #fff;
+  border-color: rgba(0, 0, 0, 0.14);
+  border-radius: 8px;
+}
+
+/* ================= Future ================= */
+[data-theme='future'] {
+  --focus: #ff4fd8;
+  --link: #6fe3ff; /* page-wide, so buttons and links outside windows (phone home screen) are readable too */
+  --neon: #6fe3ff;
+  --neon-dim: rgba(80, 220, 255, 0.45);
+  --magenta: #ff4fd8;
+  --label-halo: 0 0 6px rgba(0, 0, 0, 0.9), 0 0 2px #000;
+}
+[data-theme='future'] .desktop,
+[data-theme='future'] .mobile {
+  background: radial-gradient(ellipse at 50% 40%, #071634 0%, #02040e 70%);
+}
+
+/* Desktop icons: glowing hexagon tiles, uppercase monospace labels. */
+[data-theme='future'] .desktop-icon {
+  color: #bff1ff;
+}
+[data-theme='future'] .desktop-icon-art,
+[data-theme='future'] .mobile-app .desktop-icon-art {
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  width: 58px;
+  height: 52px;
+}
+[data-theme='future'] .desktop-icon-art::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(160deg, rgba(111, 227, 255, 0.28), rgba(111, 227, 255, 0.08));
+  clip-path: polygon(25% 0, 75% 0, 100% 50%, 75% 100%, 25% 100%, 0 50%);
+}
+[data-theme='future'] .desktop-icon .icon,
+[data-theme='future'] .mobile-app .icon {
+  position: relative;
+  width: 34px;
+  height: 34px;
+  filter: drop-shadow(0 0 6px rgba(111, 227, 255, 0.7));
+}
+[data-theme='future'] .desktop-icon.is-selected .icon {
+  filter: drop-shadow(0 0 8px rgba(255, 79, 216, 0.9));
+}
+[data-theme='future'] .desktop-icon-label,
+[data-theme='future'] .mobile-app {
+  font: 11px var(--font-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+[data-theme='future'] .desktop-icon-label {
+  text-shadow: 0 0 6px rgba(80, 220, 255, 0.6), var(--label-halo);
+}
+[data-theme='future'] .desktop-icon.is-selected .desktop-icon-label {
+  color: #02040e;
+  background: var(--neon);
+  text-shadow: none;
+}
+[data-theme='future'] .desktop-icon:focus-visible {
+  border-color: var(--magenta);
+}
+
+/* Taskbar: dark glass with a neon top edge. */
+[data-theme='future'] .taskbar {
+  color: #8fdfff;
+  background: rgba(2, 8, 20, 0.85);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid transparent;
+  border-image: linear-gradient(90deg, var(--neon), var(--magenta) 60%, transparent) 1;
+  box-shadow: none;
+}
+[data-theme='future'] .start-button {
+  padding: 0 18px 0 12px;
+  font: 12px var(--font-mono);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--neon);
+  text-shadow: 0 0 8px rgba(111, 227, 255, 0.6);
+  background: transparent;
+  border-right: 1px solid rgba(80, 220, 255, 0.3);
+  border-radius: 0;
+  box-shadow: none;
+}
+[data-theme='future'] .start-button:hover,
+[data-theme='future'] .start-button[aria-expanded='true'] {
+  filter: none;
+  background: rgba(111, 227, 255, 0.1);
+  box-shadow: none;
+}
+[data-theme='future'] .taskbar-window {
+  font: 11px var(--font-mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #cdf5ff;
+  background: rgba(80, 220, 255, 0.08);
+  border: 1px solid var(--neon-dim);
+  border-radius: 0;
+  box-shadow: none;
+}
+[data-theme='future'] .taskbar-window:hover {
+  filter: none;
+  background: rgba(80, 220, 255, 0.16);
+}
+[data-theme='future'] .taskbar-window.is-active {
+  color: #fff;
+  background: rgba(111, 227, 255, 0.2);
+  border-color: var(--neon);
+  box-shadow: 0 0 10px rgba(111, 227, 255, 0.35);
+}
+[data-theme='future'] .tray {
+  font-family: var(--font-mono);
+  color: #8fdfff;
+  background: transparent;
+  border-left: 1px solid rgba(80, 220, 255, 0.3);
+  box-shadow: none;
+}
+[data-theme='future'] .tray-divider {
+  border-left-color: rgba(80, 220, 255, 0.3);
+  border-right-color: transparent;
+}
+[data-theme='future'] .tray-icon:hover {
+  background: rgba(111, 227, 255, 0.14);
+}
+[data-theme='future'] .tray .icon,
+[data-theme='future'] .weather-icon {
+  filter: drop-shadow(0 0 4px rgba(111, 227, 255, 0.6));
+}
+
+/* Start menu: dark HUD panel. */
+[data-theme='future'] .start-menu {
+  color: #d8f3ff;
+  background: rgba(3, 12, 28, 0.95);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--neon-dim);
+  border-radius: 0;
+  box-shadow: 0 0 30px rgba(0, 190, 255, 0.2);
+}
+[data-theme='future'] .start-menu-header {
+  color: #e9fbff;
+  background: linear-gradient(90deg, rgba(111, 227, 255, 0.18), transparent);
+  border-bottom: 1px solid var(--magenta);
+}
+[data-theme='future'] .start-name {
+  font-family: var(--font-mono);
+  letter-spacing: 0.06em;
+  text-shadow: 0 0 8px rgba(111, 227, 255, 0.6);
+}
+[data-theme='future'] .start-menu-list [role='menuitem'] {
+  color: #d8f3ff;
+  border-radius: 0;
+}
+[data-theme='future'] .start-item-desc {
+  color: #8fb8cc;
+}
+[data-theme='future'] .start-menu-list [role='menuitem']:hover,
+[data-theme='future'] .start-menu-list [role='menuitem']:focus {
+  color: #fff;
+  background: rgba(111, 227, 255, 0.18);
+  box-shadow: inset 2px 0 0 var(--neon);
+}
+[data-theme='future'] .start-menu-list [role='menuitem']:hover .start-item-desc,
+[data-theme='future'] .start-menu-list [role='menuitem']:focus .start-item-desc {
+  color: #cdeffb;
+}
+[data-theme='future'] .start-separator {
+  background: linear-gradient(90deg, transparent, var(--neon-dim), transparent);
+}
+
+/* Windows: dark neon frame and title bar. The contents stay light so every app stays easy to read. */
+[data-theme='future'] .window {
+  border: 1px solid var(--neon-dim);
+  border-radius: 2px;
+  box-shadow:
+    0 0 28px rgba(0, 190, 255, 0.18),
+    0 16px 40px rgba(0, 0, 0, 0.5);
+}
+[data-theme='future'] .window.is-focused {
+  border-color: var(--neon);
+  box-shadow:
+    0 0 30px rgba(0, 190, 255, 0.3),
+    0 16px 40px rgba(0, 0, 0, 0.5);
+}
+[data-theme='future'] .titlebar,
+[data-theme='future'] .window.is-focused .titlebar {
+  margin: 0;
+  padding: 0 6px 0 10px;
+  color: #9fefff;
+  background: linear-gradient(90deg, rgba(80, 220, 255, 0.22), #061024 60%);
+  background-color: #061024;
+  border-radius: 0;
+  border-bottom: 1px solid rgba(80, 220, 255, 0.35);
+}
+[data-theme='future'] .window:not(.is-focused) .titlebar {
+  background: #0a1426;
+}
+[data-theme='future'] .titlebar-title,
+[data-theme='future'] .window:not(.is-focused) .titlebar-title {
+  font: 12px var(--font-mono);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #9fefff;
+  text-shadow: 0 0 8px rgba(111, 227, 255, 0.6);
+}
+[data-theme='future'] .window:not(.is-focused) .titlebar-title {
+  color: #7fb3c6;
+  text-shadow: none;
+}
+[data-theme='future'] .titlebar-controls {
+  gap: 6px;
+}
+[data-theme='future'] .tb-btn {
+  width: 20px;
+  height: 20px;
+  background: transparent;
+  border: 1px solid rgba(111, 227, 255, 0.7);
+  border-radius: 0;
+  box-shadow: none;
+}
+[data-theme='future'] .tb-btn:hover {
+  filter: none;
+  background: rgba(111, 227, 255, 0.18);
+}
+[data-theme='future'] .tb-close {
+  border-color: var(--magenta);
+}
+[data-theme='future'] .tb-close:hover {
+  background: rgba(255, 79, 216, 0.25);
+}
+[data-theme='future'] .tb-min span::before {
+  left: 5px;
+  bottom: 5px;
+  width: 8px;
+  height: 1.5px;
+  background: var(--neon);
+}
+[data-theme='future'] .tb-max span::before {
+  inset: 5px;
+  border: 1.5px solid var(--neon);
+}
+[data-theme='future'] .tb-restore span::before,
+[data-theme='future'] .tb-restore span::after {
+  width: 7px;
+  height: 7px;
+  border: 1.5px solid var(--neon);
+}
+[data-theme='future'] .tb-restore span::before {
+  top: 3px;
+  right: 3px;
+}
+[data-theme='future'] .tb-restore span::after {
+  bottom: 3px;
+  left: 3px;
+  background: #061024;
+}
+[data-theme='future'] .tb-close span::before,
+[data-theme='future'] .tb-close span::after {
+  top: 8.5px;
+  left: 3px;
+  width: 12px;
+  height: 1.5px;
+  background: var(--magenta);
+}
+
+/* Phone layout. */
+[data-theme='future'] .mobile-status {
+  font-family: var(--font-mono);
+  color: #8fdfff;
+  background: rgba(2, 8, 20, 0.85);
+  border-bottom: 1px solid var(--neon-dim);
+}
+[data-theme='future'] .mobile-app {
+  color: #bff1ff;
+}
+[data-theme='future'] .mobile-app:focus-visible {
+  outline-color: var(--magenta);
+}
+[data-theme='future'] .mobile-intro {
+  color: #d8f3ff;
+  background: rgba(3, 12, 28, 0.88);
+  border: 1px solid var(--neon-dim);
+  border-radius: 2px;
+  box-shadow: 0 0 24px rgba(0, 190, 255, 0.2);
+}
+[data-theme='future'] .mobile-intro h1 {
+  color: #fff;
+  text-shadow: 0 0 10px rgba(111, 227, 255, 0.6);
+}
+[data-theme='future'] .mobile-sheet-bar {
+  color: #9fefff;
+  background: #061024;
+  border-bottom: 1px solid var(--neon-dim);
+}
+[data-theme='future'] .mobile-sheet-bar h2 {
+  font-family: var(--font-mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-shadow: 0 0 8px rgba(111, 227, 255, 0.6);
+}
+[data-theme='future'] .mobile-back {
+  color: var(--neon);
+  background: transparent;
+  border-color: var(--neon-dim);
+  border-radius: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-switch-thumb,
+  .wallpaper {
+    transition: none;
+  }
+}
+
+@media print {
+  .theme-switch,
+  .theme-warp,
+  .wallpaper-host {
+    display: none !important;
+  }
+}
+
+/* Windows High Contrast / forced colors: backgrounds are replaced, so mark the chosen theme with an outline. */
+@media (forced-colors: active) {
+  .theme-switch {
+    border: 1px solid CanvasText;
+  }
+  .theme-switch-option.is-on {
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+  }
+  .theme-switch-thumb {
+    display: none;
+  }
+}
+
+/* ================= Boot screens (Retro's is in desktop.css) ================= */
+.boot-modern {
+  display: grid;
+  justify-items: center;
+  gap: 16px;
+  animation: boot-rise 700ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+@keyframes boot-rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+}
+.boot.is-modern {
+  color: #1b1f27;
+  background:
+    radial-gradient(circle at 30% 30%, #c8d6ff, transparent 45%),
+    radial-gradient(circle at 70% 65%, #e3d0ff, transparent 45%),
+    linear-gradient(135deg, #f1f4ff, #f9f0fb);
+}
+.boot-tile {
+  display: grid;
+  place-items: center;
+  width: 104px;
+  height: 104px;
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  border-radius: 26px;
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 14px 40px rgba(40, 60, 140, 0.18);
+}
+.boot-modern-word {
+  margin: 0;
+  font: 600 34px/1 var(--font-ui);
+  letter-spacing: -0.02em;
+}
+.boot-spinner {
+  width: 26px;
+  height: 26px;
+  border: 3px solid rgba(44, 88, 214, 0.18);
+  border-top-color: #2c58d6;
+  border-radius: 50%;
+  animation: boot-spin 900ms linear infinite;
+}
+@keyframes boot-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.boot-modern-text {
+  margin: 0;
+  font-size: 14px;
+  color: #4c5463;
+}
+
+.boot.is-future {
+  align-items: stretch;
+  justify-content: flex-start;
+  color: #9fe6ff;
+  background: #02040e;
+}
+.boot.is-future::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0 1px, transparent 1px 3px);
+  pointer-events: none;
+}
+.boot-terminal {
+  width: min(100%, 860px);
+  margin: 0 auto;
+  padding: clamp(24px, 10vh, 120px) 24px 0;
+  font: clamp(12px, 1.6vw, 17px) / 1.7 var(--font-mono);
+}
+.boot-terminal-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 22px;
+  font-size: 1.6em;
+  letter-spacing: 0.2em;
+  color: #e9fbff;
+  text-shadow: 0 0 10px rgba(111, 227, 255, 0.7);
+}
+.boot-terminal-lines {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.boot-terminal-lines li {
+  display: flex;
+  gap: 0.6em;
+  white-space: nowrap;
+}
+.boot-terminal-time {
+  color: #5d8aa0;
+}
+.boot-terminal-text {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: clip;
+}
+/* Dot leaders between the text and the status, like a real boot log. */
+.boot-terminal-text::after {
+  content: ' ........................................................................';
+  color: #3f6578;
+}
+.boot-terminal-status {
+  color: #5bff9c;
+}
+.boot-terminal-status.is-boot {
+  color: #ff4fd8;
+}
+.boot-terminal-prompt {
+  margin: 18px 0 0;
+}
+.boot-cursor {
+  display: inline-block;
+  width: 0.6em;
+  height: 1.1em;
+  margin-left: 0.3em;
+  vertical-align: -0.15em;
+  background: #6fe3ff;
+  animation: boot-blink 1s steps(1) infinite;
+}
+@keyframes boot-blink {
+  50% {
+    opacity: 0;
+  }
+}
+.boot.is-future .boot-skip {
+  left: 0;
+  right: 0;
+  text-align: center;
+  color: #8fb3c6;
+  opacity: 1;
+}
+.boot.is-modern .boot-skip {
+  color: #4c5463;
+  opacity: 1;
+}
+
+/* ================= First-visit hint under the theme switch ================= */
+.theme-switch.is-hinting {
+  animation: theme-pulse 1.4s ease-in-out 3;
+}
+@keyframes theme-pulse {
+  0%,
+  100% {
+    scale: 1;
+  }
+  50% {
+    scale: 1.07;
+  }
+}
+.theme-hint {
+  position: absolute;
+  top: 62px;
+  left: 50%;
+  z-index: 4000;
+  margin: 0;
+  padding: 6px 12px;
+  font-size: 12px;
+  white-space: nowrap;
+  pointer-events: none;
+  translate: -50% 0;
+  animation: theme-hint-in 300ms ease-out both;
+}
+.theme-hint::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  background: inherit;
+  border: inherit;
+  border-right: 0;
+  border-bottom: 0;
+  translate: -50% 0;
+  rotate: 45deg;
+}
+@keyframes theme-hint-in {
+  from {
+    opacity: 0;
+    translate: -50% -6px;
+  }
+}
+.mobile-theme {
+  position: relative;
+}
+.mobile .theme-hint {
+  top: calc(100% + 10px);
+}
+/* Retro: the classic yellow balloon tip. */
+[data-theme='retro'] .theme-hint {
+  font-family: Tahoma, Verdana, sans-serif;
+  color: #111;
+  background: #ffffe1;
+  border: 1px solid #333;
+  border-radius: 6px;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+[data-theme='modern'] .theme-hint {
+  font-weight: 600;
+  color: #fff;
+  background: #1b1f27;
+  border: 1px solid #1b1f27;
+  border-radius: 8px;
+  box-shadow: 0 8px 20px rgba(20, 30, 70, 0.25);
+}
+[data-theme='future'] .theme-hint {
+  font-family: var(--font-mono);
+  letter-spacing: 0.08em;
+  color: #e9fbff;
+  background: #061024;
+  border: 1px solid var(--neon);
+  box-shadow: 0 0 14px rgba(111, 227, 255, 0.35);
+}
+
+/* Boot screen tip (all themes). */
+.boot-tip {
+  margin: 0;
+  font-size: 13px;
+  opacity: 0.85;
+}
+.boot.is-future .boot-tip {
+  margin-top: 6px;
+  font-family: var(--font-mono);
+  color: #8fb3c6;
+}
+.boot.is-modern .boot-tip {
+  color: #4c5463;
+}
