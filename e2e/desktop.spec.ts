@@ -139,6 +139,10 @@ test.describe('themes', () => {
 
 test.describe('games', () => {
   test('Games folder opens Bug Sweeper and Stackdle, with no accessibility violations', async ({ page, isMobile }) => {
+    // Two games and two scans: CI machines draw the animated wallpaper in software, so allow extra time.
+    test.slow();
+    // On desktop, scan just the game's window (the whole desktop is scanned by the accessibility tests above).
+    const scan = () => (isMobile ? new AxeBuilder({ page }) : new AxeBuilder({ page }).include('.window.is-focused')).analyze();
     if (isMobile) await page.getByRole('button', { name: 'Games', exact: true }).click();
     else await page.getByRole('list', { name: 'Desktop' }).getByRole('button', { name: 'Games', exact: true }).dblclick();
 
@@ -147,7 +151,7 @@ test.describe('games', () => {
     await expect(cells).toHaveCount(81);
     await cells.nth(40).click();
     await expect(page.getByText(/FATAL/)).toHaveCount(0); // the first click is always safe
-    expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
+    expect((await scan()).violations).toEqual([]);
 
     if (isMobile) await page.getByRole('button', { name: 'Back' }).click();
     else await page.getByRole('button', { name: 'Close Bug Sweeper' }).click(); // it sits on top of the Games folder
@@ -156,7 +160,7 @@ test.describe('games', () => {
     for (const ch of 'ZZZZZ') await keys.getByRole('button', { name: ch, exact: true }).click();
     await keys.getByRole('button', { name: 'Enter' }).click();
     await expect(page.getByRole('list', { name: 'Clues' })).toContainText('Category');
-    expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
+    expect((await scan()).violations).toEqual([]);
   });
 });
 
