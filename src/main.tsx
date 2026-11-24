@@ -1,6 +1,7 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { App } from './App';
+import { startAnalytics } from './analytics';
 import { applyThemeToDocument, useThemeStore } from './theme/theme';
 import './styles/theme.css';
 import './styles/desktop.css';
@@ -13,6 +14,7 @@ import './styles/games.css';
 
 // Set the saved theme before the first paint so there's no flash of the default one.
 applyThemeToDocument(useThemeStore.getState().theme);
+startAnalytics();
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

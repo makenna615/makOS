@@ -2,15 +2,13 @@ import { useEffect, useRef } from 'react';
 import { REDUCED_MOTION_QUERY, useMediaQuery } from '../hooks/useMediaQuery';
 import { useWindowStore } from '../store/windows';
 import { useThemeStore, type ThemeId } from '../theme/theme';
-import { liquidBlobs } from '../wallpaper/liquidBlobs';
-import { particleName } from '../wallpaper/particleName';
-import { retroSky } from '../wallpaper/retroSky';
 import { setWallpaperPaused, type Wallpaper as WallpaperRenderer } from '../wallpaper/runtime';
 
-const RENDERERS: Record<ThemeId, WallpaperRenderer> = {
-  retro: retroSky,
-  modern: liquidBlobs,
-  future: particleName,
+/** Each theme's background is its own download, fetched only when that theme is shown. */
+const RENDERERS: Record<ThemeId, () => Promise<WallpaperRenderer>> = {
+  retro: () => import('../wallpaper/retroSky').then((m) => m.retroSky),
+  modern: () => import('../wallpaper/liquidBlobs').then((m) => m.liquidBlobs),
+  future: () => import('../wallpaper/particleName').then((m) => m.particleName),
 };
 
 /**
@@ -43,7 +41,8 @@ export function Wallpaper({ screensaver = false }: { screensaver?: boolean }) {
     host.appendChild(canvas);
     let cancelled = false;
     let stop: (() => void) | null = null;
-    RENDERERS[theme](canvas, { reducedMotion, ignorePause: screensaver })
+    RENDERERS[theme]()
+      .then((render) => (cancelled ? null : render(canvas, { reducedMotion, ignorePause: screensaver })))
       .then((cleanup) => {
         if (cancelled) cleanup?.();
         else if (cleanup) stop = cleanup;

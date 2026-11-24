@@ -1,9 +1,11 @@
-import { useEffect, useRef } from 'react';
+import { Suspense, useEffect, useRef } from 'react';
 import type { KeyboardEvent, ReactNode } from 'react';
 import { APPS, type AppId } from '../data/apps';
 import { RESIZE_DIRECTIONS, useDragResize } from '../hooks/useDragResize';
 import { closeApp, minimizeApp, windowElementId } from '../store/actions';
 import { getFocusedId, useWindowStore } from '../store/windows';
+import { AppLoading } from './AppLoading';
+import { LoadBoundary } from './LoadBoundary';
 import { Icon } from './Icons';
 
 interface WindowProps {
@@ -95,7 +97,11 @@ export function Window({ id, zIndex, children }: WindowProps) {
         </div>
       </div>
 
-      <div className="window-body">{children}</div>
+      <div className="window-body">
+        <LoadBoundary>
+          <Suspense fallback={<AppLoading />}>{children}</Suspense>
+        </LoadBoundary>
+      </div>
 
       {!win.maximized &&
         RESIZE_DIRECTIONS.map((dir) => (

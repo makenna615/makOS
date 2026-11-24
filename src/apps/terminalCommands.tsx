@@ -16,8 +16,9 @@ export interface TerminalContext {
 
 export type CommandResult = ReactNode | ReactNode[] | null;
 
-/** Opens the joke blue screen (App listens for this). */
-export const BLUE_SCREEN_EVENT = 'makos:blue-screen';
+import { BLUE_SCREEN_EVENT } from '../events';
+
+export { BLUE_SCREEN_EVENT };
 
 const ext = (href: string, label: string) => (
   <a href={href} target="_blank" rel="noreferrer">

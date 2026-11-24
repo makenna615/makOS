@@ -1,21 +1,42 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { APP_COMPONENTS } from './apps/registry';
-import { BlueScreen, type BlueScreenCause } from './components/BlueScreen';
+import { Suspense, useCallback, useEffect, useRef, useState } from 'react';
+import { APP_COMPONENTS, preloadApps } from './apps/registry';
+import type { BlueScreenCause, BlueScreenProps } from './components/BlueScreen';
 import { BootScreen } from './components/BootScreen';
 import { Desktop } from './components/Desktop';
-import { MobileLauncher, OPEN_APP_EVENT } from './components/MobileLauncher';
 import { SearchPalette } from './components/SearchPalette';
+import { LoadBoundary } from './components/LoadBoundary';
+import { MobileLauncher, OPEN_APP_EVENT } from './components/MobileLauncher';
 import { Screensaver } from './components/Screensaver';
 import { Taskbar } from './components/Taskbar';
 import { ThemeSwitch } from './components/ThemeSwitch';
 import { Wallpaper } from './components/Wallpaper';
 import { Window } from './components/Window';
-import { BLUE_SCREEN_EVENT } from './apps/terminalCommands';
+import { BLUE_SCREEN_EVENT } from './events';
+import { onDemand } from './onDemand';
 import { MOBILE_QUERY, useMediaQuery } from './hooks/useMediaQuery';
 import type { AppId } from './data/apps';
 import { openApp } from './store/actions';
 import { useWindowStore } from './store/windows';
 import { applyThemeToDocument, useThemeStore } from './theme/theme';
+
+// Loaded the first time it's needed (and preloaded once the page is idle). Search stays in the main
+// download: it's small, and people start typing the moment it opens.
+const blueScreen = onDemand<BlueScreenProps>(() => import('./components/BlueScreen').then((m) => ({ default: m.BlueScreen })));
+const BlueScreen = blueScreen.Component;
+
+/** Once the desktop is up and the browser is idle, fetch the on-demand parts so they open instantly later. */
+function preloadWhenIdle() {
+  const run = () => {
+    preloadApps();
+    blueScreen.preload();
+  };
+  if (typeof window.requestIdleCallback === 'function') {
+    const handle = window.requestIdleCallback(run, { timeout: 8000 });
+    return () => window.cancelIdleCallback(handle);
+  }
+  const timer = window.setTimeout(run, 3000);
+  return () => window.clearTimeout(timer);
+}
 
 const BOOT_KEY = 'makos:booted';
 const TASKBAR_HEIGHT = 40;
@@ -108,6 +129,8 @@ export function App() {
     [isMobile],
   );
 
+  useEffect(() => (booting ? undefined : preloadWhenIdle()), [booting]);
+
   if (booting) return <BootScreen onDone={finishBoot} />;
   return (
     <>
@@ -116,8 +139,12 @@ export function App() {
       ) : (
         <DesktopShell onRestart={restart} onSearch={openSearch} />
       )}
-      {searchOpen && <SearchPalette onClose={() => setSearchOpen(false)} onOpenApp={openFromSearch} onRestart={restart} />}
-      {blueScreen && <BlueScreen cause={blueScreen} onClose={closeBlueScreen} onRestart={restartFromBlueScreen} />}
+      <LoadBoundary fallback={null}>
+        <Suspense fallback={null}>
+          {searchOpen && <SearchPalette onClose={() => setSearchOpen(false)} onOpenApp={openFromSearch} onRestart={restart} />}
+          {blueScreen && <BlueScreen cause={blueScreen} onClose={closeBlueScreen} onRestart={restartFromBlueScreen} />}
+        </Suspense>
+      </LoadBoundary>
     </>
   );
 }

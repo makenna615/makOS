@@ -54,7 +54,7 @@ describe('search window', () => {
     render(<App />);
     await screen.findByRole('dialog', { name: 'About Me' });
     fireEvent.keyDown(window, { key: 'k', code: 'KeyK', metaKey: true });
-    await user.type(screen.getByRole('combobox'), 'theme');
+    await user.type(await screen.findByRole('combobox'), 'theme');
     await user.keyboard('{ArrowDown}');
     const options = screen.getAllByRole('option');
     expect(options[1]).toHaveAttribute('aria-selected', 'true');

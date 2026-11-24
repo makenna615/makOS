@@ -1,6 +1,8 @@
-import { useEffect, useRef, useState } from 'react';
+import { Suspense, useEffect, useRef, useState } from 'react';
 import { APPS, DESKTOP_APPS, LINKS, type AppId } from '../data/apps';
 import { APP_COMPONENTS } from '../apps/registry';
+import { AppLoading } from './AppLoading';
+import { LoadBoundary } from './LoadBoundary';
 import { Clock } from './Clock';
 import { Icon } from './Icons';
 import { ThemeSwitch } from './ThemeSwitch';
@@ -52,7 +54,11 @@ export function MobileLauncher({ onRestart, onSearch }: { onRestart: () => void;
             </h2>
           </header>
           <div className="mobile-sheet-body window-body">
-            <Content key={openId} onOpenApp={openFromSheet} />
+            <LoadBoundary key={openId}>
+              <Suspense fallback={<AppLoading />}>
+                <Content onOpenApp={openFromSheet} />
+              </Suspense>
+            </LoadBoundary>
           </div>
         </section>
       </div>

@@ -98,7 +98,7 @@ describe('blue screen easter egg', () => {
       await screen.findByRole('dialog', { name: 'About Me' });
     }
     await restartFromStartMenu(user);
-    const blue = screen.getByRole('alertdialog');
+    const blue = await screen.findByRole('alertdialog');
     expect(blue).toHaveTextContent(/consider hiring the developer/);
     expect(within(blue).getByRole('button', { name: 'Restart makOS' })).toHaveFocus();
 
@@ -112,7 +112,7 @@ describe('blue screen easter egg', () => {
     render(<App />);
     await screen.findByRole('dialog', { name: 'About Me' });
     fireEvent.keyDown(window, { key: 'b', code: 'KeyB', ctrlKey: true, altKey: true });
-    const blue = screen.getByRole('alertdialog');
+    const blue = await screen.findByRole('alertdialog');
     await user.click(within(blue).getByRole('button', { name: 'Restart makOS' }));
     expect(screen.queryByRole('alertdialog')).toBeNull();
     expect(screen.getByText(/Starting up/)).toBeInTheDocument();

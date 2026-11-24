@@ -10,7 +10,7 @@ const CAUSES: Record<BlueScreenCause, string> = {
   terminal: 'RM_RF_ROOT_WAS_A_BOLD_CHOICE',
 };
 
-interface BlueScreenProps {
+export interface BlueScreenProps {
   /** What triggered it (changes the joke error code). */
   cause: BlueScreenCause;
   /** Dismiss and go back to the desktop. */

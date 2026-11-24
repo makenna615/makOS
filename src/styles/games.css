@@ -1049,3 +1049,10 @@ button.tray-balloon-body:hover strong {
   color: #6fe3ff;
   letter-spacing: 0.06em;
 }
+
+/* Placeholder while an on-demand app downloads. */
+.app-loading {
+  margin: 0;
+  padding: 18px;
+  color: var(--text-muted);
+}

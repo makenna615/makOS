@@ -11,7 +11,7 @@ import { complete } from './terminalCommands';
 const log = () => screen.getByRole('log', { name: 'Terminal output' });
 
 async function type(user: ReturnType<typeof userEvent.setup>, line: string) {
-  await user.type(screen.getByLabelText(/Type a command/), `${line}{Enter}`);
+  await user.type(await screen.findByLabelText(/Type a command/), `${line}{Enter}`);
 }
 
 describe('Terminal', () => {
@@ -75,7 +75,7 @@ describe('Terminal easter egg', () => {
     await user.dblClick(within(screen.getByRole('list', { name: 'Desktop' })).getByRole('button', { name: 'Terminal' }));
     await type(user, 'rm -rf /');
     act(() => vi.advanceTimersByTime(500));
-    expect(screen.getByRole('alertdialog')).toHaveTextContent('RM_RF_ROOT_WAS_A_BOLD_CHOICE');
+    expect(await screen.findByRole('alertdialog')).toHaveTextContent('RM_RF_ROOT_WAS_A_BOLD_CHOICE');
   });
 });
 
