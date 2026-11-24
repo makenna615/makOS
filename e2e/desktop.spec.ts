@@ -177,6 +177,51 @@ test.describe('terminal', () => {
   });
 });
 
+test.describe('desktop features', () => {
+  test.skip(({ isMobile }) => isMobile, 'desktop-only');
+
+  test('dragging a window to the left edge snaps it to half the screen', async ({ page }) => {
+    const about = page.getByRole('dialog', { name: 'About Me' });
+    await settled(about);
+    const bar = (await about.locator('.titlebar').boundingBox())!;
+    await page.mouse.move(bar.x + 120, bar.y + 15);
+    await page.mouse.down();
+    await page.mouse.move(300, 300, { steps: 5 });
+    await page.mouse.move(1, 300, { steps: 5 });
+    await expect(page.locator('.snap-preview.is-left')).toBeVisible();
+    await page.mouse.up();
+    const box = (await about.boundingBox())!;
+    expect(Math.round(box.x)).toBe(0);
+    expect(Math.round(box.width)).toBe(683);
+  });
+
+  test('desktop icons can be dragged to a new spot and box-selected', async ({ page }) => {
+    await page.getByRole('button', { name: 'Close About Me' }).click();
+    const contact = page.getByRole('list', { name: 'Desktop' }).getByRole('button', { name: 'Contact', exact: true });
+    const before = (await contact.boundingBox())!;
+    await page.mouse.move(before.x + 40, before.y + 30);
+    await page.mouse.down();
+    await page.mouse.move(before.x + 340, before.y + 30, { steps: 8 });
+    await page.mouse.up();
+    expect(Math.round((await contact.boundingBox())!.x - before.x)).toBe(294);
+
+    await page.mouse.move(130, 10);
+    await page.mouse.down();
+    await page.mouse.move(20, 260, { steps: 6 });
+    await page.mouse.up();
+    expect(await page.locator('.desktop-icon.is-selected').count()).toBeGreaterThanOrEqual(2);
+  });
+
+  test('Ctrl+K search opens an app, with no accessibility violations', async ({ page }) => {
+    await expect(page.getByRole('dialog', { name: 'About Me' })).toBeVisible(); // desktop is up and listening
+    await page.keyboard.press('Control+KeyK');
+    await page.getByRole('combobox', { name: /Search apps/ }).fill('term');
+    expect((await new AxeBuilder({ page }).include('.search-panel').analyze()).violations).toEqual([]);
+    await page.keyboard.press('Enter');
+    await expect(page.getByRole('dialog', { name: 'Terminal' })).toBeVisible();
+  });
+});
+
 test.describe('mobile', () => {
   test.skip(({ isMobile }) => !isMobile, 'mobile-only');
 

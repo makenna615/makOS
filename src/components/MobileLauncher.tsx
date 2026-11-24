@@ -11,7 +11,10 @@ import { WeatherWidget } from './Weather';
  * Small screens get a phone-style launcher instead of draggable windows:
  * a list of apps, each opening as a full-screen sheet with a Back button.
  */
-export function MobileLauncher({ onRestart }: { onRestart: () => void }) {
+/** Ask the phone launcher to open an app as a sheet (search uses this). */
+export const OPEN_APP_EVENT = 'makos:open-app';
+
+export function MobileLauncher({ onRestart, onSearch }: { onRestart: () => void; onSearch: () => void }) {
   // Sheets opened from inside other sheets (Games → Bug Sweeper) stack up, so Back returns one level.
   const [stack, setStack] = useState<AppId[]>([]);
   const openId = stack.at(-1) ?? null;
@@ -19,6 +22,15 @@ export function MobileLauncher({ onRestart }: { onRestart: () => void }) {
     setStack((s) => (s.includes(id) ? s.slice(0, s.indexOf(id) + 1) : [...s, id]));
   const lastId = useRef<AppId | null>(null);
   const sheetHeading = useRef<HTMLHeadingElement>(null);
+
+  useEffect(() => {
+    const onOpen = (event: Event) => {
+      const id = (event as CustomEvent<AppId>).detail;
+      if (typeof id === "string" && Object.hasOwn(APPS, id)) setStack([id]);
+    };
+    window.addEventListener(OPEN_APP_EVENT, onOpen);
+    return () => window.removeEventListener(OPEN_APP_EVENT, onOpen);
+  }, []);
 
   useEffect(() => {
     if (openId) sheetHeading.current?.focus();
@@ -64,6 +76,10 @@ export function MobileLauncher({ onRestart }: { onRestart: () => void }) {
         <div className="mobile-theme">
           <ThemeSwitch />
         </div>
+        <button type="button" className="mobile-search" onClick={onSearch}>
+          <Icon name="search" size={18} />
+          <span>Search apps, games, skills…</span>
+        </button>
         <div className="mobile-intro">
           <h1>Makenna Peters</h1>
           <p>Full-stack software engineer: Ruby on Rails, React and TypeScript, 4+ years in K-12 EdTech.</p>

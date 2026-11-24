@@ -222,3 +222,55 @@
   right: -5px;
   cursor: nwse-resize;
 }
+
+/* ---- Snap preview (drag a window to a screen edge) ---- */
+.snap-preview {
+  position: absolute;
+  top: 6px;
+  bottom: 6px;
+  pointer-events: none;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.22);
+  border: 2px solid rgba(255, 255, 255, 0.75);
+  box-shadow: 0 0 0 1px rgba(10, 30, 70, 0.25), 0 10px 30px rgba(10, 30, 70, 0.25);
+  backdrop-filter: blur(6px);
+  animation: snap-in 140ms ease-out;
+}
+.snap-preview.is-left,
+.snap-preview.is-right {
+  top: 62px; /* matches SNAP_TOP in src/store/windows.ts, below the theme switch */
+}
+.snap-preview.is-left {
+  left: 6px;
+  width: calc(50% - 9px);
+}
+.snap-preview.is-right {
+  right: 6px;
+  width: calc(50% - 9px);
+}
+.snap-preview.is-max {
+  left: 6px;
+  right: 6px;
+}
+@keyframes snap-in {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+}
+[data-theme='retro'] .snap-preview {
+  background: rgba(49, 106, 197, 0.25);
+  border-color: #316ac5;
+  border-radius: 4px;
+}
+[data-theme='future'] .snap-preview {
+  background: rgba(111, 227, 255, 0.1);
+  border: 1px solid #6fe3ff;
+  border-radius: 0;
+  box-shadow: 0 0 24px rgba(111, 227, 255, 0.35), inset 0 0 24px rgba(111, 227, 255, 0.15);
+}
+/* A window snapped to half the screen has square corners, like a maximized one. */
+.window.is-snapped,
+.window.is-snapped .titlebar {
+  border-radius: 0;
+}

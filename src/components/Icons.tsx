@@ -2,7 +2,7 @@ import { useId, type ReactNode } from 'react';
 import type { IconName } from '../data/apps';
 
 interface IconProps {
-  name: IconName | 'logo' | 'power' | 'text';
+  name: IconName | 'logo' | 'power' | 'text' | 'search';
   size?: number;
 }
 
@@ -191,6 +191,12 @@ const PATHS: Record<Exclude<IconProps['name'], 'logo'>, ReactNode> = {
       <circle cx="17" cy="10.5" r="1.4" fill="#5bb33c" />
       <path d="M10 21l6 5-6 5" fill="none" stroke="#5bff9c" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round" />
       <path d="M20 32h12" stroke="#e6edf3" strokeWidth="2.8" strokeLinecap="round" />
+    </>
+  ),
+  search: (
+    <>
+      <circle cx="20" cy="20" r="12" fill="rgba(255,255,255,.25)" stroke="currentColor" strokeWidth="4.5" />
+      <path d="M29 29l12 12" stroke="currentColor" strokeWidth="5.5" strokeLinecap="round" />
     </>
   ),
   power: (

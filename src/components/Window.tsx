@@ -65,7 +65,7 @@ export function Window({ id, zIndex, children }: WindowProps) {
       aria-labelledby={titleId}
       tabIndex={-1}
       hidden={win.minimized}
-      className={`window${isFocused ? ' is-focused' : ''}${win.maximized ? ' is-maximized' : ''}`}
+      className={`window${isFocused ? ' is-focused' : ''}${win.maximized ? ' is-maximized' : ''}${win.snapped ? ' is-snapped' : ''}`}
       style={style}
       onPointerDownCapture={() => focus(id)}
       onFocusCapture={() => focus(id)}

@@ -3,7 +3,8 @@ import { APP_COMPONENTS } from './apps/registry';
 import { BlueScreen, type BlueScreenCause } from './components/BlueScreen';
 import { BootScreen } from './components/BootScreen';
 import { Desktop } from './components/Desktop';
-import { MobileLauncher } from './components/MobileLauncher';
+import { MobileLauncher, OPEN_APP_EVENT } from './components/MobileLauncher';
+import { SearchPalette } from './components/SearchPalette';
 import { Screensaver } from './components/Screensaver';
 import { Taskbar } from './components/Taskbar';
 import { ThemeSwitch } from './components/ThemeSwitch';
@@ -11,6 +12,7 @@ import { Wallpaper } from './components/Wallpaper';
 import { Window } from './components/Window';
 import { BLUE_SCREEN_EVENT } from './apps/terminalCommands';
 import { MOBILE_QUERY, useMediaQuery } from './hooks/useMediaQuery';
+import type { AppId } from './data/apps';
 import { openApp } from './store/actions';
 import { useWindowStore } from './store/windows';
 import { applyThemeToDocument, useThemeStore } from './theme/theme';
@@ -46,6 +48,7 @@ export function App() {
   }, []);
 
   const [blueScreen, setBlueScreen] = useState<null | BlueScreenCause>(null);
+  const [searchOpen, setSearchOpen] = useState(false);
   const restarts = useRef<number[]>([]);
 
   const restart = useCallback(() => {
@@ -67,6 +70,11 @@ export function App() {
       if (event.ctrlKey && event.altKey && !event.metaKey && event.code === 'KeyB') {
         event.preventDefault();
         setBlueScreen('keys');
+      }
+      // Search: Ctrl+K, or ⌘K on a Mac. Toggles, like most command palettes.
+      if ((event.ctrlKey || event.metaKey) && !event.altKey && !event.shiftKey && event.code === 'KeyK') {
+        event.preventDefault();
+        setSearchOpen((open) => !open);
       }
     };
     // The terminal's "rm -rf /" asks for it too.
@@ -91,19 +99,34 @@ export function App() {
     setBooting(true);
   }, []);
 
+  const openSearch = useCallback(() => setSearchOpen(true), []);
+  const openFromSearch = useCallback(
+    (id: AppId) => {
+      if (isMobile) window.dispatchEvent(new CustomEvent(OPEN_APP_EVENT, { detail: id }));
+      else openApp(id, null);
+    },
+    [isMobile],
+  );
+
   if (booting) return <BootScreen onDone={finishBoot} />;
   return (
     <>
-      {isMobile ? <MobileLauncher onRestart={restart} /> : <DesktopShell onRestart={restart} />}
+      {isMobile ? (
+        <MobileLauncher onRestart={restart} onSearch={openSearch} />
+      ) : (
+        <DesktopShell onRestart={restart} onSearch={openSearch} />
+      )}
+      {searchOpen && <SearchPalette onClose={() => setSearchOpen(false)} onOpenApp={openFromSearch} onRestart={restart} />}
       {blueScreen && <BlueScreen cause={blueScreen} onClose={closeBlueScreen} onRestart={restartFromBlueScreen} />}
     </>
   );
 }
 
-function DesktopShell({ onRestart }: { onRestart: () => void }) {
+function DesktopShell({ onRestart, onSearch }: { onRestart: () => void; onSearch: () => void }) {
   const order = useWindowStore((s) => s.order);
   const windows = useWindowStore((s) => s.windows);
   const setViewport = useWindowStore((s) => s.setViewport);
+  const snapPreview = useWindowStore((s) => s.snapPreview);
 
   // Recruiters land on "About Me" straight away.
   useEffect(() => {
@@ -131,6 +154,10 @@ function DesktopShell({ onRestart }: { onRestart: () => void }) {
         <h1 className="visually-hidden">makOS: Makenna Peters, full-stack software engineer</h1>
         <ThemeSwitch />
         <Desktop />
+        {/* Where a window dragged to a screen edge will land. Same layer as the top window, painted just under it. */}
+        {snapPreview && (
+          <div className={`snap-preview is-${snapPreview}`} style={{ zIndex: 9 + order.length }} aria-hidden="true" />
+        )}
         {ids.map((id) => {
           const Content = APP_COMPONENTS[id];
           return (
@@ -140,7 +167,7 @@ function DesktopShell({ onRestart }: { onRestart: () => void }) {
           );
         })}
       </main>
-      <Taskbar onRestart={onRestart} />
+      <Taskbar onRestart={onRestart} onSearch={onSearch} />
       <Screensaver />
     </div>
   );

@@ -430,3 +430,48 @@
   font-size: 12px;
   opacity: 0.75;
 }
+
+/* Icons sit on a grid (src/components/desktopLayout.ts) so they can be dragged around. The list covers
+   the whole desktop so empty space can start a selection box. */
+.desktop-icons {
+  position: absolute;
+  inset: 0;
+  display: block;
+  /* Dragging across the desktop draws a selection box, not a text selection. */
+  user-select: none;
+  -webkit-user-select: none;
+  width: auto;
+  height: auto;
+  padding: 0;
+}
+.desktop-icons > li {
+  position: absolute;
+  width: 90px;
+}
+.desktop-icons > li.is-moving {
+  z-index: 3;
+  opacity: 0.8;
+  pointer-events: none;
+}
+.desktop-icon {
+  width: 100%;
+}
+
+/* Drag-select box. */
+.desktop-lasso {
+  position: absolute;
+  z-index: 2;
+  pointer-events: none;
+  background: rgba(49, 106, 197, 0.25);
+  border: 1px solid #316ac5;
+}
+[data-theme='modern'] .desktop-lasso {
+  background: rgba(44, 88, 214, 0.14);
+  border-color: rgba(44, 88, 214, 0.7);
+  border-radius: 6px;
+}
+[data-theme='future'] .desktop-lasso {
+  background: rgba(111, 227, 255, 0.1);
+  border-color: #6fe3ff;
+  box-shadow: 0 0 12px rgba(111, 227, 255, 0.35);
+}

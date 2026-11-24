@@ -5,13 +5,15 @@ import { getFocusedId, useWindowStore } from '../store/windows';
 import { Clock } from './Clock';
 import { Icon } from './Icons';
 import { StartMenu } from './StartMenu';
+import { TrayBalloon } from './TrayBalloon';
 import { WeatherWidget } from './Weather';
 
 interface TaskbarProps {
   onRestart: () => void;
+  onSearch: () => void;
 }
 
-export function Taskbar({ onRestart }: TaskbarProps) {
+export function Taskbar({ onRestart, onSearch }: TaskbarProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const startRef = useRef<HTMLButtonElement>(null);
   const windows = useWindowStore((s) => s.windows);
@@ -42,6 +44,10 @@ export function Taskbar({ onRestart }: TaskbarProps) {
         <span>makOS</span>
       </button>
       {menuOpen && <StartMenu onClose={closeMenu} onRestart={onRestart} />}
+      <button type="button" className="taskbar-search" title="Search (Ctrl+K)" aria-keyshortcuts="Control+K Meta+K" onClick={onSearch}>
+        <Icon name="search" size={18} />
+        <span className="taskbar-search-label">Search</span>
+      </button>
 
       <ul className="taskbar-windows" aria-label="Open windows">
         {taskbarIds.map((id) => {
@@ -67,6 +73,7 @@ export function Taskbar({ onRestart }: TaskbarProps) {
       </ul>
 
       <div className="tray">
+        <TrayBalloon onSearch={onSearch} />
         {/* Always-visible resume shortcut, as a tray icon. The plain-text version stays in the start menu. */}
         <a
           className="tray-icon"

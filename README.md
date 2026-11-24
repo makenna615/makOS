@@ -24,7 +24,7 @@ Each theme has its own transition (a CRT squeeze, a white fade, a scanline flash
 
 ## What's inside
 
-- **A hand-built window manager.** Open, close, focus/z-order, minimize, maximize and restore, drag, and resize from all 8 edges and corners. It uses plain pointer events (with pointer capture and one update per animation frame) and no window library.
+- **A hand-built window manager.** Open, close, focus/z-order, minimize, maximize and restore, drag, and resize from all 8 edges and corners. Drag a window to the left or right edge to snap it to half the screen, or to the top to maximize; dragging it away restores its size. It uses plain pointer events (with pointer capture and one update per animation frame) and no window library.
 - **State in one Zustand store** (`src/store/windows.ts`), with pure, unit-tested geometry: cascading new windows, clamping so a title bar can never be lost off-screen, and re-clamping when the browser resizes.
 - **Taskbar** with a start menu, a button for each open window (click to focus, click again to minimize), and a tray with a resume shortcut, live weather and a clock.
 - **Project windows** with Overview, Features, Screenshots, Engineering and Links tabs for [Fourth Down](https://github.com/makenna615/fantasy-football-app) and [Memories into Perfumes](https://github.com/makenna615/perfume-app).
@@ -32,6 +32,9 @@ Each theme has its own transition (a CRT squeeze, a white fade, a scanline flash
 - **Short, skippable boot screen** that only plays once per browser session.
 - **Mobile layout:** below 700px wide (or 500px tall, like a phone in landscape) the desktop becomes a phone-style launcher where apps open as full-screen sheets.
 - **Three themes** with animated wallpapers (see above).
+- **Search (Ctrl+K / ⌘K).** Finds apps, games, themes, every skill on my resume, and quick actions like downloading the resume or copying my email. There's a search button in the taskbar and a search bar on phones.
+- **Desktop you can rearrange.** Drag icons to new spots (remembered for next time), drag on empty space to select several, Ctrl-click to add one, and Ctrl+Arrow moves an icon from the keyboard.
+- **Tray tips.** One short tip per visit pops up from the tray, like a desktop OS notification balloon, rotating through things worth trying.
 - **Games folder** with two original games: **Bug Sweeper**, a developer-themed mine-sweeping puzzle (find the bugs hidden in a codebase, set breakpoints, `git push` when you win), and **Stackdle**, a daily 5-letter tech-word game where each wrong guess unlocks a clue, some of them taken from my resume. Both work with a keyboard, a mouse or touch, and save progress in the browser.
 - **Terminal app.** A small shell that answers from my resume data (`whoami`, `skills`, `experience`, `projects`, `contact`, `neofetch`), opens apps and switches themes (`open stackdle`, `theme future`), with history, Tab completion and tap-friendly quick commands on phones. Styled to match each theme. There are a few hidden commands too.
 - **Screensaver.** After two idle minutes on desktop, the current theme's wallpaper fills the screen with a bouncing makOS badge. Any input wakes it without clicking through, and it's skipped with reduced motion.
@@ -85,7 +88,7 @@ src/
   apps/         window contents (About, Resume, Contact, Projects, ProjectWindow, Games, BugSweeper, Stackdle,
                 Terminal and its commands)
   components/   desktop shell (Window, Desktop, Taskbar, StartMenu, BootScreen, MobileLauncher, Tabs, Icons, Weather,
-                ThemeSwitch, Wallpaper, Screensaver, BlueScreen)
+                ThemeSwitch, Wallpaper, Screensaver, BlueScreen, SearchPalette, TrayBalloon, desktop icon layout)
   data/         app registry, resume and project content, weather codes
   hooks/        useDragResize (pointer drag/resize), useMediaQuery, useWeather
   store/        windows.ts (Zustand store), actions.ts (focus management)
