@@ -38,7 +38,6 @@ export const RESUME = {
   projects: [
     {
       name: 'makOS Portfolio',
-      note: 'personal portfolio app',
       stack: 'React, TypeScript, Zustand, Vitest, Playwright',
       url: 'https://mak-os-portfolio.vercel.app',
       urlLabel: 'mak-os-portfolio.vercel.app',
@@ -49,14 +48,14 @@ export const RESUME = {
       ],
     },
     {
-      name: 'Memories into Perfumes',
-      note: 'AI perfumery app',
+      name: 'AI Perfumery App',
       stack: 'Next.js, TypeScript, OpenAI API',
-      url: 'https://memories-into-perfumes.vercel.app',
-      urlLabel: 'memories-into-perfumes.vercel.app',
+      url: 'https://memories-into-perfumes.vercel.app/collection',
+      urlLabel: 'memories-into-perfumes.vercel.app/collection',
       bullets: [
         'Finds similar fragrances, researches ingredients, and generates custom formulas tuned for balance, longevity, or projection. Used regularly for personal perfume making.',
-        'Built mainly with Codex: planned features, broke work into tasks, and reviewed and tested the output, catching cases where it made wrong assumptions about APIs and data structures.',
+        'Built mainly with Codex: planned features, broke work into tasks, and reviewed and tested the output, catching cases where it made wrong assumptions about APIs and data structures. Source at github.com/makenna615/perfume-app.',
+        'Added a public collection page where anyone can browse my perfume collection without signing in.',
       ],
     },
   ],

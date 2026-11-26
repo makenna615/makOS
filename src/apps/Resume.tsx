@@ -70,7 +70,7 @@ export function Resume() {
             <div className="job" key={proj.name}>
               <p className="job-company">
                 <strong>{proj.name}</strong>
-                {proj.note && ` (${proj.note})`} | {proj.stack} |{' '}
+                {' | '}{proj.stack} |{' '}
                 <a href={proj.url} target="_blank" rel="noreferrer">
                   {proj.urlLabel}
                 </a>

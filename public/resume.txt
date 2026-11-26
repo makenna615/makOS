@@ -42,8 +42,8 @@ PS Industries, Grand Forks, ND
   job position requests.
 
 PROJECTS
-makOS Portfolio (personal portfolio app) | React, TypeScript, Zustand, Vitest,
-Playwright | mak-os-portfolio.vercel.app
+makOS Portfolio | React, TypeScript, Zustand, Vitest, Playwright |
+mak-os-portfolio.vercel.app
 - Built a desktop-style portfolio site with a custom window manager (drag, resize,
   focus order, minimize and maximize) using plain pointer events and a Zustand
   store, with no window library.
@@ -51,14 +51,16 @@ Playwright | mak-os-portfolio.vercel.app
   accessibility checks in CI.
 - Built mainly with Claude Code. Source at github.com/makenna615/makOS.
 
-Memories into Perfumes (AI perfumery app) | Next.js, TypeScript, OpenAI API |
-memories-into-perfumes.vercel.app
+AI Perfumery App | Next.js, TypeScript, OpenAI API |
+memories-into-perfumes.vercel.app/collection
 - Finds similar fragrances, researches ingredients, and generates custom formulas
   tuned for balance, longevity, or projection. Used regularly for personal perfume
   making.
 - Built mainly with Codex: planned features, broke work into tasks, and reviewed and
   tested the output, catching cases where it made wrong assumptions about APIs and
-  data structures.
+  data structures. Source at github.com/makenna615/perfume-app.
+- Added a public collection page where anyone can browse my perfume collection
+  without signing in.
 
 EDUCATION
 B.S. Computer Science, Minor in Mathematics            August 2017 – May 2021
