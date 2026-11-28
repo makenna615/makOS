@@ -137,7 +137,7 @@ export const COMMANDS: Record<string, Command> = {
   },
   games: {
     summary: 'Play Bug Sweeper or Stackdle',
-    run: () => ['Bug Sweeper: open bug-sweeper', 'Stackdle:    open stackdle'],
+    run: () => ['Solitaire:   open solitaire', 'Bug Sweeper: open bug-sweeper', 'Stackdle:    open stackdle'],
   },
   theme: {
     summary: 'Show or switch theme: theme retro | modern | future',

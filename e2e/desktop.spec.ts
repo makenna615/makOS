@@ -222,6 +222,68 @@ test.describe('desktop features', () => {
   });
 });
 
+test.describe('solitaire', () => {
+  test('deals, draws and has no accessibility violations', async ({ page, isMobile }) => {
+    if (isMobile) await page.getByRole('button', { name: 'Games', exact: true }).click();
+    else await page.getByRole('list', { name: 'Desktop' }).getByRole('button', { name: 'Games', exact: true }).dblclick();
+    await page.getByRole('button', { name: /Solitaire/ }).click();
+    await page.getByRole('button', { name: /^Deck, 24 cards/ }).click();
+    await expect(page.getByRole('button', { name: /^Deck, 23 cards/ })).toBeVisible();
+    expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
+  });
+
+  test('dragging a card shows it under the pointer and drops it on a legal column', async ({ page, isMobile }) => {
+    test.skip(isMobile, 'mouse drag');
+    await page.getByRole('button', { name: 'Close About Me' }).click();
+    await page.getByRole('list', { name: 'Desktop' }).getByRole('button', { name: 'Games', exact: true }).dblclick();
+    await page.getByRole('button', { name: /Solitaire/ }).click();
+    const win = page.getByRole('dialog', { name: 'Solitaire' });
+    await settled(win);
+    // Find a legal tableau-to-tableau move (redeal with F2 until there is one).
+    const findMove = () =>
+      page.evaluate(() => {
+        const red = (s: string) => s === 'hearts' || s === 'diamonds';
+        const names: Record<string, number> = { Ace: 1, Jack: 11, Queen: 12, King: 13 };
+        const parse = (t: string | null | undefined) => {
+          const m = /^(\w+) of (\w+)/.exec(t ?? '');
+          return m ? { r: names[m[1]!] ?? Number(m[1]), s: m[2]! } : null;
+        };
+        const cols = Array.from(document.querySelectorAll('.sol-col'));
+        const ups = cols.map((c) => Array.from(c.querySelectorAll('button.pc')));
+        for (let f = 0; f < 7; f++)
+          for (let k = 0; k < ups[f]!.length; k++) {
+            const card = parse(ups[f]![k]!.querySelector('.visually-hidden')?.textContent)!;
+            for (let t = 0; t < 7; t++) {
+              const top = t === f ? null : parse(ups[t]!.at(-1)?.querySelector('.visually-hidden')?.textContent);
+              if (top && red(top.s) !== red(card.s) && card.r === top.r - 1) return { f, k, t };
+            }
+          }
+        return null;
+      });
+    let found = await findMove();
+    for (let i = 0; !found && i < 20; i++) {
+      await page.keyboard.press('F2');
+      found = await findMove();
+    }
+    expect(found).not.toBeNull();
+    const { f, k, t } = found!;
+    const card = (await win.locator('.sol-col').nth(f).locator('button.pc').nth(k).boundingBox())!;
+    const dest = (await win.locator('.sol-col').nth(t).boundingBox())!;
+    const count = (col: number) => win.locator('.sol-col').nth(col).locator('.pc').count();
+    const before = await count(t);
+    await page.mouse.move(card.x + card.width / 2, card.y + 10);
+    await page.mouse.down();
+    await page.mouse.move(card.x + 60, card.y + 140, { steps: 6 });
+    const ghost = (await page.locator('.sol-ghost .pc').first().boundingBox())!;
+    expect(ghost.x).toBeLessThanOrEqual(card.x + 60);
+    expect(ghost.x + ghost.width).toBeGreaterThanOrEqual(card.x + 60);
+    expect(ghost.y).toBeLessThanOrEqual(card.y + 140);
+    await page.mouse.move(dest.x + dest.width / 2, dest.y + dest.height - 20, { steps: 6 });
+    await page.mouse.up();
+    expect(await count(t)).toBeGreaterThan(before);
+  });
+});
+
 test.describe('mobile', () => {
   test.skip(({ isMobile }) => !isMobile, 'mobile-only');
 

@@ -199,6 +199,22 @@ const PATHS: Record<Exclude<IconProps['name'], 'logo'>, ReactNode> = {
       <path d="M29 29l12 12" stroke="currentColor" strokeWidth="5.5" strokeLinecap="round" />
     </>
   ),
+  cards: (
+    <>
+      <rect x="5" y="9" width="22" height="31" rx="3" transform="rotate(-12 16 24)" fill="#fff" stroke="#4a5470" strokeWidth="1.6" />
+      {/* The makOS card back: blue with diagonal stripes and a white edge. */}
+      <g transform="rotate(10 30 22)">
+        <rect x="19" y="7" width="22" height="31" rx="3" fill="#fff" stroke="#0b2a6b" strokeWidth="1.6" />
+        <rect x="21.2" y="9.2" width="17.6" height="26.6" rx="1.5" fill="#1450b8" />
+        <path
+          d="M21.2 12.2L24.2 9.2M21.2 15.8L27.8 9.2M21.2 19.4L31.4 9.2M21.2 23L35 9.2M21.2 26.6L38.6 9.2M21.2 30.2L38.8 12.6M21.2 33.8L38.8 16.2M38.8 19.8L22.8 35.8M38.8 23.4L26.4 35.8M38.8 27L30 35.8M38.8 30.6L33.6 35.8M38.8 34.2L37.2 35.8"
+          stroke="#5f8fe0"
+          strokeWidth="1.3"
+        />
+      </g>
+      <path d="M14 19c-2.6-3.4-7 .3-3.8 3.6L14 26l3.8-3.4c3.2-3.3-1.2-7-3.8-3.6z" fill="#c8102e" />
+    </>
+  ),
   power: (
     <>
       <circle cx="24" cy="24" r="20" fill="#e5484d" />

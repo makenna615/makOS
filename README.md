@@ -35,7 +35,7 @@ Each theme has its own transition (a CRT squeeze, a white fade, a scanline flash
 - **Search (Ctrl+K / ⌘K).** Finds apps, games, themes, every skill on my resume, and quick actions like downloading the resume or copying my email. There's a search button in the taskbar and a search bar on phones.
 - **Desktop you can rearrange.** Drag icons to new spots (remembered for next time), drag on empty space to select several, Ctrl-click to add one, and Ctrl+Arrow moves an icon from the keyboard.
 - **Tray tips.** One short tip per visit pops up from the tray, like a desktop OS notification balloon, rotating through things worth trying.
-- **Games folder** with two original games: **Bug Sweeper**, a developer-themed mine-sweeping puzzle (find the bugs hidden in a codebase, set breakpoints, `git push` when you win), and **Stackdle**, a daily 5-letter tech-word game where each wrong guess unlocks a clue, some of them taken from my resume. Both work with a keyboard, a mouse or touch, and save progress in the browser.
+- **Games folder.** **Solitaire**: Klondike in the spirit of the classic desktop version, with Draw One or Draw Three, Standard or Vegas scoring, a timer, undo, drag and drop or click-to-move, full keyboard play, the bouncing-cards win celebration, and the classic hidden instant-win trick. Plus two original games: **Bug Sweeper**, a developer-themed mine-sweeping puzzle (find the bugs hidden in a codebase, set breakpoints, `git push` when you win), and **Stackdle**, a daily 5-letter tech-word game where each wrong guess unlocks a clue, some of them taken from my resume. Both work with a keyboard, a mouse or touch, and save progress in the browser.
 - **Terminal app.** A small shell that answers from my resume data (`whoami`, `skills`, `experience`, `projects`, `contact`, `neofetch`), opens apps and switches themes (`open stackdle`, `theme future`), with history, Tab completion and tap-friendly quick commands on phones. Styled to match each theme. There are a few hidden commands too.
 - **Screensaver.** After two idle minutes on desktop, the current theme's wallpaper fills the screen with a bouncing makOS badge. Any input wakes it without clicking through, and it's skipped with reduced motion.
 - **A hidden easter egg.** I'll leave that one for you to find.
@@ -95,7 +95,7 @@ src/
   hooks/        useDragResize (pointer drag/resize), useMediaQuery, useWeather
   store/        windows.ts (Zustand store), actions.ts (focus management)
   theme/        theme.ts (current theme and saved choice)
-  games/        game logic for Bug Sweeper and Stackdle (pure functions, unit-tested) and the Stackdle word list
+  games/        game logic for Solitaire, Bug Sweeper and Stackdle (pure functions, unit-tested) and the Stackdle word list
   wallpaper/    animated wallpapers (retroSky, liquidBlobs, particleName) and shared WebGL/canvas helpers
   styles/       theme, desktop, window, apps, mobile, themes (Modern and Future chrome), themes-apps (window contents),
                 games (games, terminal, screensaver, easter egg)

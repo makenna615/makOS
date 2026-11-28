@@ -22,6 +22,7 @@ const ON_DEMAND = {
   'bug-sweeper': onDemand<AppProps>(() => import('./BugSweeper').then((m) => ({ default: m.BugSweeper }))),
   stackdle: onDemand<AppProps>(() => import('./Stackdle').then((m) => ({ default: m.Stackdle }))),
   terminal: onDemand<AppProps>(() => import('./Terminal').then((m) => ({ default: m.Terminal }))),
+  solitaire: onDemand<AppProps>(() => import('./Solitaire').then((m) => ({ default: m.Solitaire }))),
   'fourth-down': onDemand<AppProps>(() =>
     loadProjectWindow().then((m) => ({ default: () => <m.ProjectWindow projectId="fourth-down" /> })),
   ),
@@ -39,6 +40,7 @@ export const APP_COMPONENTS: Record<AppId, ComponentType<AppProps>> = {
   'bug-sweeper': ON_DEMAND['bug-sweeper'].Component,
   stackdle: ON_DEMAND.stackdle.Component,
   terminal: ON_DEMAND.terminal.Component,
+  solitaire: ON_DEMAND.solitaire.Component,
   'fourth-down': ON_DEMAND['fourth-down'].Component,
   perfumes: ON_DEMAND.perfumes.Component,
 };

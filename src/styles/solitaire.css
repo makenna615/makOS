@@ -1,0 +1,526 @@
+/* ================= Solitaire ================= */
+.app.solitaire {
+  --felt: #0e7a2c;
+  --felt-dark: #0a5f22;
+  --slot: rgba(0, 0, 0, 0.18);
+  --slot-line: rgba(255, 255, 255, 0.45);
+  --back: #1450b8;
+  --back-2: #0b2a6b;
+  --card-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 380px;
+  padding: 0;
+  outline: none;
+}
+.sol-menubar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 2px 6px;
+  font-size: 12px;
+  border-bottom: 1px solid var(--border);
+}
+.sol-menu-button {
+  padding: 3px 9px;
+  font: inherit;
+  color: var(--text);
+  background: none;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.sol-menu-button:hover,
+.sol-menu-button[aria-expanded='true'] {
+  background: var(--sky-100);
+  border-color: var(--border);
+}
+.sol-hint {
+  overflow: hidden;
+  color: var(--text-muted);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.sol-menu {
+  position: absolute;
+  top: 100%;
+  left: 4px;
+  z-index: 20;
+  min-width: 210px;
+  margin: 0;
+  padding: 3px;
+  list-style: none;
+  background: var(--surface-sunken);
+  border: 1px solid var(--border-strong);
+  box-shadow: 2px 3px 8px rgba(0, 0, 0, 0.25);
+}
+.sol-menu button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  padding: 4px 8px;
+  font: inherit;
+  color: var(--text);
+  text-align: left;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+.sol-menu button:hover,
+.sol-menu button:focus {
+  color: #fff;
+  background: var(--sky-700);
+  outline: none;
+}
+.sol-menu button[aria-disabled='true'] {
+  color: var(--text-muted);
+  cursor: default;
+}
+.sol-menu button[aria-disabled='true']:hover,
+.sol-menu button[aria-disabled='true']:focus {
+  color: var(--text-muted);
+  background: var(--sky-100);
+}
+.sol-menu kbd {
+  margin-left: auto;
+  font-size: 10px;
+  color: var(--text);
+}
+.sol-check {
+  display: inline-block;
+  width: 14px;
+  text-align: center;
+}
+.sol-sep {
+  height: 1px;
+  margin: 3px 2px;
+  background: var(--border);
+}
+
+/* The playing area. Card size follows the window width (7 columns). */
+.sol-stage {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  background: radial-gradient(ellipse at 50% 30%, var(--felt) 0%, var(--felt-dark) 100%);
+  container-type: inline-size;
+}
+.sol-table {
+  --gap: clamp(4px, 1.6cqw, 14px);
+  --cw: min(86px, calc((100cqw - 8 * var(--gap)) / 7));
+  --ch: calc(var(--cw) * 1.4);
+  padding: var(--gap);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+.sol-row {
+  display: grid;
+  grid-template-columns: repeat(7, var(--cw));
+  gap: var(--gap);
+  justify-content: center;
+}
+.sol-row.is-tableau {
+  margin-top: calc(var(--gap) * 1.6);
+}
+.sol-slot {
+  position: relative;
+  width: var(--cw);
+  height: var(--ch);
+}
+.sol-col {
+  position: relative;
+  width: var(--cw);
+  min-height: calc(var(--ch) + var(--cw) * var(--stack, 0));
+  padding-bottom: 6px;
+}
+.sol-stack {
+  position: absolute;
+  left: 0;
+  top: calc(var(--cw) * var(--t));
+}
+
+/* Cards */
+.pc {
+  position: relative;
+  display: block;
+  width: var(--cw);
+  height: var(--ch);
+  padding: 0;
+  overflow: hidden;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #111;
+  background: #fff;
+  border: 1px solid #555;
+  border-radius: var(--card-radius);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+  cursor: pointer;
+}
+.pc.is-red {
+  color: #c8102e;
+}
+.pc:focus-visible {
+  z-index: 5;
+  outline: 3px solid var(--focus);
+  outline-offset: 1px;
+}
+/* Selected cards turn dark, like the classic game's highlight. */
+.pc.is-selected {
+  color: #fff;
+  background: #1f2a44;
+}
+.pc.is-selected.is-red {
+  color: #ff8c9c;
+}
+.pc.is-dragging {
+  visibility: hidden;
+}
+.pc-corner {
+  position: absolute;
+  top: 3%;
+  left: 5%;
+  font-size: calc(var(--cw) * 0.2);
+  font-weight: bold;
+  line-height: 0.95;
+  text-align: center;
+}
+.pc-corner.is-bottom {
+  top: auto;
+  left: auto;
+  right: 5%;
+  bottom: 3%;
+  rotate: 180deg;
+}
+.pc-pips,
+.pc-pip,
+.pc-ace,
+.pc-court,
+.pc-big {
+  position: absolute;
+}
+.pc-pips {
+  inset: 7% 18%;
+}
+.pc-pip {
+  /* A bit bigger than the suit under the corner number, so the middle pips read as the main ones. */
+  font-size: calc(var(--cw) * 0.25);
+  line-height: 1;
+  translate: -50% -50%;
+}
+.pc-pip.is-flipped {
+  rotate: 180deg;
+}
+.pc-ace {
+  top: 50%;
+  left: 50%;
+  font-size: calc(var(--cw) * 0.55);
+  line-height: 1;
+  translate: -50% -50%;
+}
+/* Court cards: a simple framed letter for now (developer-themed designs come later). */
+.pc-court {
+  inset: 18% 20%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4%;
+  border: 2px solid currentColor;
+  border-radius: 4px;
+  background: repeating-linear-gradient(135deg, transparent 0 4px, rgba(200, 160, 40, 0.18) 4px 8px);
+}
+.pc-court-rank {
+  font: bold calc(var(--cw) * 0.38) / 1 Georgia, 'Times New Roman', serif;
+}
+.pc-court-suit {
+  font-size: calc(var(--cw) * 0.26);
+  line-height: 1;
+}
+.pc-big {
+  display: none;
+  top: 58%;
+  left: 50%;
+  font-size: calc(var(--cw) * 0.48);
+  font-weight: bold;
+  line-height: 1;
+  translate: -50% -50%;
+}
+/* Small cards (phones): one big suit or letter instead of pips and court frames. */
+@container (max-width: 470px) {
+  .pc-pips,
+  .pc-court,
+  .pc-ace,
+  .pc-corner.is-bottom {
+    display: none;
+  }
+  .pc-big {
+    display: block;
+  }
+  .pc-corner {
+    font-size: calc(var(--cw) * 0.26);
+  }
+}
+
+/* Card back: the makOS logo on a patterned panel. */
+.pc.is-back {
+  background:
+    repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.09) 0 3px, transparent 3px 7px),
+    linear-gradient(160deg, var(--back), var(--back-2));
+  border: 2px solid #fff;
+  outline: 1px solid #555;
+  outline-offset: -1px;
+  cursor: default;
+}
+button.pc.is-back {
+  cursor: pointer;
+}
+button.pc.is-back:focus-visible {
+  outline: 3px solid var(--focus);
+}
+.pc-back-art {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+}
+.pc-back-art .icon {
+  width: 60%;
+  height: auto;
+}
+/* Picture backs (Game › Deck…): one shared image per back, supplied as --back-img. */
+.pc.is-back.has-art {
+  background: var(--back-img) center / cover no-repeat;
+}
+.pc.is-back.has-art .pc-back-art {
+  display: none;
+}
+
+/* Game › Deck… */
+.sol-modal {
+  position: absolute;
+  inset: 0;
+  z-index: 17;
+  background: rgba(0, 0, 0, 0.25);
+}
+.sol-dialog.sol-deck {
+  width: min(400px, 94%);
+  max-height: calc(100% - 16px);
+  overflow: auto;
+}
+.sol-deck-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  margin-top: 8px;
+}
+.sol-deck-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+  padding: 6px 4px;
+  font: inherit;
+  font-size: 11px;
+  line-height: 1.2;
+  color: inherit;
+  background: none;
+  border: 2px solid transparent;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.sol-deck-tile .pc {
+  position: relative;
+  width: 100%;
+  max-width: 64px;
+  height: auto;
+  aspect-ratio: 5 / 7;
+}
+.sol-deck-tile .pc-back-art .icon {
+  width: 55%;
+}
+.sol-deck-tile[aria-checked='true'] {
+  color: #fff;
+  background: var(--accent, #316ac5);
+  border-color: var(--text);
+  border-style: dotted;
+}
+[data-theme='future'] .sol-deck-tile[aria-checked='true'] {
+  color: #fff;
+  background: rgba(255, 79, 216, 0.18);
+  border: 2px solid #ff4fd8;
+  box-shadow: 0 0 10px rgba(255, 79, 216, 0.5);
+}
+.sol-deck-tile:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 1px;
+}
+.sol-deck-name {
+  min-height: 2.4em;
+}
+@container (max-width: 470px) {
+  .sol-deck-grid {
+    gap: 2px;
+  }
+  .sol-deck-tile {
+    font-size: 10px;
+    padding: 4px 2px;
+  }
+}
+
+/* Empty slots */
+.pc-empty {
+  display: grid;
+  place-items: center;
+  width: var(--cw);
+  height: var(--ch);
+  padding: 0;
+  font: bold calc(var(--cw) * 0.36) Georgia, serif;
+  color: var(--slot-line);
+  background: var(--slot);
+  border: 2px solid var(--slot-line);
+  border-radius: var(--card-radius);
+  cursor: pointer;
+}
+.pc-empty.is-stock.is-done {
+  cursor: default;
+}
+.pc-empty:focus-visible {
+  outline: 3px solid var(--focus);
+}
+
+/* Waste fan for Draw Three */
+.sol-waste .sol-fan {
+  position: absolute;
+  top: 0;
+  left: calc(var(--fan) * var(--cw) * 0.18);
+}
+.sol-waste.is-draw1 .sol-fan {
+  left: 0;
+}
+
+/* Drag ghost and celebration */
+.sol-ghost {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9000;
+  pointer-events: none;
+}
+.sol-ghost .pc {
+  position: absolute;
+  top: calc(var(--cw) * var(--t));
+  left: 0;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);
+}
+.sol-celebration {
+  position: absolute;
+  inset: 0;
+  z-index: 15;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+.sol-dialog {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 16;
+  width: min(300px, 90%);
+  padding: 14px 16px;
+  color: var(--text);
+  text-align: center;
+  background: var(--surface-sunken);
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+  translate: -50% -50%;
+}
+.sol-dialog-title {
+  margin: 0 0 4px !important;
+  font-weight: bold;
+}
+.sol-dialog-actions {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 10px;
+}
+.sol-status {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  margin: 0;
+  padding: 3px 10px;
+  font-size: 12px;
+  border-top: 1px solid var(--border);
+}
+.sol-status-text {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  color: var(--text-muted);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* Modern: deep teal felt, rounder cards, a blue-violet back. */
+[data-theme='modern'] .app.solitaire {
+  --felt: #1d6b5c;
+  --felt-dark: #134b41;
+  --back: #5b8cff;
+  --back-2: #7c4dff;
+  --card-radius: 9px;
+}
+[data-theme='modern'] .pc {
+  border-color: rgba(0, 0, 0, 0.18);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+/* Future: a dark neon table with glowing card edges. */
+[data-theme='future'] .app.solitaire {
+  --felt: #08142a;
+  --felt-dark: #02040e;
+  --slot: rgba(111, 227, 255, 0.05);
+  --slot-line: rgba(111, 227, 255, 0.55);
+  --back: #061024;
+  --back-2: #12083a;
+  --card-radius: 4px;
+}
+[data-theme='future'] .sol-stage {
+  background:
+    linear-gradient(rgba(111, 227, 255, 0.05) 1px, transparent 1px) 0 0 / 28px 28px,
+    linear-gradient(90deg, rgba(111, 227, 255, 0.05) 1px, transparent 1px) 0 0 / 28px 28px,
+    radial-gradient(ellipse at 50% 30%, var(--felt) 0%, var(--felt-dark) 100%);
+}
+[data-theme='future'] .pc {
+  border-color: rgba(111, 227, 255, 0.6);
+  box-shadow: 0 0 8px rgba(111, 227, 255, 0.3);
+}
+[data-theme='future'] .pc.is-back {
+  border-color: #6fe3ff;
+  outline-color: #6fe3ff;
+}
+[data-theme='future'] .sol-menu-button,
+[data-theme='future'] .sol-status {
+  font-family: var(--font-mono);
+}
+.pc-face {
+  display: contents;
+}
+
+/* Phones: tap-friendly hint instead of the mouse one. */
+.sol-hint-touch {
+  display: none;
+}
+@media (max-width: 700px), (max-height: 500px), (pointer: coarse) {
+  .sol-hint-mouse {
+    display: none;
+  }
+  .sol-hint-touch {
+    display: inline;
+  }
+}

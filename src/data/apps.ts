@@ -12,9 +12,10 @@ export type AppId =
   | 'games'
   | 'bug-sweeper'
   | 'stackdle'
-  | 'terminal';
+  | 'terminal'
+  | 'solitaire';
 
-export type IconName = 'about' | 'resume' | 'projects' | 'contact' | 'football' | 'perfume' | 'games' | 'bug' | 'puzzle' | 'terminal';
+export type IconName = 'about' | 'resume' | 'projects' | 'contact' | 'football' | 'perfume' | 'games' | 'bug' | 'puzzle' | 'terminal' | 'cards';
 
 export interface AppMeta {
   id: AppId;
@@ -80,7 +81,7 @@ export const APPS: Record<AppId, AppMeta> = {
     title: 'Games',
     label: 'Games',
     icon: 'games',
-    description: 'Bug Sweeper and Stackdle',
+    description: 'Solitaire, Bug Sweeper and Stackdle',
     defaultSize: { width: 520, height: 340 },
   },
   'bug-sweeper': {
@@ -90,6 +91,14 @@ export const APPS: Record<AppId, AppMeta> = {
     icon: 'bug',
     description: 'Find the bugs hidden in the codebase',
     defaultSize: { width: 520, height: 560 },
+  },
+  solitaire: {
+    id: 'solitaire',
+    title: 'Solitaire',
+    label: 'Solitaire',
+    icon: 'cards',
+    description: 'The classic card game, makOS style',
+    defaultSize: { width: 680, height: 560 },
   },
   terminal: {
     id: 'terminal',
@@ -113,7 +122,7 @@ export const APPS: Record<AppId, AppMeta> = {
 export const DESKTOP_APPS: AppId[] = ['about', 'resume', 'projects', 'contact', 'fourth-down', 'perfumes', 'games', 'terminal'];
 
 /** Apps inside the Games folder. */
-export const GAME_APPS: AppId[] = ['bug-sweeper', 'stackdle'];
+export const GAME_APPS: AppId[] = ['solitaire', 'bug-sweeper', 'stackdle'];
 
 export const LINKS = {
   email: 'makennaipeters@gmail.com',

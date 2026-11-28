@@ -23,7 +23,7 @@ Source: https://github.com/makenna615/makOS
 - Hand-built window manager: drag, resize, minimize, maximize, and snap windows to half the screen. No window library.
 - Three themes (Retro, Modern, Future), each with its own animated wallpaper drawn with WebGL or canvas.
 - Apps: About Me, Resume, Projects (Fourth Down, Memories into Perfumes), Contact, a Terminal that answers
-  questions about Makenna from her resume data, and a Games folder with Bug Sweeper (a developer-themed
+  questions about Makenna from her resume data, and a Games folder with Solitaire (Klondike), Bug Sweeper (a developer-themed
   mine-sweeping puzzle) and Stackdle (a daily 5-letter tech-word game with clues from her resume).
 - Search with Ctrl+K, movable desktop icons, keyboard access throughout, and a phone layout.
 - Parts most visitors don't open (games, terminal, project windows) load on demand to keep the first load small.
